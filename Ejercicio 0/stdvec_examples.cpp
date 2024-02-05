@@ -120,6 +120,17 @@ void print_vector(const std::vector<T> &v) {
 	std::cout << std::endl;
 }
 
+void addTen() {
+	std::vector<A> v;
+	for (int i = 0; i < 10; i++) {
+		std::cout << "# adding " << i << " using emblace_back" << std::endl;
+		if (v.capacity() == v.size()) {
+			std::cout << "# The vector is about to be resized!" << std::endl;
+		}
+		v.emplace_back(i);
+	}
+}
+
 void test0() {
 
 	// crea un vector de tipo A
