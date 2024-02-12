@@ -1,0 +1,5 @@
+EJERCICIO DEL LAB -> CON EL DISEÑO DE ENTITY COMPONENT
+
+ECS 2/3 -> USAR ESO
+
+el json se lee en game.cpp linea 29

@@ -26,7 +26,7 @@ Game::~Game() {
 void Game::init() {
 
 	// initialise the SDLUtils singleton
-	SDLUtils::init("Demo", 800, 600, "resources/config/resources.json");
+	SDLUtils::init("Demo", 800, 600, "resources/config/asteroids.resources.json");
 
 	// Create the manager
 	mngr_ = new Manager();
