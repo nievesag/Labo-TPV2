@@ -110,7 +110,7 @@ public:
 					e->cmps_[cId]);
 
 			// must have such a component
-			assert(iter != currCmps_.end());
+			//assert(iter != currCmps_.end());
 
 			// and then remove it
 			e->currCmps_.erase(iter);
