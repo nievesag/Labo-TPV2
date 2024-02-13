@@ -19,6 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\game\AIPaddle.h" />
+    <ClInclude Include="src\game\BounceOnBorder.h" />
+    <ClInclude Include="src\game\Component.h" />
+    <ClInclude Include="src\game\Container.h" />
+    <ClInclude Include="src\game\EmptyRectangleRenderer.h" />
+    <ClInclude Include="src\game\Game.h" />
+    <ClInclude Include="src\game\GameCtrl.h" />
+    <ClInclude Include="src\game\GameManager.h" />
+    <ClInclude Include="src\game\GameObject.h" />
+    <ClInclude Include="src\game\ImageRenderer.h" />
+    <ClInclude Include="src\game\InfoMsgs.h" />
+    <ClInclude Include="src\game\InputComponent.h" />
+    <ClInclude Include="src\game\MovePaddleWithKeyBoard.h" />
+    <ClInclude Include="src\game\MovePaddleWithMouse.h" />
+    <ClInclude Include="src\game\PhysicsComponent.h" />
+    <ClInclude Include="src\game\RectangleRenderer.h" />
+    <ClInclude Include="src\game\RenderComponent.h" />
+    <ClInclude Include="src\game\ScoreRenderer.h" />
+    <ClInclude Include="src\game\SimpleMove.h" />
+    <ClInclude Include="src\game\StopOnBorder.h" />
     <ClInclude Include="src\json\JSON.h" />
     <ClInclude Include="src\json\JSONValue.h" />
     <ClInclude Include="src\json\json_demo.h" />
@@ -41,6 +61,21 @@
     <ClInclude Include="src\utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\AIPaddle.cpp" />
+    <ClCompile Include="src\game\BounceOnBorder.cpp" />
+    <ClCompile Include="src\game\Containter.cpp" />
+    <ClCompile Include="src\game\EmptyRectangleRenderer.cpp" />
+    <ClCompile Include="src\game\Game.cpp" />
+    <ClCompile Include="src\game\GameCtrl.cpp" />
+    <ClCompile Include="src\game\GameManager.cpp" />
+    <ClCompile Include="src\game\ImageRenderer.cpp" />
+    <ClCompile Include="src\game\InfoMsgs.cpp" />
+    <ClCompile Include="src\game\MovePaddleWithKeyBoard.cpp" />
+    <ClCompile Include="src\game\MovePaddleWithMouse.cpp" />
+    <ClCompile Include="src\game\RectangleRenderer.cpp" />
+    <ClCompile Include="src\game\ScoreRenderer.cpp" />
+    <ClCompile Include="src\game\SimpleMove.cpp" />
+    <ClCompile Include="src\game\StopOnBorder.cpp" />
     <ClCompile Include="src\json\JSON.cpp" />
     <ClCompile Include="src\json\JSONValue.cpp" />
     <ClCompile Include="src\json\json_demo.cpp" />
