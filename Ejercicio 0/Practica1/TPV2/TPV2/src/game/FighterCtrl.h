@@ -2,6 +2,7 @@
 
 #include "Container.h"
 #include "InputComponent.h"
+#include "../sdlutils/InputHandler.h" 
 
 class GameObject;
 class Vector2D;
