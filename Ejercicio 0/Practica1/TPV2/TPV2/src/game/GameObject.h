@@ -10,7 +10,8 @@
 class GameObject {
 public:
 	GameObject() :
-			pos_(), vel_(), width_(), height_() {
+			pos_(), vel_(), width_(), height_(), rot_() {
+		rot_ = 0.0f;
 	}
 	virtual ~GameObject() {
 	}
@@ -43,11 +44,21 @@ public:
 		width_ = width;
 	}
 
+	inline float getRotation() {
+		return rot_;
+	}
+
+	inline void setRotation(float rotation) {
+		rot_ = rotation;
+	}
+
+
 protected:
 
 	Vector2D pos_;
 	Vector2D vel_;
 	float width_;
 	float height_;
+	double rot_;
 };
 

@@ -12,7 +12,7 @@ ImageRenderer::ImageRenderer(Texture *img) :
 ImageRenderer::~ImageRenderer() {
 }
 
-void ImageRenderer::render(Container *o) {
+void ImageRenderer::render(Container *o, double r) {
 	SDL_Rect dest = build_sdlrect(o->getPos(), o->getWidth(), o->getHeight());
-	img_->render(dest);
+	img_->render(dest, r);
 }
