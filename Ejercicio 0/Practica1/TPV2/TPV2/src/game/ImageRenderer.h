@@ -10,7 +10,7 @@ class ImageRenderer: public RenderComponent {
 public:
 	ImageRenderer(Texture *img);
 	virtual ~ImageRenderer();
-	void render(Container *o, double r) override;
+	void render(Container *o) override;
 private:
 	Texture *img_;
 };
