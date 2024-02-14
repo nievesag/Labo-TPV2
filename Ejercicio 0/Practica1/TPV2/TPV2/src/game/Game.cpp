@@ -21,11 +21,13 @@
 #include "SimpleMove.h"
 #include "StopOnBorder.h"
 
-Game::Game() :
-		gm_(nullptr), //
-		leftPaddle_(nullptr), //
-		rightPaddle_(nullptr), //
-		ball_(nullptr) {
+Game::Game()
+		//:
+		//gm_(nullptr), //
+		//leftPaddle_(nullptr), //
+		//rightPaddle_(nullptr), //
+		//ball_(nullptr) 
+		{
 }
 
 Game::~Game() {
@@ -39,8 +41,19 @@ void Game::init() {
 
 	// initialize the SDL singleton
 	SDLUtils::init("Ping Pong", 800, 600,
-			"resources/config/pingpong.resources.json");
+			"resources/config/test.resources.json");
 
+	// fighter
+	// asigna un container al atributo fighter_
+	fighter_ = new Container();
+	fighter_->getPos().set(sdlutils().width() / 2 - 5,
+		sdlutils().height() / 2 - 5);
+	fighter_->setWidth(50.0f);
+	fighter_->setHeight(50.0f);
+	fighter_->addComponent(new ImageRenderer(&sdlutils().images().at("fighter")));
+	objs_.push_back(fighter_);
+
+	/*
 	// the ball
 	ball_ = new Container();
 	ball_->addComponent(new SimpleMove());
@@ -99,6 +112,8 @@ void Game::init() {
 	objs_.push_back(leftPaddle_);
 	objs_.push_back(rightPaddle_);
 	objs_.push_back(gm_);
+	*/
+	
 
 }
 
@@ -129,7 +144,7 @@ void Game::start() {
 			o->update();
 		}
 
-		checkCollisions();
+		//checkCollisions();
 
 		sdlutils().clearRenderer();
 
@@ -147,28 +162,30 @@ void Game::start() {
 
 }
 
-void Game::checkCollisions() {
-	if (gm_->getState() != GameManager::RUNNING)
-		return;
 
-	// check if ball hits paddles
-	if (Collisions::collides(leftPaddle_->getPos(), leftPaddle_->getWidth(),
-			leftPaddle_->getHeight(), ball_->getPos(), ball_->getWidth(),
-			ball_->getHeight())
-			|| Collisions::collides(rightPaddle_->getPos(),
-					rightPaddle_->getWidth(), rightPaddle_->getHeight(),
-					ball_->getPos(), ball_->getWidth(), ball_->getHeight())) {
-
-		// change the direction of the ball, and increment the speed
-		auto &vel = ball_->getVel(); // the use of & is important, so the changes goes directly to the ball
-		vel.setX(-vel.getX());
-		vel = vel * 1.2f;
-
-		// play some sound
-		sdlutils().soundEffects().at("paddle_hit").play();
-	} else if (ball_->getPos().getX() < 0)
-		gm_->onBallExit(GameManager::LEFT);
-	else if (ball_->getPos().getX() + ball_->getWidth() > sdlutils().width())
-		gm_->onBallExit(GameManager::RIGHT);
-}
+//
+//void Game::checkCollisions() {
+//	if (gm_->getState() != GameManager::RUNNING)
+//		return;
+//
+//	// check if ball hits paddles
+//	if (Collisions::collides(leftPaddle_->getPos(), leftPaddle_->getWidth(),
+//			leftPaddle_->getHeight(), ball_->getPos(), ball_->getWidth(),
+//			ball_->getHeight())
+//			|| Collisions::collides(rightPaddle_->getPos(),
+//					rightPaddle_->getWidth(), rightPaddle_->getHeight(),
+//					ball_->getPos(), ball_->getWidth(), ball_->getHeight())) {
+//
+//		// change the direction of the ball, and increment the speed
+//		auto &vel = ball_->getVel(); // the use of & is important, so the changes goes directly to the ball
+//		vel.setX(-vel.getX());
+//		vel = vel * 1.2f;
+//
+//		// play some sound
+//		sdlutils().soundEffects().at("paddle_hit").play();
+//	} else if (ball_->getPos().getX() < 0)
+//		gm_->onBallExit(GameManager::LEFT);
+//	else if (ball_->getPos().getX() + ball_->getWidth() > sdlutils().width())
+//		gm_->onBallExit(GameManager::RIGHT);
+//}
 
