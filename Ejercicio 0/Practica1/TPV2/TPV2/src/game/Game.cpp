@@ -22,6 +22,7 @@
 #include "StopOnBorder.h"
 #include "FighterCtrl.h"
 #include "ShowAtOppositeSide.h"
+#include "DeAcceleration.h"
 
 Game::Game()
 		//:
@@ -57,6 +58,7 @@ void Game::init() {
 	fighter_->addComponent(new FighterCtrl());
 	fighter_->addComponent(new SimpleMove());
 	fighter_->addComponent(new ShowAtOppositeSide());
+	fighter_->addComponent(new DeAcceleration());
 	objs_.push_back(fighter_);
 
 	/*

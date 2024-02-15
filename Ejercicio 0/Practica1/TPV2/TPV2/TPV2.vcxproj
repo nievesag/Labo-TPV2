@@ -23,6 +23,7 @@
     <ClInclude Include="src\game\BounceOnBorder.h" />
     <ClInclude Include="src\game\Component.h" />
     <ClInclude Include="src\game\Container.h" />
+    <ClInclude Include="src\game\DeAcceleration.h" />
     <ClInclude Include="src\game\EmptyRectangleRenderer.h" />
     <ClInclude Include="src\game\FighterCtrl.h" />
     <ClInclude Include="src\game\Game.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="src\game\AIPaddle.cpp" />
     <ClCompile Include="src\game\BounceOnBorder.cpp" />
     <ClCompile Include="src\game\Containter.cpp" />
+    <ClCompile Include="src\game\DeAcceleration.cpp" />
     <ClCompile Include="src\game\EmptyRectangleRenderer.cpp" />
     <ClCompile Include="src\game\FighterCtrl.cpp" />
     <ClCompile Include="src\game\Game.cpp" />

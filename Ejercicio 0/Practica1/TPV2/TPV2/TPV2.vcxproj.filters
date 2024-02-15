@@ -165,6 +165,9 @@
     <ClInclude Include="src\game\ShowAtOppositeSide.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\DeAcceleration.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\json\JSONValue.cpp">
@@ -246,6 +249,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\ShowAtOppositeSide.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\DeAcceleration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
