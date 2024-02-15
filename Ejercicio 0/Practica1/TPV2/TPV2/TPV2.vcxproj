@@ -38,6 +38,7 @@
     <ClInclude Include="src\game\RectangleRenderer.h" />
     <ClInclude Include="src\game\RenderComponent.h" />
     <ClInclude Include="src\game\ScoreRenderer.h" />
+    <ClInclude Include="src\game\ShowAtOppositeSide.h" />
     <ClInclude Include="src\game\SimpleMove.h" />
     <ClInclude Include="src\game\StopOnBorder.h" />
     <ClInclude Include="src\json\JSON.h" />
@@ -76,6 +77,7 @@
     <ClCompile Include="src\game\MovePaddleWithMouse.cpp" />
     <ClCompile Include="src\game\RectangleRenderer.cpp" />
     <ClCompile Include="src\game\ScoreRenderer.cpp" />
+    <ClCompile Include="src\game\ShowAtOppositeSide.cpp" />
     <ClCompile Include="src\game\SimpleMove.cpp" />
     <ClCompile Include="src\game\StopOnBorder.cpp" />
     <ClCompile Include="src\json\JSON.cpp" />
