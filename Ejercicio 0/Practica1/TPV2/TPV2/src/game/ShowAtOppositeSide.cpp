@@ -24,15 +24,13 @@ void ShowAtOppositeSide::update(Container* o)
 	else if (o->getPos().getX() < 0 - o->getHeight()) {
 		pos = Vector2D(sdlutils().width() + o->getHeight(), pos.getY());
 	}
-
-
-	//// ARRIBA
-	//else if (o->getPos().getY() < 0) {
-	//	pos = Vector2D(pos.getX(), sdlutils().height());
-	//}
-	//// ABAJO
-	//else if (o->getPos().getY() > o->getHeight()) {
-	//	pos = Vector2D(pos.getX(), 0);
-	//}
+	// ARRIBA
+	else if (o->getPos().getY() < 0 - o->getHeight()) {
+		pos = Vector2D(pos.getX(), sdlutils().height() + o->getWidth());
+	}
+	// ABAJO
+	else if (o->getPos().getY() > sdlutils().height() + o->getHeight()) {
+		pos = Vector2D(pos.getX(), 0 - o->getWidth());
+	}
 
 }
