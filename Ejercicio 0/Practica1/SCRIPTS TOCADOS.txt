@@ -1,0 +1,17 @@
+SCRIPTS TOCADOS:
+
+Game.cpp
+-----
+GameObject.h
+-----
+ImageRenderer.cpp
+ImageRenderer.h
+-----
+FighterCtrl.cpp
+FighterCtrl.h
+-----
+ShowAtOppositeSide.cpp
+ShowAtOppositeSide.h
+-----
+DeAcceleration.cpp
+DeAcceleration.h
