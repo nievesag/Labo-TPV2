@@ -43,6 +43,12 @@
     <Filter Include="Source Files\rcs">
       <UniqueIdentifier>{e8886b03-9f0c-4a5c-8664-11f84447a6dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\components">
+      <UniqueIdentifier>{60794c3c-e2b1-4a0f-a98c-22a87af9b895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\components">
+      <UniqueIdentifier>{020f88f7-115d-491a-859d-ab1a78f6b5b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\json\JSONValue.h">
@@ -105,7 +111,28 @@
     <ClInclude Include="src\utils\ptr_iterator.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\ecs\Component.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ecs\ecs.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ecs\ecs_defs_example.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ecs\Entity.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ecs\Manager.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\AIPaddle.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\AsteroidsFacade.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\AsteroidsUtils.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="src\game\BounceOnBorder.h">
@@ -117,7 +144,22 @@
     <ClInclude Include="src\game\Container.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\DeAcceleration.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\ecs_defs.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\EmptyRectangleRenderer.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\FighterCtrl.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\FighterFacade.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\FighterUtils.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="src\game\Game.h">
@@ -130,6 +172,12 @@
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="src\game\GameManager.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\GameOverState.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\GameState.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="src\game\ImageRenderer.h">
@@ -147,6 +195,15 @@
     <ClInclude Include="src\game\MovePaddleWithMouse.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\NewGameState.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\NewRoundState.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\PausedState.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\PhysicsComponent.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
@@ -154,6 +211,12 @@
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="src\game\RenderComponent.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\RunningState.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\ShowAtOppositeSide.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="src\game\ScoreRenderer.h">
@@ -165,32 +228,29 @@
     <ClInclude Include="src\game\StopOnBorder.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\FighterCtrl.h">
-      <Filter>Header Files\game</Filter>
+    <ClInclude Include="src\components\Gun.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\ShowAtOppositeSide.h">
-      <Filter>Header Files\game</Filter>
+    <ClInclude Include="src\components\Health.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\DeAcceleration.h">
-      <Filter>Header Files\game</Filter>
+    <ClInclude Include="src\components\Image.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\ecs\Component.h">
-      <Filter>Header Files\ecs</Filter>
+    <ClInclude Include="src\components\ImageWithFrames.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\ecs\ecs.h">
-      <Filter>Header Files\ecs</Filter>
+    <ClInclude Include="src\components\ShowAtOpossiteSide.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\ecs\ecs_defs_example.h">
-      <Filter>Header Files\ecs</Filter>
+    <ClInclude Include="src\components\TowardsDestination.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\ecs\Entity.h">
-      <Filter>Header Files\ecs</Filter>
+    <ClInclude Include="src\components\Transform.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\ecs\Manager.h">
-      <Filter>Header Files\ecs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\AsteroidsFacade.h">
-      <Filter>Header Files\game</Filter>
+    <ClInclude Include="src\components\Follow.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -221,7 +281,34 @@
     <ClCompile Include="src\sdlutils\Texture.cpp">
       <Filter>Source Files\sdlutil</Filter>
     </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ecs\Manager.cpp">
+      <Filter>Source Files\rcs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\RectangleRenderer.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\RunningState.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\ScoreRenderer.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\ShowAtOppositeSide.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\SimpleMove.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\StopOnBorder.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
     <ClCompile Include="src\game\AIPaddle.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\AsteroidsUtils.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="src\game\BounceOnBorder.cpp">
@@ -230,7 +317,16 @@
     <ClCompile Include="src\game\Containter.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\DeAcceleration.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
     <ClCompile Include="src\game\EmptyRectangleRenderer.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\FighterCtrl.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\FighterUtils.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Game.cpp">
@@ -240,6 +336,9 @@
       <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="src\game\GameManager.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\GameOverState.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="src\game\ImageRenderer.cpp">
@@ -254,32 +353,38 @@
     <ClCompile Include="src\game\MovePaddleWithMouse.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\RectangleRenderer.cpp">
+    <ClCompile Include="src\game\NewGameState.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\ScoreRenderer.cpp">
+    <ClCompile Include="src\game\NewRoundState.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\SimpleMove.cpp">
+    <ClCompile Include="src\game\PausedState.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\StopOnBorder.cpp">
-      <Filter>Source Files\game</Filter>
+    <ClCompile Include="src\components\Health.cpp">
+      <Filter>Source Files\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\components\Image.cpp">
+      <Filter>Source Files\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\FighterCtrl.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\components\ImageWithFrames.cpp">
+      <Filter>Source Files\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\ShowAtOppositeSide.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\components\ShowAtOpossiteSide.cpp">
+      <Filter>Source Files\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\DeAcceleration.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\components\TowardsDestination.cpp">
+      <Filter>Source Files\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\ecs\Manager.cpp">
-      <Filter>Source Files\rcs</Filter>
+    <ClCompile Include="src\components\Transform.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\Follow.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\Gun.cpp">
+      <Filter>Source Files\components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
