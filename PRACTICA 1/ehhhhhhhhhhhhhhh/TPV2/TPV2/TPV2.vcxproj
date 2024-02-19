@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\DeAcceleration.h" />
+    <ClInclude Include="src\components\FighterCtrl.h" />
     <ClInclude Include="src\components\Follow.h" />
     <ClInclude Include="src\components\Gun.h" />
     <ClInclude Include="src\components\Health.h" />
@@ -38,7 +40,6 @@
     <ClInclude Include="src\game\BounceOnBorder.h" />
     <ClInclude Include="src\game\Component.h" />
     <ClInclude Include="src\game\Container.h" />
-    <ClInclude Include="src\game\DeAcceleration.h" />
     <ClInclude Include="src\game\ecs_defs.h" />
     <ClInclude Include="src\game\EmptyRectangleRenderer.h" />
     <ClInclude Include="src\game\FighterCtrl.h" />
@@ -88,6 +89,8 @@
     <ClInclude Include="src\utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\DeAcceleration.cpp" />
+    <ClCompile Include="src\components\FighterCtrl.cpp" />
     <ClCompile Include="src\components\Follow.cpp" />
     <ClCompile Include="src\components\Gun.cpp" />
     <ClCompile Include="src\components\Health.cpp" />
@@ -101,7 +104,6 @@
     <ClCompile Include="src\game\AsteroidsUtils.cpp" />
     <ClCompile Include="src\game\BounceOnBorder.cpp" />
     <ClCompile Include="src\game\Containter.cpp" />
-    <ClCompile Include="src\game\DeAcceleration.cpp" />
     <ClCompile Include="src\game\EmptyRectangleRenderer.cpp" />
     <ClCompile Include="src\game\FighterCtrl.cpp" />
     <ClCompile Include="src\game\FighterUtils.cpp" />
