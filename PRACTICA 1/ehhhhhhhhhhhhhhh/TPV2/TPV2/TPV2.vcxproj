@@ -19,7 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ecs\Component.h" />
+    <ClInclude Include="src\ecs\ecs.h" />
+    <ClInclude Include="src\ecs\ecs_defs_example.h" />
+    <ClInclude Include="src\ecs\Entity.h" />
+    <ClInclude Include="src\ecs\Manager.h" />
     <ClInclude Include="src\game\AIPaddle.h" />
+    <ClInclude Include="src\game\AsteroidsFacade.h" />
     <ClInclude Include="src\game\BounceOnBorder.h" />
     <ClInclude Include="src\game\Component.h" />
     <ClInclude Include="src\game\Container.h" />
@@ -64,6 +70,7 @@
     <ClInclude Include="src\utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\game\AIPaddle.cpp" />
     <ClCompile Include="src\game\BounceOnBorder.cpp" />
     <ClCompile Include="src\game\Containter.cpp" />

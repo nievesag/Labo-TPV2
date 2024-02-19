@@ -37,6 +37,12 @@
     <Filter Include="Source Files\game">
       <UniqueIdentifier>{602693ea-1185-45db-b95c-908966234850}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ecs">
+      <UniqueIdentifier>{b3c8b684-3bef-43bc-bf89-e5af4fcb5ef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rcs">
+      <UniqueIdentifier>{e8886b03-9f0c-4a5c-8664-11f84447a6dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\json\JSONValue.h">
@@ -168,6 +174,24 @@
     <ClInclude Include="src\game\DeAcceleration.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
+    <ClInclude Include="src\ecs\Component.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ecs\ecs.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ecs\ecs_defs_example.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ecs\Entity.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ecs\Manager.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\AsteroidsFacade.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\json\JSONValue.cpp">
@@ -253,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="src\game\DeAcceleration.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ecs\Manager.cpp">
+      <Filter>Source Files\rcs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

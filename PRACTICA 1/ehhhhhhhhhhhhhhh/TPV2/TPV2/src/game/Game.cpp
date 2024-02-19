@@ -17,7 +17,6 @@
 #include "GameOverState.h"
 #include "NewGameState.h"
 #include "NewRoundState.h"
-
 #include "PausedState.h"
 #include "RunningState.h"
 
