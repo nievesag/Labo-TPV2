@@ -5,6 +5,7 @@
 #include "ImageRenderer.h"
 #include "../components/Image.h"
 #include "../components/Transform.h"
+#include "RotateComponent.h"
 #include "Game.h"
 
 BlackHoleUtils::BlackHoleUtils() :
@@ -38,8 +39,8 @@ void BlackHoleUtils::create_blackholes(int n)
 		int rot = rand_.nextInt(5, 10);		// radio random para el agujero
 
 		// saca la posicion el agujero segun la funcion del circulo y el angulo
-		int x = centerX + rad*cos(alpha*i);
-		int y = centerY + rad*sin(alpha*i);
+		int x = centerX + rad * cos(alpha*i);
+		int y = centerY + rad * sin(alpha * i);
 
 
 		// añade una entidad al grupo BLACKHOLE
@@ -59,7 +60,7 @@ void BlackHoleUtils::create_blackholes(int n)
 		mngr->addComponent<Image>(a, &sdlutils().images().at("black_hole"));
 
 		// componente para que rote
-		//mngr->addComponent<>
+		mngr->addComponent<RotateComponent>(a, rot);
 
 
 		

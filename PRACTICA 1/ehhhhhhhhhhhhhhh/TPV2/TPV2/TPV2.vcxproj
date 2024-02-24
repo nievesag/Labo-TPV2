@@ -64,6 +64,7 @@
     <ClInclude Include="src\game\PhysicsComponent.h" />
     <ClInclude Include="src\game\RectangleRenderer.h" />
     <ClInclude Include="src\game\RenderComponent.h" />
+    <ClInclude Include="src\game\RotateComponent.h" />
     <ClInclude Include="src\game\RunningState.h" />
     <ClInclude Include="src\game\ScoreRenderer.h" />
     <ClInclude Include="src\game\ShowAtOppositeSide.h" />
@@ -122,6 +123,7 @@
     <ClCompile Include="src\game\NewRoundState.cpp" />
     <ClCompile Include="src\game\PausedState.cpp" />
     <ClCompile Include="src\game\RectangleRenderer.cpp" />
+    <ClCompile Include="src\game\RotateComponent.cpp" />
     <ClCompile Include="src\game\RunningState.cpp" />
     <ClCompile Include="src\game\ScoreRenderer.cpp" />
     <ClCompile Include="src\game\ShowAtOppositeSide.cpp" />

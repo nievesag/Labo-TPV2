@@ -58,8 +58,10 @@ void RunningState::update() {
 		mngr->update(a);
 	}
 
+
 	// check collisions
 	checkCollisions();
+
 
 	// render
 	sdlutils().clearRenderer();
