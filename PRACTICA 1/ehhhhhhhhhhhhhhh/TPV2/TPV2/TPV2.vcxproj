@@ -37,6 +37,8 @@
     <ClInclude Include="src\game\AIPaddle.h" />
     <ClInclude Include="src\game\AsteroidsFacade.h" />
     <ClInclude Include="src\game\AsteroidsUtils.h" />
+    <ClInclude Include="src\game\BlackHoleFacade.h" />
+    <ClInclude Include="src\game\BlackHoleUtils.h" />
     <ClInclude Include="src\game\BounceOnBorder.h" />
     <ClInclude Include="src\game\Component.h" />
     <ClInclude Include="src\game\Container.h" />
@@ -102,6 +104,7 @@
     <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\game\AIPaddle.cpp" />
     <ClCompile Include="src\game\AsteroidsUtils.cpp" />
+    <ClCompile Include="src\game\BlackHoleUtils.cpp" />
     <ClCompile Include="src\game\BounceOnBorder.cpp" />
     <ClCompile Include="src\game\Containter.cpp" />
     <ClCompile Include="src\game\EmptyRectangleRenderer.cpp" />
