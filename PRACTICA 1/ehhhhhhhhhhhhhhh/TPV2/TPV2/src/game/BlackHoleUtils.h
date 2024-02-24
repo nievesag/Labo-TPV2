@@ -16,7 +16,7 @@ public:
 private:
 	void generateBlackHole(const Vector2D& p, int r, int g);
 	RandomNumberGenerator& rand_;
-	int width_;
-	int height_;
+	int size_ = 30;
+	ecs::Manager* mngr;
 
 };
