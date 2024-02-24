@@ -34,12 +34,12 @@ void BlackHoleUtils::create_blackholes(int n)
 
 	// crea n agujeros negros
 	for (int i = 0; i < n; i++) {
-		int pos = rand_.nextInt(100, 300);	// posicion random (saca el radio)
+		int rad = rand_.nextInt(100, 300);	// posicion random (saca el radio)
 		int rot = rand_.nextInt(5, 10);		// radio random para el agujero
 
 		// saca la posicion el agujero segun la funcion del circulo y el angulo
-		int x = 1;
-		int y = 0;
+		int x = centerX + rad*cos(alpha*i);
+		int y = centerY + rad*sin(alpha*i);
 
 
 		// añade una entidad al grupo BLACKHOLE
