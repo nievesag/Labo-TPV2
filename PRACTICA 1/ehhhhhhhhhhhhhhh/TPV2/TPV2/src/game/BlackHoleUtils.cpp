@@ -3,6 +3,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../ecs/Manager.h"
 #include "ImageRenderer.h"
+#include "../components/Image.h"
 #include "../components/Transform.h"
 #include "Game.h"
 
@@ -55,6 +56,7 @@ void BlackHoleUtils::create_blackholes(int n)
 									
 		// componente para que se renderice
 		//mngr->addComponent<ImageRenderer>(a, &sdlutils().images().at("black_hole"));
+		mngr->addComponent<Image>(a, &sdlutils().images().at("black_hole"));
 
 		// componente para que rote
 		//mngr->addComponent<>

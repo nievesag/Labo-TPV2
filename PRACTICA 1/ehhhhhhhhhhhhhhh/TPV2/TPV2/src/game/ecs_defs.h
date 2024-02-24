@@ -16,7 +16,8 @@
 	GENERATIONS, \
 	HEALTH, \
 	GUN, \
-	IMAGEWITHFRAMES
+	IMAGEWITHFRAMES, \
+	IMAGERENDERER
 
 
 // Groups list - must have at least one element

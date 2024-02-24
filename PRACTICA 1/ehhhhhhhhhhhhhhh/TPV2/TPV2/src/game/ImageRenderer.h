@@ -8,6 +8,8 @@ class Texture;
 
 class ImageRenderer: public RenderComponent {
 public:
+	//__CMPID_DECL__(ecs::cmp::IMAGERENDERER)
+
 	ImageRenderer(Texture *img);
 	virtual ~ImageRenderer();
 	void render(Container *o) override;
