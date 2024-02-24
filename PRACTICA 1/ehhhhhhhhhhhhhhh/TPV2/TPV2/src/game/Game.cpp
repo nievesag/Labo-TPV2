@@ -54,7 +54,7 @@ void Game::init() {
 	paused_state_ = new PausedState();
 	runing_state_ = new RunningState(ast_facede, fighter_facede, blackhole_facade); //
 	newgame_state_ = new NewGameState(fighter_facede);
-	newround_state_ = new NewRoundState(ast_facede, fighter_facede);
+	newround_state_ = new NewRoundState(ast_facede, fighter_facede, blackhole_facade);
 	gameover_state_ = new GameOverState();
 
 	current_state_ = newgame_state_;
