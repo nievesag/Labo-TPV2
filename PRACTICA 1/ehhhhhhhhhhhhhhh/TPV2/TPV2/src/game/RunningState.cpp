@@ -137,7 +137,23 @@ void RunningState::checkCollisions() {
 		}
 
 		// asteroids with blackholes
-		// bucle for
+		for (auto b : blackhole) {
+			auto bhTR = mngr->getComponent<Transform>(b);
+			if (Collisions::collidesWithRotation( //
+				bhTR->getPos(), //
+				bhTR->getWidth(), //
+				bhTR->getHeight(), //
+				bhTR->getRot(), //
+				aTR->getPos(), //
+				aTR->getWidth(), //
+				aTR->getHeight(), //
+				aTR->getRot())) {
+				//ast_mngr_->split_astroid(a);
+				sdlutils().soundEffects().at("explosion").play();
+				continue;
+			}
+			
+		}
 
 	}
 
@@ -148,6 +164,7 @@ void RunningState::checkCollisions() {
 		if (!mngr->isAlive(bh))
 			continue;
 
+		// blackhole with fighter
 		auto bhTR = mngr->getComponent<Transform>(bh);
 		if (Collisions::collidesWithRotation( //
 			fighterTR->getPos(), //
@@ -161,6 +178,7 @@ void RunningState::checkCollisions() {
 			onFigherDeath();
 			return;
 		}
+	
 	}
 
 }

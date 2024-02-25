@@ -126,3 +126,8 @@ void AsteroidsUtils::split_astroid(ecs::entity_t a) {
 		}
 	}
 }
+
+void AsteroidsUtils::change_asteroid_pos(ecs::entity_t a)
+{
+
+}

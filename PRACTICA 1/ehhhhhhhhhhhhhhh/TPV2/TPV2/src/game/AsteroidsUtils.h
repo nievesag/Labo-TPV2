@@ -13,6 +13,8 @@ public:
 	void remove_all_asteroids() override;
 	void create_asteroids(int n) override;
 	void split_astroid(ecs::entity_t a) override;
+	void change_asteroid_pos(ecs::entity_t a) override;
+	
 
 private:
 	void generateAsteroid(const Vector2D &p, const Vector2D &v, int g);
