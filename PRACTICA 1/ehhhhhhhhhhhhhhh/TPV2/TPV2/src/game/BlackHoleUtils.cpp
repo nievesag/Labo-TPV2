@@ -27,7 +27,6 @@ void BlackHoleUtils::remove_all_blackholes()
 
 void BlackHoleUtils::create_blackholes(int n)
 {
-
 	// saca el centro de la pantalla
 	const int centerX = sdlutils().width()/2;
 	const int centerY = sdlutils().height()/2;
@@ -61,10 +60,5 @@ void BlackHoleUtils::create_blackholes(int n)
 
 		// componente para que rote
 		mngr->addComponent<RotateComponent>(a, rot);
-
-
-		
-
 	}
-
 }
