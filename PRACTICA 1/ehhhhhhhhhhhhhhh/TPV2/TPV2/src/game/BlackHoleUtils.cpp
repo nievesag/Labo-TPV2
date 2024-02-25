@@ -18,11 +18,16 @@ BlackHoleUtils::BlackHoleUtils() :
 BlackHoleUtils::~BlackHoleUtils()
 {
 
+
 }
 
 void BlackHoleUtils::remove_all_blackholes()
 {
-
+	auto mngr = Game::instance()->getMngr();
+	for (auto e : mngr->getEntities(ecs::grp::BLACKHOLE)) {
+		mngr->setAlive(e, false);
+	}
+	mngr->refresh();
 }
 
 void BlackHoleUtils::create_blackholes(int n)

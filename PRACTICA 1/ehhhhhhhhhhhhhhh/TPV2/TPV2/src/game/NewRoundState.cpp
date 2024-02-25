@@ -31,6 +31,7 @@ void NewRoundState::update() {
 	if (ihdlr.keyDownEvent() && ihdlr.isKeyDown(SDL_SCANCODE_RETURN)) {
 		fighter_mngr_->reset_fighter();
 		ast_mngr_->remove_all_asteroids();
+		blackhole_mngr_->remove_all_blackholes();
 		ast_mngr_->create_asteroids(10);
 		blackhole_mngr_->create_blackholes(6);
 
