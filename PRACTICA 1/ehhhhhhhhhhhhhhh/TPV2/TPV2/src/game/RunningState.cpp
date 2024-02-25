@@ -148,7 +148,7 @@ void RunningState::checkCollisions() {
 				aTR->getWidth(), //
 				aTR->getHeight(), //
 				aTR->getRot())) {
-				//ast_mngr_->split_astroid(a);
+				ast_mngr_->change_asteroid_pos(a);
 				sdlutils().soundEffects().at("explosion").play();
 				continue;
 			}

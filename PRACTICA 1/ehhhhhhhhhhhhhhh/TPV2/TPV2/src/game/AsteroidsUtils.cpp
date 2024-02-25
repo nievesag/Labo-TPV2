@@ -129,5 +129,14 @@ void AsteroidsUtils::split_astroid(ecs::entity_t a) {
 
 void AsteroidsUtils::change_asteroid_pos(ecs::entity_t a)
 {
+	auto mngr = Game::instance()->getMngr();
+	auto tr = mngr->getComponent<Transform>(a);
+
+	int posX = rand_.nextInt(0, sdlutils().width());
+	int posY = rand_.nextInt(0, sdlutils().height());
+
+	tr->setWidth(posX);
+	tr->setHeight(posY);
+	//std::cout << "FUNCIONA???";
 
 }
