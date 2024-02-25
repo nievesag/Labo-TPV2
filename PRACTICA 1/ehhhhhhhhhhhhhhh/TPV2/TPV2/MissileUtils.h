@@ -2,6 +2,7 @@
 
 #include "MissileFacade.h"
 #include "src/ecs/ecs.h"
+#include "src/sdlutils/RandomNumberGenerator.h"
 
 //class Vector2D;
 
@@ -10,7 +11,10 @@ class MissileUtils : public MissileFacade // hereda de su fachada
 	// atributos privados
 private:
 	int size_ = 30; // tamanio de misil
+
+	// deben ser inicializados en el cpp de la constructora
 	ecs::Manager* mngr; // referencia al manager
+	RandomNumberGenerator& rand_; // para esquina random
 
 	// metodos publicos
 public:
