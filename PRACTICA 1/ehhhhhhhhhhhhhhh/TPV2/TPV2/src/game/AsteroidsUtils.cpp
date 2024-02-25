@@ -135,8 +135,9 @@ void AsteroidsUtils::change_asteroid_pos(ecs::entity_t a)
 	int posX = rand_.nextInt(0, sdlutils().width());
 	int posY = rand_.nextInt(0, sdlutils().height());
 
-	tr->setWidth(posX);
-	tr->setHeight(posY);
+	tr->setPos(Vector2D(posX, posY));
+	//tr->setWidth(posX);
+	//tr->setHeight(posY);
 	//std::cout << "FUNCIONA???";
 
 }

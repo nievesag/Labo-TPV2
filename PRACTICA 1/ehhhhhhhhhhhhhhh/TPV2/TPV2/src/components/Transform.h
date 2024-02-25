@@ -39,6 +39,9 @@ public:
 	Vector2D& getVel() {
 		return vel_;
 	}
+	void setPos(Vector2D pos) {
+		pos_ = pos;
+	}
 
 	float getWidth() {
 		return width_;
