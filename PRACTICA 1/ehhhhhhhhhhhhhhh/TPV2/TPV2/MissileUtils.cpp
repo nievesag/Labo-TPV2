@@ -22,6 +22,19 @@ void MissileUtils::create_missiles(int n)
 	{
 		int corner = rand_.nextInt(0, 3);	// saca esquina random -> 0/arriba izq ; 1/arriba der ; 2/abajo izq ; 3/abajo der
 
+		if (corner == 0) {
+
+		}
+		else if (corner == 1) {
+
+		}
+		else if (corner == 2) {
+
+		}
+		else if (corner == 3) {
+
+		}
+
 		// añade una entidad al grupo MISSILE
 		auto missile = mngr->addEntity(ecs::grp::MISSILE);
 

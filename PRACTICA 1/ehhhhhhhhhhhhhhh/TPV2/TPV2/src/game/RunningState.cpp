@@ -11,15 +11,17 @@
 #include "AsteroidsFacade.h"
 #include "FighterFacade.h"
 #include "BlackHoleFacade.h"
+//#include "MissileFacade.h" // me da error wtf
 
 #include "Game.h"
 
 RunningState::RunningState(AsteroidsFacade *ast_mngr,
-		FighterFacade *fighter_mngr, BlackHoleFacade *blackhole_mngr) :
+		FighterFacade *fighter_mngr, BlackHoleFacade *blackhole_mngr, MissileFacade *missile_mngr) :
 		ihdlr(ih()), //
 		ast_mngr_(ast_mngr), //
 		fighter_mngr_(fighter_mngr), //
-		blackhole_mngr_(blackhole_mngr), //
+		blackhole_mngr_(blackhole_mngr), 
+		missile_mngr_(missile_mngr),//
 		lastTimeGeneratedAsteroids_() {
 }
 
@@ -47,7 +49,8 @@ void RunningState::update() {
 
 	auto fighter = mngr->getHandler(ecs::hdlr::FIGHTER);
 	auto &asteroids = mngr->getEntities(ecs::grp::ASTEROIDS);
-	auto& blackholes = mngr->getEntities(ecs::grp::BLACKHOLE);
+	auto &blackholes = mngr->getEntities(ecs::grp::BLACKHOLE);
+	auto &missiles = mngr->getEntities(ecs::grp::MISSILE);
 
 	// update
 	mngr->update(fighter);
@@ -57,11 +60,12 @@ void RunningState::update() {
 	for (auto a : blackholes) {
 		mngr->update(a);
 	}
-
+	for (auto a : missiles) {
+		mngr->update(a);
+	}
 
 	// check collisions
 	checkCollisions();
-
 
 	// render
 	sdlutils().clearRenderer();
@@ -69,6 +73,9 @@ void RunningState::update() {
 		mngr->render(a);
 	}
 	for (auto a : blackholes) {
+		mngr->render(a);
+	}
+	for (auto a : missiles) {
 		mngr->render(a);
 	}
 	mngr->render(fighter);
@@ -80,7 +87,6 @@ void RunningState::update() {
 		ast_mngr_->create_asteroids(1);
 		lastTimeGeneratedAsteroids_ = sdlutils().virtualTimer().currTime();
 	}
-
 }
 
 void RunningState::enter() {
@@ -90,11 +96,13 @@ void RunningState::enter() {
 void RunningState::checkCollisions() {
 	auto mngr = Game::instance()->getMngr();
 	auto fighter = mngr->getHandler(ecs::hdlr::FIGHTER);
-	auto &asteroids = mngr->getEntities(ecs::grp::ASTEROIDS);
+	auto& asteroids = mngr->getEntities(ecs::grp::ASTEROIDS);
 	auto& blackhole = mngr->getEntities(ecs::grp::BLACKHOLE);
+	auto& missiles = mngr->getEntities(ecs::grp::MISSILE);
 	auto fighterTR = mngr->getComponent<Transform>(fighter);
 	auto fighterGUN = mngr->getComponent<Gun>(fighter);
 
+	// asteroids
 	auto num_of_asteroids = asteroids.size();
 	for (auto i = 0u; i < num_of_asteroids; i++) {
 		auto a = asteroids[i];
@@ -104,30 +112,30 @@ void RunningState::checkCollisions() {
 		// asteroid with fighter
 		auto aTR = mngr->getComponent<Transform>(a);
 		if (Collisions::collidesWithRotation( //
-				fighterTR->getPos(), //
-				fighterTR->getWidth(), //
-				fighterTR->getHeight(), //
-				fighterTR->getRot(), //
-				aTR->getPos(), //
-				aTR->getWidth(), //
-				aTR->getHeight(), //
-				aTR->getRot())) {
+			fighterTR->getPos(), //
+			fighterTR->getWidth(), //
+			fighterTR->getHeight(), //
+			fighterTR->getRot(), //
+			aTR->getPos(), //
+			aTR->getWidth(), //
+			aTR->getHeight(), //
+			aTR->getRot())) {
 			onFigherDeath();
 			return;
 		}
 
 		// asteroid with bullets
-		for (Gun::Bullet &b : *fighterGUN) {
+		for (Gun::Bullet& b : *fighterGUN) {
 			if (b.used) {
 				if (Collisions::collidesWithRotation( //
-						b.pos, //
-						b.width, //
-						b.height, //
-						b.rot, //
-						aTR->getPos(), //
-						aTR->getWidth(), //
-						aTR->getHeight(), //
-						aTR->getRot())) {
+					b.pos, //
+					b.width, //
+					b.height, //
+					b.rot, //
+					aTR->getPos(), //
+					aTR->getWidth(), //
+					aTR->getHeight(), //
+					aTR->getRot())) {
 					ast_mngr_->split_astroid(a);
 					b.used = false;
 					sdlutils().soundEffects().at("explosion").play();
@@ -152,9 +160,25 @@ void RunningState::checkCollisions() {
 				sdlutils().soundEffects().at("explosion").play();
 				continue;
 			}
-			
 		}
 
+		// asteroids with missiles
+		for (auto m : missiles) {
+			auto msTR = mngr->getComponent<Transform>(m);
+			if (Collisions::collidesWithRotation( //
+				msTR->getPos(), //
+				msTR->getWidth(), //
+				msTR->getHeight(), //
+				msTR->getRot(), //
+				aTR->getPos(), //
+				aTR->getWidth(), //
+				aTR->getHeight(), //
+				aTR->getRot())) {
+				ast_mngr_->split_astroid(a);
+				sdlutils().soundEffects().at("explosion").play();
+				continue;
+				}
+		}
 	}
 
 	// blackholes
@@ -178,9 +202,31 @@ void RunningState::checkCollisions() {
 			onFigherDeath();
 			return;
 		}
-	
 	}
 
+	// missiles
+	auto num_of_missiles = missiles.size();
+	for (auto i = 0u; i < num_of_missiles; i++) {
+		auto ms = missiles[i];
+		if (!mngr->isAlive(ms)) {
+			continue;
+		}
+
+		// missile with fighter
+		auto msTR = mngr->getComponent<Transform>(ms);
+		if (Collisions::collidesWithRotation( //
+			fighterTR->getPos(), //
+			fighterTR->getWidth(), //
+			fighterTR->getHeight(), //
+			fighterTR->getRot(), //
+			msTR->getPos(), //
+			msTR->getWidth(), //
+			msTR->getHeight(), //
+			msTR->getRot())) {
+			onFigherDeath();
+			return;
+		}
+	}
 }
 
 void RunningState::onFigherDeath() {
