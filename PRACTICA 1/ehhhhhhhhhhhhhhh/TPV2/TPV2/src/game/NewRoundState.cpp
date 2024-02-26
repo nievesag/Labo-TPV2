@@ -38,6 +38,7 @@ void NewRoundState::update() {
 		fighter_mngr_->reset_fighter();
 		ast_mngr_->remove_all_asteroids();
 		blackhole_mngr_->remove_all_blackholes();
+		missile_mngr_->remove_all_missiles();
 		ast_mngr_->create_asteroids(10);
 		blackhole_mngr_->create_blackholes(6);
 		missile_mngr_->create_missiles(2);

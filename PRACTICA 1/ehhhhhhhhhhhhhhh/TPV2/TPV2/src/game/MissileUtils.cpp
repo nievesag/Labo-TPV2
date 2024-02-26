@@ -16,39 +16,46 @@ MissileUtils::MissileUtils()
 
 void MissileUtils::create_missiles(int n)
 {
-	// sacar las 4 esquinas ?
+	// dafault
+	int x = 0; 
+	int y = 0; 
 
 	for (int i = 0; i < n; i++)
 	{
 		int corner = rand_.nextInt(0, 3);	// saca esquina random -> 0/arriba izq ; 1/arriba der ; 2/abajo izq ; 3/abajo der
 
 		if (corner == 0) {
-
+			x = 0;
+			y = 0;
 		}
 		else if (corner == 1) {
-
+			x = sdlutils().width() - size_;
+			y = 0;
 		}
 		else if (corner == 2) {
-
+			x = 0;
+			y = sdlutils().height() - size_;
 		}
 		else if (corner == 3) {
-
+			x = sdlutils().width() - size_;
+			y = sdlutils().height() - size_;
 		}
 
 		// añade una entidad al grupo MISSILE
 		auto missile = mngr->addEntity(ecs::grp::MISSILE);
 
 		// componente transform
-		/*mngr->addComponent<Transform> (missile,				// obj a aniadir
+		mngr->addComponent<Transform> (missile,					// obj a aniadir
 									   Vector2D(x, y),			// pos (depende de la esquina)
 									   Vector2D(0, 0),			// vel en x e y (depende del jugador -> le sigue)
 									   size_,					// tamanio w // !!!!!!!! deben ser diferentes -> TOCAR ESTO
 									   size_,					// tamanio h
 									   0.0);					// rotacion 
-		*/
+
+		std::cout << x << " " << y;
 
 		// componente para que se renderice
-		mngr->addComponent<Image>(missile, &sdlutils().images().at("black_hole"));
+		mngr->addComponent<Image>(missile, &sdlutils().images().at("missle"));
 
 		// accede a la entidad fighter
 		const entity_t fighter = mngr->getHandler(ecs::hdlr::FIGHTER);
