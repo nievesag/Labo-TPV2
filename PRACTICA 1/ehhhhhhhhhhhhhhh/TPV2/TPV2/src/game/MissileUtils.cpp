@@ -1,12 +1,12 @@
 #include "MissileUtils.h"
 
-#include "src/sdlutils/SDLUtils.h"
-#include "src/ecs/Manager.h"
-#include "src/components/Image.h"
-#include "src/components/Transform.h"
-#include "src/game/ImageRenderer.h"
-#include "src/components/Follow.h" 
-#include "src/game/Game.h"
+#include "../sdlutils/SDLUtils.h"
+#include "../ecs/Manager.h"
+#include "../components/Image.h"
+#include "../components/Transform.h"
+#include "../game/ImageRenderer.h"
+#include "../components/Follow.h" 
+#include "../game/Game.h"
 
 MissileUtils::MissileUtils()
 	: mngr(Game::instance()->getMngr()), rand_(sdlutils().rand())
@@ -18,7 +18,7 @@ void MissileUtils::create_missiles(int n)
 {
 	// sacar las 4 esquinas ?
 
-	for(int i = 0; i < n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		int corner = rand_.nextInt(0, 3);	// saca esquina random -> 0/arriba izq ; 1/arriba der ; 2/abajo izq ; 3/abajo der
 
@@ -63,5 +63,9 @@ void MissileUtils::create_missiles(int n)
 
 void MissileUtils::remove_all_missiles()
 {
-
+	auto mngr = Game::instance()->getMngr();
+	for (auto e : mngr->getEntities(ecs::grp::MISSILE)) {
+		mngr->setAlive(e, false);
+	}
+	mngr->refresh();
 }

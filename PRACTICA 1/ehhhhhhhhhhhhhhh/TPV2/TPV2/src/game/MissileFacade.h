@@ -1,6 +1,7 @@
 #pragma once
 
-#include "src/ecs/ecs.h"
+
+#include "../ecs/ecs.h"
 
 using ecs::entity_t;
 

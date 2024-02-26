@@ -11,7 +11,7 @@
 #include "AsteroidsFacade.h"
 #include "FighterFacade.h"
 #include "BlackHoleFacade.h"
-//#include "MissileFacade.h" // me da error wtf
+#include "MissileFacade.h"
 
 #include "Game.h"
 
@@ -177,7 +177,7 @@ void RunningState::checkCollisions() {
 				ast_mngr_->split_astroid(a);
 				sdlutils().soundEffects().at("explosion").play();
 				continue;
-				}
+			}
 		}
 	}
 

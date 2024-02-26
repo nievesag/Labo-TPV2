@@ -1,8 +1,8 @@
 #pragma once
 
 #include "MissileFacade.h"
-#include "src/ecs/ecs.h"
-#include "src/sdlutils/RandomNumberGenerator.h"
+#include "../ecs/ecs.h"
+#include "../sdlutils/RandomNumberGenerator.h"
 
 //class Vector2D;
 

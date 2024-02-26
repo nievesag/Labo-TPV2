@@ -19,8 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MissileFacade.h" />
-    <ClInclude Include="MissileUtils.h" />
     <ClInclude Include="src\components\DeAcceleration.h" />
     <ClInclude Include="src\components\FighterCtrl.h" />
     <ClInclude Include="src\components\Follow.h" />
@@ -58,6 +56,8 @@
     <ClInclude Include="src\game\ImageRenderer.h" />
     <ClInclude Include="src\game\InfoMsgs.h" />
     <ClInclude Include="src\game\InputComponent.h" />
+    <ClInclude Include="src\game\MissileFacade.h" />
+    <ClInclude Include="src\game\MissileUtils.h" />
     <ClInclude Include="src\game\MovePaddleWithKeyBoard.h" />
     <ClInclude Include="src\game\MovePaddleWithMouse.h" />
     <ClInclude Include="src\game\NewGameState.h" />
@@ -94,7 +94,6 @@
     <ClInclude Include="src\utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MissileUtils.cpp" />
     <ClCompile Include="src\components\DeAcceleration.cpp" />
     <ClCompile Include="src\components\FighterCtrl.cpp" />
     <ClCompile Include="src\components\Follow.cpp" />
@@ -120,6 +119,7 @@
     <ClCompile Include="src\game\GameOverState.cpp" />
     <ClCompile Include="src\game\ImageRenderer.cpp" />
     <ClCompile Include="src\game\InfoMsgs.cpp" />
+    <ClCompile Include="src\game\MissileUtils.cpp" />
     <ClCompile Include="src\game\MovePaddleWithKeyBoard.cpp" />
     <ClCompile Include="src\game\MovePaddleWithMouse.cpp" />
     <ClCompile Include="src\game\NewGameState.cpp" />

@@ -264,10 +264,10 @@
     <ClInclude Include="src\game\RotateComponent.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
-    <ClInclude Include="MissileFacade.h">
+    <ClInclude Include="src\game\MissileFacade.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
-    <ClInclude Include="MissileUtils.h">
+    <ClInclude Include="src\game\MissileUtils.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -413,7 +413,7 @@
     <ClCompile Include="src\game\RotateComponent.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
-    <ClCompile Include="MissileUtils.cpp">
+    <ClCompile Include="src\game\MissileUtils.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
   </ItemGroup>
