@@ -16,7 +16,7 @@ MissileUtils::MissileUtils()
 
 void MissileUtils::create_missiles(int n)
 {
-	// dafault
+	// default
 	int x = 0; 
 	int y = 0; 
 
@@ -29,16 +29,16 @@ void MissileUtils::create_missiles(int n)
 			y = 0;
 		}
 		else if (corner == 1) {
-			x = sdlutils().width() - size_;
+			x = sdlutils().width() - size_w;
 			y = 0;
 		}
 		else if (corner == 2) {
 			x = 0;
-			y = sdlutils().height() - size_;
+			y = sdlutils().height() - size_h;
 		}
 		else if (corner == 3) {
-			x = sdlutils().width() - size_;
-			y = sdlutils().height() - size_;
+			x = sdlutils().width() - size_w;
+			y = sdlutils().height() - size_h;
 		}
 
 		// añade una entidad al grupo MISSILE
@@ -47,9 +47,9 @@ void MissileUtils::create_missiles(int n)
 		// componente transform
 		mngr->addComponent<Transform> (missile,					// obj a aniadir
 									   Vector2D(x, y),			// pos (depende de la esquina)
-									   Vector2D(0, 0),			// vel en x e y (depende del jugador -> le sigue)
-									   size_,					// tamanio w // !!!!!!!! deben ser diferentes -> TOCAR ESTO
-									   size_,					// tamanio h
+									   Vector2D(0, 0),		// vel en x e y (depende de pos de jugador ?????)
+									   size_w,				// tamanio w
+									   size_h,				// tamanio h
 									   0.0);					// rotacion 
 
 		std::cout << x << " " << y;

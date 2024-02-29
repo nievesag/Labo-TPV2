@@ -10,7 +10,9 @@ class MissileUtils : public MissileFacade // hereda de su fachada
 {
 	// atributos privados
 private:
-	int size_ = 80; // tamanio de misil
+	// tamanio de misil
+	int size_w = 40;
+	int size_h = 20;
 
 	// deben ser inicializados en el cpp de la constructora
 	ecs::Manager* mngr; // referencia al manager
