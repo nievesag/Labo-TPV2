@@ -44,24 +44,34 @@ void MissileUtils::create_missiles(int n)
 		// añade una entidad al grupo MISSILE
 		auto missile = mngr->addEntity(ecs::grp::MISSILE);
 
-		// componente transform
-		mngr->addComponent<Transform> (missile,								// obj a aniadir
-									   Vector2D(x, y),						// pos (depende de la esquina)
-									   vel,					// vel en x e y (depende de pos de jugador ?????)
-									   size_w,								// tamanio w
-									   size_h,								// tamanio h
-									   Vector2D(0, -1).angle(vel));		// rotacion 
-
-		std::cout << x << " " << y;
-
-		// componente para que se renderice
-		mngr->addComponent<Image>(missile, &sdlutils().images().at("missle"));
-
 		// accede a la entidad fighter
 		const entity_t fighter = mngr->getHandler(ecs::hdlr::FIGHTER);
 
 		// guarda la posicion del fighter
 		Vector2D& fighterPos = mngr->getComponent<Transform>(fighter)->getPos();
+
+		// posicion del misil
+		Vector2D pos = Vector2D(x, y);
+
+		// vector direccion normalizado entre el misil y el fighter
+		Vector2D direction = (fighterPos - pos).normalize();
+
+		// saca longitud del vector vel
+		int speedLength = rand_.nextInt(1, 4); 
+
+		// calcula velocidad a aniadir al misil en el componente transform
+		Vector2D vel = direction * speedLength;
+
+		// componente transform
+		mngr->addComponent<Transform> (missile,								// obj a aniadir
+									   Vector2D(x, y),						// pos (depende de la esquina)
+									   vel,								// vel
+									   size_w,							// tamanio w
+									   size_h,							// tamanio h
+									   Vector2D(0, -1).angle(vel));		// rotacion
+
+		// componente para que se renderice
+		mngr->addComponent<Image>(missile, &sdlutils().images().at("missle"));
 
 		// componente para que siga al jugador
 		mngr->addComponent<Follow>(missile, fighterPos); // le pasas entidad a seguir y la posicion de a quien siga
