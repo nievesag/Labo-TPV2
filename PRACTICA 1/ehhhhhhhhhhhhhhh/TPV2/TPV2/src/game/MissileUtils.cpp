@@ -45,12 +45,12 @@ void MissileUtils::create_missiles(int n)
 		auto missile = mngr->addEntity(ecs::grp::MISSILE);
 
 		// componente transform
-		mngr->addComponent<Transform> (missile,					// obj a aniadir
-									   Vector2D(x, y),			// pos (depende de la esquina)
-									   Vector2D(0, 0),		// vel en x e y (depende de pos de jugador ?????)
-									   size_w,				// tamanio w
-									   size_h,				// tamanio h
-									   0.0);					// rotacion 
+		mngr->addComponent<Transform> (missile,								// obj a aniadir
+									   Vector2D(x, y),						// pos (depende de la esquina)
+									   vel,					// vel en x e y (depende de pos de jugador ?????)
+									   size_w,								// tamanio w
+									   size_h,								// tamanio h
+									   Vector2D(0, -1).angle(vel));		// rotacion 
 
 		std::cout << x << " " << y;
 

@@ -57,10 +57,30 @@ void RunningState::update() {
 	for (auto a : asteroids) {
 		mngr->update(a);
 	}
+
 	for (auto a : blackholes) {
 		mngr->update(a);
 	}
+
 	for (auto a : missiles) {
+
+		// obtener transform de cada misil
+		auto mTR = mngr->getComponent<Transform>(a);
+
+		// obtener velocidad de cada misil
+		auto mVel = mTR->getVel();
+
+		// actualizar rotacion de cada misil
+		float mRot = Vector2D(0, -1).angle(mVel);
+		mTR->setRot(mRot);
+
+		// check si han salido de la pantalla
+		int mPosX = mTR->getPos().getX();
+		int mPosY = mTR->getPos().getY();
+		if (mPosX + mTR->getWidth() < 0 || mPosX > sdlutils().width() || mPosY + mTR->getHeight() < 0 || mPosY > sdlutils().height()) {
+			mngr->setAlive(a, false);
+		}
+
 		mngr->update(a);
 	}
 
@@ -87,20 +107,36 @@ void RunningState::update() {
 		ast_mngr_->create_asteroids(1);
 		lastTimeGeneratedAsteroids_ = sdlutils().virtualTimer().currTime();
 	}
+
+	// genera misiles cada 15 segundos
+	if (sdlutils().virtualTimer().currTime() > lastTimeGeneratedMissiles_ + 15000) {
+		missile_mngr_->create_missiles(1);
+		lastTimeGeneratedMissiles_ = sdlutils().virtualTimer().currTime();
+	}
 }
 
 void RunningState::enter() {
 	lastTimeGeneratedAsteroids_ = sdlutils().virtualTimer().currTime();
+	lastTimeGeneratedMissiles_ = sdlutils().virtualTimer().currTime();
 }
 
 void RunningState::checkCollisions() {
+	// game manager
 	auto mngr = Game::instance()->getMngr();
+
+	// fighter
 	auto fighter = mngr->getHandler(ecs::hdlr::FIGHTER);
-	auto& asteroids = mngr->getEntities(ecs::grp::ASTEROIDS);
-	auto& blackhole = mngr->getEntities(ecs::grp::BLACKHOLE);
-	auto& missiles = mngr->getEntities(ecs::grp::MISSILE);
 	auto fighterTR = mngr->getComponent<Transform>(fighter);
 	auto fighterGUN = mngr->getComponent<Gun>(fighter);
+
+	// asteroids
+	auto& asteroids = mngr->getEntities(ecs::grp::ASTEROIDS);
+
+	// blackhole
+	auto& blackhole = mngr->getEntities(ecs::grp::BLACKHOLE);
+
+	// missiles
+	auto& missiles = mngr->getEntities(ecs::grp::MISSILE);
 
 	// asteroids
 	auto num_of_asteroids = asteroids.size();
@@ -225,6 +261,26 @@ void RunningState::checkCollisions() {
 			msTR->getRot())) {
 			onFigherDeath();
 			return;
+		}
+
+		// missile with bullets
+		for (Gun::Bullet& b : *fighterGUN) {
+			if (b.used) {
+				if (Collisions::collidesWithRotation(
+					b.pos,
+					b.width,
+					b.height,
+					b.rot,
+					msTR->getPos(),
+					msTR->getWidth(),
+					msTR->getHeight(),
+					msTR->getRot())) {
+					mngr->setAlive(ms, false);
+					b.used = false;
+					sdlutils().soundEffects().at("explosion").play();
+					continue;
+				}
+			}
 		}
 	}
 }

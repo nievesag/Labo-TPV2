@@ -25,8 +25,9 @@ private:
 	AsteroidsFacade *ast_mngr_;
 	FighterFacade *fighter_mngr_;
 	BlackHoleFacade *blackhole_mngr_;
-	MissileFacade* missile_mngr_;
+	MissileFacade *missile_mngr_;
 	Uint32 lastTimeGeneratedAsteroids_;
+	Uint32 lastTimeGeneratedMissiles_;
 
 };
 
