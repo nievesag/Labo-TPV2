@@ -14,13 +14,13 @@ MissileUtils::MissileUtils()
 
 }
 
-void MissileUtils::create_missiles(int n)
+void MissileUtils::create_missiles()
 {
 	// default
 	int x = 0; 
 	int y = 0; 
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		int corner = rand_.nextInt(0, 3);	// saca esquina random -> 0/arriba izq ; 1/arriba der ; 2/abajo izq ; 3/abajo der
 

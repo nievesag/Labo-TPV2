@@ -110,7 +110,7 @@ void RunningState::update() {
 
 	// genera misiles cada 15 segundos
 	if (sdlutils().virtualTimer().currTime() > lastTimeGeneratedMissiles_ + 15000) {
-		missile_mngr_->create_missiles(1);
+		missile_mngr_->create_missiles();
 		lastTimeGeneratedMissiles_ = sdlutils().virtualTimer().currTime();
 	}
 }

@@ -22,6 +22,6 @@ private:
 public:
 	MissileUtils();
 	~MissileUtils() override = default;
-	void create_missiles(int n) override;
+	void create_missiles() override;
 	void remove_all_missiles() override;
 };
