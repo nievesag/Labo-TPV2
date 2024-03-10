@@ -19,7 +19,9 @@ RotateComponent::~RotateComponent()
 
 void RotateComponent::initComponent()
 {
+
 	tr_ = mngr_->getComponent<Transform>(ent_); // recibe el transform de la entidad en la que se encuentra
+	assert(tr_ != nullptr);
 }
 
 void RotateComponent::update()
