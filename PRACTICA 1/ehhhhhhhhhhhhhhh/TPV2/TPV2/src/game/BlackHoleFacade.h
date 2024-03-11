@@ -10,5 +10,4 @@ public:
 	virtual ~BlackHoleFacade() { }
 	virtual void create_blackholes(int n) = 0;
 	virtual void remove_all_blackholes() = 0;
-	//virtual void split_blackholes(entity_t a) = 0;
 };
