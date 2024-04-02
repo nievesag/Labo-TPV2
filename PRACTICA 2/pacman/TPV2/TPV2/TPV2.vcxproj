@@ -44,7 +44,6 @@
     <ClInclude Include="src\sdlutils\RandomNumberGenerator.h" />
     <ClInclude Include="src\sdlutils\SDLNetUtils.h" />
     <ClInclude Include="src\sdlutils\SDLUtils.h" />
-    <ClInclude Include="src\sdlutils\sdlutils_demo.h" />
     <ClInclude Include="src\sdlutils\SoundEffect.h" />
     <ClInclude Include="src\sdlutils\Texture.h" />
     <ClInclude Include="src\sdlutils\VirtualTimer.h" />
@@ -68,7 +67,6 @@
     <ClCompile Include="src\json\json_demo.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\sdlutils\SDLUtils.cpp" />
-    <ClCompile Include="src\sdlutils\sdlutils_demo.cpp" />
     <ClCompile Include="src\sdlutils\SoundEffect.cpp" />
     <ClCompile Include="src\sdlutils\Texture.cpp" />
     <ClCompile Include="src\systems\CollisionsSystem.cpp" />

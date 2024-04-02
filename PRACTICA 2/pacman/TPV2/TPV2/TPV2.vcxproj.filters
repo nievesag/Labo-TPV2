@@ -93,9 +93,6 @@
     <ClInclude Include="src\sdlutils\SDLUtils.h">
       <Filter>Header Files\sdlutil</Filter>
     </ClInclude>
-    <ClInclude Include="src\sdlutils\sdlutils_demo.h">
-      <Filter>Header Files\sdlutil</Filter>
-    </ClInclude>
     <ClInclude Include="src\sdlutils\SoundEffect.h">
       <Filter>Header Files\sdlutil</Filter>
     </ClInclude>
@@ -192,9 +189,6 @@
       <Filter>Source Files\utils</Filter>
     </ClCompile>
     <ClCompile Include="src\sdlutils\SDLUtils.cpp">
-      <Filter>Source Files\sdlutil</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sdlutils\sdlutils_demo.cpp">
       <Filter>Source Files\sdlutil</Filter>
     </ClCompile>
     <ClCompile Include="src\sdlutils\SoundEffect.cpp">
