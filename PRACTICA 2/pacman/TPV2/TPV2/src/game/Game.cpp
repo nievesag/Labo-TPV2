@@ -22,7 +22,6 @@ Game::Game() :
 		startsSys_(), //
 		renderSys_(), //
 		collisionSys_() {
-
 }
 
 Game::~Game() {
