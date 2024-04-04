@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="src\components\Image.h" />
     <ClInclude Include="src\components\Points.h" />
     <ClInclude Include="src\components\StarMotion.h" />
@@ -60,6 +61,7 @@
     <ClInclude Include="src\utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\json\JSON.cpp" />
