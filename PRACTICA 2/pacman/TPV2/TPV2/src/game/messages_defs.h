@@ -12,12 +12,11 @@ enum msgId : msgId_type {
 
 
 struct Message {
+
 	msgId_type id;
 
 	// if we use union we save memory, but then use only primitive
-	// types, otherwise you will need to define constructors almost
-	// every where.
-
+	// types, otherwise you will need to define constructors almost everywhere
 	union {
 
 		// _m_STAR_EATEN

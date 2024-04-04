@@ -15,4 +15,3 @@ public:
 	virtual void leave() = 0;
 	virtual void update() = 0;
 };
-
