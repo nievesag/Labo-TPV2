@@ -3,7 +3,7 @@
 #pragma once
 #include "../ecs/System.h"
 
-class CollisionsSystem: public ecs::System {
+class CollisionsSystem : public ecs::System {
 public:
 
 	__SYSID_DECL__(ecs::sys::COLLISIONS)
@@ -12,6 +12,4 @@ public:
 	virtual ~CollisionsSystem();
 	void initSystem() override;
 	void update() override;
-
 };
-

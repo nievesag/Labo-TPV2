@@ -6,23 +6,35 @@
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
 #include "../systems/CollisionsSystem.h"
-#include "../systems/GameCtrlSystem.h"
 #include "../systems/PacManSystem.h"
+#include "../systems/FoodSystem.h"
+#include "../systems/GhostSystem.h"
+#include "../systems/InmunitySystem.h"
 #include "../systems/RenderSystem.h"
-#include "../systems/StarsSystem.h"
 #include "../utils/Vector2D.h"
 #include "../utils/Collisions.h"
 
 using ecs::Manager;
 
 Game::Game() :
-		mngr_(), //
-		pacmanSys_(), //
-		gameCtrlSys_(), //
-		startsSys_(), //
-		renderSys_(), //
-		collisionSys_() {
-}
+		// manager
+		mngr_(),
+
+		// systems
+		pacmanSys_(), 
+		renderSys_(), 
+		collisionSys_(),
+		ghostSys_(),
+		foodSys_(),
+		inmunitySys_(),
+
+		// game states
+		pauseState_(nullptr), 
+		runningState_(nullptr), 
+		newGameState_(nullptr), 
+		newRoundState_(nullptr), 
+		gameOverState_(nullptr)
+{ }
 
 Game::~Game() {
 	delete mngr_;
@@ -36,13 +48,13 @@ void Game::init() {
 	// Create the manager
 	mngr_ = new Manager();
 
-
 	// add the systems
 	pacmanSys_ = mngr_->addSystem<PacManSystem>();
-	startsSys_ = mngr_->addSystem<StarsSystem>();
-	gameCtrlSys_ = mngr_->addSystem<GameCtrlSystem>();
 	renderSys_ = mngr_->addSystem<RenderSystem>();
 	collisionSys_ = mngr_->addSystem<CollisionsSystem>();
+	ghostSys_ = mngr_->addSystem<GhostSystem>();
+	foodSys_ = mngr_->addSystem<FoodSystem>();
+	inmunitySys_ = mngr_->addSystem<InmunitySystem>();
 }
 
 void Game::start() {
@@ -63,10 +75,7 @@ void Game::start() {
 			continue;
 		}
 
-
 		pacmanSys_->update();
-		startsSys_->update();
-		gameCtrlSys_->update();
 		collisionSys_->update();
 
 		mngr_->refresh();
@@ -80,6 +89,4 @@ void Game::start() {
 		if (frameTime < 10)
 			SDL_Delay(10 - frameTime);
 	}
-
 }
-
