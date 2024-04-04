@@ -7,6 +7,8 @@
 #include "GameState.h"
 #include "../utils/Singleton.h"
 
+class InputHandler;
+
 class Game : public Singleton<Game> {
 public:
 	// es singleton
@@ -21,13 +23,50 @@ public:
 	// libera la memoria de los estados
 	virtual ~Game();
 
-	// El bucle principal tiene que incluir solo una llamada al update del
-	// estado actual y a flush del Manager para enviar mensajes pendientes
-	// (si usas el mecanismo de enviar mensajes con delay)
 
 	// crea los sistemas y los estados
 	void init();
+
+	// El bucle principal tiene que incluir solo una llamada al update del
+	// estado actual y a flush del Manager para enviar mensajes pendientes
+	// (si usas el mecanismo de enviar mensajes con delay)
 	void start();
+
+	inline ecs::Manager* getMngr() {
+		return mngr_;
+	}
+
+	inline void setState(State s) {
+
+		GameState* new_state = nullptr;
+		switch (s) {
+		case RUNNING:
+			new_state = runningState_;
+			break;
+
+		case PAUSED:
+			new_state = pauseState_;
+			break;
+
+		case NEWGAME:
+			new_state = newGameState_;
+			break;
+
+		case NEWROUND:
+			new_state = newRoundState_;
+			break;
+
+		case GAMEOVER:
+			new_state = gameOverState_;
+			break;
+
+		default:
+			break;
+		}
+		currentState_->leave();
+		currentState_ = new_state;
+		currentState_->enter();
+	}
 
 private:
 	// manager
@@ -47,5 +86,5 @@ private:
 	GameState* newGameState_;
 	GameState* newRoundState_;
 	GameState* gameOverState_;
-	//GameState* current_state_; // de la anterior practica no se si hace falta aqui
+	GameState* currentState_;
 };
