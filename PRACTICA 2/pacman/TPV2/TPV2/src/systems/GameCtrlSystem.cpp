@@ -9,6 +9,7 @@
 GameCtrlSystem::GameCtrlSystem() :
 		score_() {
 	// TODO Auto-generated constructor stub
+	
 
 }
 
@@ -17,6 +18,7 @@ GameCtrlSystem::~GameCtrlSystem() {
 }
 
 void GameCtrlSystem::initSystem() {
+	score_ = 0;
 }
 
 void GameCtrlSystem::update() {

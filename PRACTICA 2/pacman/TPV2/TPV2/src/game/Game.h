@@ -79,6 +79,7 @@ private:
 	ecs::System *inmunitySys_;
 	ecs::System *collisionSys_;
 	ecs::System *renderSys_;
+	ecs::System* gamectrlSys_;
 
 	// estados
 	GameState* runningState_;

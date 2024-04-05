@@ -11,6 +11,7 @@
 #include "GameCtrlSystem.h"
 
 RenderSystem::RenderSystem() {
+	
 
 }
 
@@ -48,7 +49,7 @@ void RenderSystem::drawPacMan() {
 void RenderSystem::drawMsgs() {
 	// draw the score
 	//
-	auto score = mngr_->getSystem<GameCtrlSystem>()->getScore();
+	auto score = 0; // mngr_->getSystem<GameCtrlSystem>()->getScore();
 
 	Texture scoreTex(sdlutils().renderer(), std::to_string(score),
 			sdlutils().fonts().at("ARIAL24"), build_sdlcolor(0x444444ff));

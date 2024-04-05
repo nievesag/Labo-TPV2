@@ -39,6 +39,7 @@ Game::Game() :
 		ghostSys_(),
 		foodSys_(),
 		inmunitySys_(),
+		gamectrlSys_(),
 
 		// game states
 		pauseState_(nullptr), 
