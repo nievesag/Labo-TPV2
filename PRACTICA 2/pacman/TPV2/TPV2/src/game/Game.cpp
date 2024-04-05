@@ -84,7 +84,8 @@ void Game::init() {
 
 
 	// inicializa en nuevo juego
-	currentState_ = newGameState_;
+	currentState_ = runningState_; //newGameState_;
+	runningState_->enter();
 }
 
 void Game::start() {
@@ -106,15 +107,18 @@ void Game::start() {
 			continue;
 		}
 
-		// llama al update de los sistemas
-		pacmanSys_->update();
-		collisionSys_->update();
-		ghostSys_->update();
-		foodSys_->update();
-		inmunitySys_->update();
+		// llama al update del estado actual
+		currentState_->update();
+
+		//// llama al update de los sistemas
+		//pacmanSys_->update();
+		//collisionSys_->update();
+		//ghostSys_->update();
+		//foodSys_->update();
+		//inmunitySys_->update();
 
 		// refresh del manager (elimina entidades)
-		mngr_->refresh();
+		//mngr_->refresh();
 
 		// limpia pantalla
 		sdlutils().clearRenderer();
@@ -124,9 +128,6 @@ void Game::start() {
 
 		// muestra render
 		sdlutils().presentRenderer();
-
-		// llama al update del estado actual
-		currentState_->update();
 
 		// frames del juego (tiempo)
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;

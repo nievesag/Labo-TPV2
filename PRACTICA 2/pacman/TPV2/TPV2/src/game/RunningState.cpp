@@ -35,6 +35,8 @@ void RunningState::update()
 	foodSys_->update();
 	inmunitySys_->update();
 
+	mngr_->refresh();
+
 }
 
 void RunningState::enter()
