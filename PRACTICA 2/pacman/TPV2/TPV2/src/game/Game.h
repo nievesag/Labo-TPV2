@@ -23,7 +23,6 @@ public:
 	// libera la memoria de los estados
 	virtual ~Game();
 
-
 	// crea los sistemas y los estados
 	void init();
 
@@ -71,6 +70,9 @@ public:
 private:
 	// manager
 	ecs::Manager *mngr_;
+
+	// input
+	InputHandler& ihdlr;
 
 	// systems
 	ecs::System *pacmanSys_;

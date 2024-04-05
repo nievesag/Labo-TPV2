@@ -32,6 +32,9 @@ Game::Game() :
 		// manager
 		mngr_(),
 
+		// input handler
+		ihdlr(ih()),
+
 		// systems
 		pacmanSys_(), 
 		renderSys_(), 
@@ -50,6 +53,15 @@ Game::Game() :
 { }
 
 Game::~Game() {
+	// libera la memoria de los estados
+	// si lo descomentas de momento da error
+	/*delete pauseState_;
+	delete runningState_;
+	delete newGameState_;
+	delete newRoundState_;
+	delete gameOverState_;*/
+
+	// borra el manager
 	delete mngr_;
 }
 
@@ -86,6 +98,9 @@ void Game::init() {
 	// inicializa en nuevo juego
 	currentState_ = runningState_; //newGameState_;
 	runningState_->enter();
+
+	// falta lo de los mensajes
+
 }
 
 void Game::start() {
@@ -110,16 +125,6 @@ void Game::start() {
 		// llama al update del estado actual
 		currentState_->update();
 
-		//// llama al update de los sistemas
-		//pacmanSys_->update();
-		//collisionSys_->update();
-		//ghostSys_->update();
-		//foodSys_->update();
-		//inmunitySys_->update();
-
-		// refresh del manager (elimina entidades)
-		//mngr_->refresh();
-
 		// limpia pantalla
 		sdlutils().clearRenderer();
 
@@ -128,6 +133,11 @@ void Game::start() {
 
 		// muestra render
 		sdlutils().presentRenderer();
+
+		// falta lo de los mensajes
+
+		// refresh del manager (elimina entidades)
+		//mngr_->refresh();
 
 		// frames del juego (tiempo)
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;
