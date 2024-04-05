@@ -39,9 +39,7 @@ void GameOverState::update()
 	}
 
 	// muestra mensaje
-	sdlutils().clearRenderer();
 	msg_->render(dest_);
-	sdlutils().presentRenderer();
 }
 
 void GameOverState::leave()

@@ -27,9 +27,7 @@ void NewGameState::update()
 	}
 
 	// muestra mensaje
-	sdlutils().clearRenderer();
 	msg_->render(dest_);
-	sdlutils().presentRenderer();
 }
 
 void NewGameState::leave() {}

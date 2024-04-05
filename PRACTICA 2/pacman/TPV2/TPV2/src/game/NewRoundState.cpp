@@ -29,9 +29,8 @@ void NewRoundState::update()
 		Game::instance()->setState(Game::RUNNING);
 	}
 
-	sdlutils().clearRenderer();
+	// muestra mensaje
 	msg_->render(dest_);
-	sdlutils().presentRenderer();
 }
 
 void NewRoundState::leave()
