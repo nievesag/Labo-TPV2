@@ -11,4 +11,12 @@ public:
 	virtual ~GhostSystem();
 	void initSystem() override;
 	void update() override;
+	void recieve(const Message& m) override;
+
+	void generateGhost();
+	void killPacman();
+
+private: 
+	int ghostLimit_;
+	int currentGhosts_;
 };
