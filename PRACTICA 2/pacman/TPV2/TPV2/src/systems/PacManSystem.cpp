@@ -126,10 +126,19 @@ void PacManSystem::resetGame()
 	livesLeftComponent->resetLives();
 }
 
-void PacManSystem::reset()
+void PacManSystem::recieve(const Message& m)
 {
-	resetGame();
-	resetRound();
+	switch (m.id) {
+	case _m_ROUND_START:
+		resetRound();
+		break;
+
+	case _m_NEW_GAME:
+		resetGame();
+
+	default:
+		break;
+	}
 }
 
 void PacManSystem::resetRound()

@@ -16,10 +16,10 @@ public:
 	void initSystem() override;
 	void update() override;
 
-
 	void resetRound();
 	void resetGame();
 	void reset();
+	void recieve(const Message& m) override;
 
 private:
 	Transform *pmTR_;
