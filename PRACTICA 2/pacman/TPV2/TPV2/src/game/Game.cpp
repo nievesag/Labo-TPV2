@@ -94,7 +94,6 @@ void Game::init() {
 	newRoundState_->setContext(mngr_);
 	gameOverState_->setContext(mngr_);
 
-
 	// inicializa en nuevo juego
 	currentState_ = runningState_; //newGameState_;
 	runningState_->enter();
@@ -137,7 +136,7 @@ void Game::start() {
 		// falta lo de los mensajes
 
 		// refresh del manager (elimina entidades)
-		//mngr_->refresh();
+		mngr_->refresh();
 
 		// frames del juego (tiempo)
 		Uint32 frameTime = sdlutils().currRealTime() - startTime;

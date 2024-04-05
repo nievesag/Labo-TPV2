@@ -11,8 +11,7 @@
 class RunningState : public GameState
 {
 public:
-	RunningState(PacManSystem* pacmanSys, CollisionsSystem* collisionsSys, GhostSystem* ghostSys, 
-				 FoodSystem* foodSys, InmunitySystem* inmunitySys, RenderSystem* RenderSys);
+	RunningState();
 	virtual ~RunningState();
 	void leave() override;
 	void update() override;
