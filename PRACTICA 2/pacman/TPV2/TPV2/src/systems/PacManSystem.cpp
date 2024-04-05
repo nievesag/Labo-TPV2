@@ -37,9 +37,6 @@ void PacManSystem::initSystem() {
 
 	// inicializa las cosas
 	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
-	//auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
-	//livesLeftComponent->setLives(3);
-
 }
 
 void PacManSystem::update()
@@ -119,33 +116,20 @@ void PacManSystem::update()
 	}
 }
 
+void PacManSystem::resetGame()
+{
+	// vidas
+	auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
+	livesLeftComponent->resetLives();
+}
+
 void PacManSystem::recieve(const Message& m)
 {
 	switch (m.id) {
 	case _m_KILL_PACMAN:
 		die();
 		break;
-	default:
-		break;
-	}
 
-}
-
-void PacManSystem::resetGame()
-{
-	// vidas
-<<<<<<< HEAD
-	// auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
-	// livesLeftComponent->resetLives();
-=======
-	auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
-	livesLeftComponent->resetLives();
->>>>>>> 62f9939d53fa3d1e33a6538e9d1559d7af72ff8f
-}
-
-void PacManSystem::recieve(const Message& m)
-{
-	switch (m.id) {
 	case _m_ROUND_START:
 		resetRound();
 		break;
