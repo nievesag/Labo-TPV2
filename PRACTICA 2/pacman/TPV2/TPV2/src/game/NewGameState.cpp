@@ -22,7 +22,6 @@ void NewGameState::update()
 {
 	// si se pulsa cualquier tecla cambia a estado new round
 	if (ih().keyDownEvent()) {
-		// faltaria reset lifes del pacman(?
 
 		// -- MENSAJE --
 		// crea mensaje

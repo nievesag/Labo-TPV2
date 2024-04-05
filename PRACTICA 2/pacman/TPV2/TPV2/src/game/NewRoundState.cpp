@@ -39,7 +39,7 @@ void NewRoundState::update()
 
 		// Cuando empieza una ronda, hay que resetear los contadores de tiempo
 		// (el de generacion de fantasmas, el de frutas milagrosas, etc.)
-	// -> no se si es aqui o en el enter del runningstate
+		// -> no se si es aqui o en el enter del runningstate
 	}
 
 	// muestra mensaje
