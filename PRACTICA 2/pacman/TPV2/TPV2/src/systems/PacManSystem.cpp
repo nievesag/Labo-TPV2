@@ -119,11 +119,28 @@ void PacManSystem::update()
 	}
 }
 
+void PacManSystem::recieve(const Message& m)
+{
+	switch (m.id) {
+	case _m_KILL_PACMAN:
+		die();
+		break;
+	default:
+		break;
+	}
+
+}
+
 void PacManSystem::resetGame()
 {
 	// vidas
+<<<<<<< HEAD
+	// auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
+	// livesLeftComponent->resetLives();
+=======
 	auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
 	livesLeftComponent->resetLives();
+>>>>>>> 62f9939d53fa3d1e33a6538e9d1559d7af72ff8f
 }
 
 void PacManSystem::recieve(const Message& m)
@@ -139,6 +156,11 @@ void PacManSystem::recieve(const Message& m)
 	default:
 		break;
 	}
+}
+
+void PacManSystem::die()
+{
+	std::cout << "VGFEYIUWJGUYIKHERNAUIRFGHPE9OHG dead" << std::endl;
 }
 
 void PacManSystem::resetRound()
