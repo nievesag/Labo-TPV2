@@ -20,6 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components\Image.h" />
+    <ClInclude Include="src\components\IsInmuneComponent.h" />
+    <ClInclude Include="src\components\IsMiraculousComponent.h" />
+    <ClInclude Include="src\components\LifesLeftComponent.h" />
     <ClInclude Include="src\components\Points.h" />
     <ClInclude Include="src\components\StarMotion.h" />
     <ClInclude Include="src\components\Transform.h" />
@@ -69,6 +72,9 @@
     <ClInclude Include="src\utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\IsInmuneComponent.cpp" />
+    <ClCompile Include="src\components\IsMiraculousComponent.cpp" />
+    <ClCompile Include="src\components\LifesLeftComponent.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\GameOverState.cpp" />

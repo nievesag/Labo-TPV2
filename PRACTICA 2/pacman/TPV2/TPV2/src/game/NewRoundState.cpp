@@ -20,7 +20,6 @@ void NewRoundState::enter()
 {
 }
 
-
 void NewRoundState::update()
 {
 	// si se pulsa enter pasa a estado running y envia mensaje
@@ -33,10 +32,14 @@ void NewRoundState::update()
 		Message newRoundMessage;
 
 		// establece id
-		newRoundMessage.id = _m_NEW_ROUND;
+		newRoundMessage.id = _m_ROUND_START;
 
 		// lo envia
 		Game::instance()->getMngr()->send(newRoundMessage, true);
+
+		// Cuando empieza una ronda, hay que resetear los contadores de tiempo
+		// (el de generacion de fantasmas, el de frutas milagrosas, etc.)
+	// -> no se si es aqui o en el enter del runningstate
 	}
 
 	// muestra mensaje
