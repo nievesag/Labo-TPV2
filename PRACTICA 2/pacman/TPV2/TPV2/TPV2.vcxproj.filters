@@ -207,7 +207,7 @@
     <ClInclude Include="src\components\IsMiraculousComponent.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\LifesLeftComponent.h">
+    <ClInclude Include="src\components\LivesLeftComponent.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -287,7 +287,7 @@
     <ClCompile Include="src\game\RunningState.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\LifesLeftComponent.cpp">
+    <ClCompile Include="src\components\LivesLeftComponent.cpp">
       <Filter>Source Files\components</Filter>
     </ClCompile>
     <ClCompile Include="src\components\IsMiraculousComponent.cpp">

@@ -8,7 +8,10 @@
 	TRANSFORM, \
 	IMAGE, \
 	STARMOTION, \
-	POINTS
+	POINTS, \
+	LIFES, \
+	INMUNE, \
+	MIRACULOUS
 
 // Groups list - must have at least one element
 //

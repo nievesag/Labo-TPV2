@@ -4,9 +4,11 @@
 
 #include "../components/Image.h"
 #include "../components/Transform.h"
+#include "../components/LivesLeftComponent.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
+
 
 PacManSystem::PacManSystem() :
 		pmTR_(nullptr) {
@@ -16,43 +18,53 @@ PacManSystem::~PacManSystem() {
 }
 
 void PacManSystem::initSystem() {
-	// create the PacMan entity
-	//
+
+	// create the PacMan entity 
 	auto pacman = mngr_->addEntity();
+
+	// lo hace handler (lo que controla el jugador)
 	mngr_->setHandler(ecs::hdlr::PACMAN, pacman);
 
-	pmTR_ = mngr_->addComponent<Transform>(pacman);
+	// para pos inicial de pacman
 	auto s = 50.0f;
 	auto x = (sdlutils().width() - s) / 2.0f;
 	auto y = (sdlutils().height() - s) / 2.0f;
-	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
-	mngr_->addComponent<Image>(pacman, &sdlutils().images().at("pacman"));
 
-	lives = 3;
+	// le aniade componentes
+	pmTR_ = mngr_->addComponent<Transform>(pacman);
+	mngr_->addComponent<Image>(pacman, &sdlutils().images().at("pacman"));
+	//mngr_->addComponent<LivesLeftComponent>(pacman, 3);
+
+	// inicializa las cosas
+	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
+	//auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
+	//livesLeftComponent->resetLives();
 }
 
-void PacManSystem::update() {
+void PacManSystem::update()
+{
+	// si se pulsa tecla
+	if (ih().keyDownEvent()) {
 
-	auto &ihldr = ih();
+		// girar a la derecha
+		if (ih().isKeyDown(SDL_SCANCODE_RIGHT)) 
+		{
+			// rotacion a 90 grados
+			pmTR_->rot_ = pmTR_->rot_ + 90;
+			pmTR_->vel_ = pmTR_->vel_.rotate(90);
 
-	if (ihldr.keyDownEvent()) {
+		}
 
-		if (ihldr.isKeyDown(SDL_SCANCODE_RIGHT)) { // rotate right
-			pmTR_->rot_ = pmTR_->rot_ + 5.0f;
+		// girar izquierda
+		else if (ih().isKeyDown(SDL_SCANCODE_LEFT)) 
+		{ 
+			pmTR_->rot_ = pmTR_->rot_ - 90;
+			pmTR_->vel_ = pmTR_->vel_.rotate(-90);
+		}
 
-			// also rotate the PacMan so it looks in the same
-			// direction where it moves
-			//
-			pmTR_->vel_ = pmTR_->vel_.rotate(5.0f);
-		} else if (ihldr.isKeyDown(SDL_SCANCODE_LEFT)) { // rotate left
-			pmTR_->rot_ = pmTR_->rot_ - 5.0f;
-
-			// also rotate the PacMan so it looks in the same
-			// direction where it moves
-			//
-			pmTR_->vel_ = pmTR_->vel_.rotate(-5.0f);
-		} else if (ihldr.isKeyDown(SDL_SCANCODE_UP)) { // increase speed
-
+		// aumenta velocidad
+		else if (ih().isKeyDown(SDL_SCANCODE_UP)) 
+		{ 
 			// add 1.0f to the speed (respecting the limit 3.0f). Recall
 			// that speed is the length of the velocity vector
 			float speed = std::min(3.0f, pmTR_->vel_.magnitude() + 1.0f);
@@ -61,9 +73,12 @@ void PacManSystem::update() {
 			// '.rotate(rot)' for the case in which the current speed is
 			// 0, so we rotate it to the same direction where the PacMan
 			// is looking
-			//
 			pmTR_->vel_ = Vector2D(0, -speed).rotate(pmTR_->rot_);
-		} else if (ihldr.isKeyDown(SDL_SCANCODE_DOWN)) { // decrease speed
+		}
+
+		// decrementa velocidad
+		else if (ih().isKeyDown(SDL_SCANCODE_DOWN)) 
+		{ 
 			// subtract 1.0f to the speed (respecting the limit 0.0f). Recall
 			// that speed is the length of the velocity vector
 			float speed = std::max(0.0f, pmTR_->vel_.magnitude() - 1.0f);
@@ -72,39 +87,43 @@ void PacManSystem::update() {
 			// '.rotate(rot)' for the case in which the current speed is
 			// 0, so we rotate it to the same direction where the PacMan
 			// is looking
-			//
 			pmTR_->vel_ = Vector2D(0, -speed).rotate(pmTR_->rot_);
 		}
-
 	}
 
-	// move the pacman
+	// mueve a pacman
 	pmTR_->pos_ = pmTR_->pos_ + pmTR_->vel_;
 
-	// check left/right borders
-	if (pmTR_->pos_.getX() < 0) {
+	// colisiones con los bordes izq/der
+	if (pmTR_->pos_.getX() < 0) 
+	{
 		pmTR_->pos_.setX(0.0f);
 		pmTR_->vel_.set(0.0f, 0.0f);
-	} else if (pmTR_->pos_.getX() + pmTR_->width_ > sdlutils().width()) {
+	}
+	else if (pmTR_->pos_.getX() + pmTR_->width_ > sdlutils().width()) 
+	{
 		pmTR_->pos_.setX(sdlutils().width() - pmTR_->width_);
 		pmTR_->vel_.set(0.0f, 0.0f);
 	}
 
-	// check upper/lower borders
-	if (pmTR_->pos_.getY() < 0) {
+	// colision con los bordes arriba/abajo
+	if (pmTR_->pos_.getY() < 0) 
+	{
 		pmTR_->pos_.setY(0.0f);
 		pmTR_->vel_.set(0.0f, 0.0f);
-	} else if (pmTR_->pos_.getY() + pmTR_->height_ > sdlutils().height()) {
+	}
+	else if (pmTR_->pos_.getY() + pmTR_->height_ > sdlutils().height()) 
+	{
 		pmTR_->pos_.setY(sdlutils().height() - pmTR_->height_);
 		pmTR_->vel_.set(0.0f, 0.0f);
 	}
-
 }
 
 void PacManSystem::resetGame()
 {
 	// vidas
-	lives = 3;
+	//auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
+	//livesLeftComponent->resetLives();
 }
 
 void PacManSystem::reset()
@@ -115,12 +134,10 @@ void PacManSystem::reset()
 
 void PacManSystem::resetRound()
 {
-
 	// reset pos
 	auto s = 50.0f;
 	auto x = (sdlutils().width() - s) / 2.0f;
 	auto y = (sdlutils().height() - s) / 2.0f;
 
 	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
-
 }

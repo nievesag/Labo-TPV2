@@ -12,7 +12,7 @@ GameOverState::GameOverState() :
 }
 
 GameOverState::~GameOverState() {
-}
+}  
 
 void GameOverState::leave() {
 }

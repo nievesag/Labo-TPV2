@@ -24,4 +24,6 @@ public:
 private:
 	Transform *pmTR_;
 	int lives;
+
+	ecs::entity_t pacman;
 };

@@ -18,7 +18,7 @@ NewGameState::~NewGameState() {}
 
 void NewGameState::enter() {}
 
-void NewGameState::update()
+void NewGameState::update()  
 {
 	// si se pulsa cualquier tecla cambia a estado new round
 	if (ih().keyDownEvent()) {
