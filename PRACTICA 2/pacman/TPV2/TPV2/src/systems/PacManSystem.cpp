@@ -33,12 +33,13 @@ void PacManSystem::initSystem() {
 	// le aniade componentes
 	pmTR_ = mngr_->addComponent<Transform>(pacman);
 	mngr_->addComponent<Image>(pacman, &sdlutils().images().at("pacman"));
-	//mngr_->addComponent<LivesLeftComponent>(pacman, 3);
+	mngr_->addComponent<LivesLeftComponent>(pacman, 3);
 
 	// inicializa las cosas
 	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 	//auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
-	//livesLeftComponent->resetLives();
+	//livesLeftComponent->setLives(3);
+
 }
 
 void PacManSystem::update()
@@ -52,7 +53,6 @@ void PacManSystem::update()
 			// rotacion a 90 grados
 			pmTR_->rot_ = pmTR_->rot_ + 90;
 			pmTR_->vel_ = pmTR_->vel_.rotate(90);
-
 		}
 
 		// girar izquierda
@@ -122,8 +122,8 @@ void PacManSystem::update()
 void PacManSystem::resetGame()
 {
 	// vidas
-	//auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
-	//livesLeftComponent->resetLives();
+	auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
+	livesLeftComponent->resetLives();
 }
 
 void PacManSystem::reset()

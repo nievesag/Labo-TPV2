@@ -8,7 +8,7 @@ class Texture;
 class LivesLeftComponent : public ecs::Component
 {
 public:
-	__CMPID_DECL__(ecs::cmp::POINTS)
+	__CMPID_DECL__(ecs::cmp::LIFES)
 
 	LivesLeftComponent();
 	LivesLeftComponent(int livesLeft);
@@ -41,9 +41,14 @@ public:
 		livesLeft_ = maxLives_;
 	}
 
+	Texture* getLifesTexture()
+	{
+		return img_;
+	}
+
 	int livesLeft_;
 	int maxLives_ = 3;
 
 private:
-	Texture& img_;
+	Texture* img_;
 };
