@@ -23,10 +23,20 @@ void NewRoundState::enter()
 
 void NewRoundState::update()
 {
-	// si se pulsa enter pasa a estado running
+	// si se pulsa enter pasa a estado running y envia mensaje
 	if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_RETURN)) {
-		// faltan cosas de logica creo(?
+
 		Game::instance()->setState(Game::RUNNING);
+
+		// -- MENSAJE --
+		// crea mensaje
+		Message newRoundMessage;
+
+		// establece id
+		newRoundMessage.id = _m_NEW_ROUND;
+
+		// lo envia
+		Game::instance()->getMngr()->send(newRoundMessage, true);
 	}
 
 	// muestra mensaje

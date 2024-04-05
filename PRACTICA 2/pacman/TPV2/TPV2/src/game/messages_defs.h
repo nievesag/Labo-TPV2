@@ -6,9 +6,11 @@
 
 using msgId_type = uint8_t;
 enum msgId : msgId_type {
-	_m_STAR_EATEN, //
-	_m_CREATE_STARS, //
-	_m_KILL_PACMAN
+	_m_STAR_EATEN, 
+	_m_CREATE_STARS, 
+	_m_KILL_PACMAN,
+	_m_NEW_ROUND,
+	_m_NEW_GAME
 };
 
 

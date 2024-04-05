@@ -133,7 +133,10 @@ void Game::start() {
 		// muestra render
 		sdlutils().presentRenderer();
 
-		// falta lo de los mensajes el flush
+		// flush del manager para enviar mensajes pendientes
+		// (si usas el mecanismo de enviar mensajes con delay)
+		// -> sinceramente no se si hace falta porq creo q no tienen delay(?
+		mngr_->flushMessages();
 
 		// refresh del manager (elimina entidades)
 		mngr_->refresh();
