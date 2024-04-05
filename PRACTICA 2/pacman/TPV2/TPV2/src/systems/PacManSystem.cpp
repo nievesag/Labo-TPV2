@@ -27,6 +27,8 @@ void PacManSystem::initSystem() {
 	auto y = (sdlutils().height() - s) / 2.0f;
 	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 	mngr_->addComponent<Image>(pacman, &sdlutils().images().at("pacman"));
+
+	lives = 3;
 }
 
 void PacManSystem::update() {
@@ -96,5 +98,29 @@ void PacManSystem::update() {
 		pmTR_->pos_.setY(sdlutils().height() - pmTR_->height_);
 		pmTR_->vel_.set(0.0f, 0.0f);
 	}
+
+}
+
+void PacManSystem::resetGame()
+{
+	// vidas
+	lives = 3;
+}
+
+void PacManSystem::reset()
+{
+	resetGame();
+	resetRound();
+}
+
+void PacManSystem::resetRound()
+{
+
+	// reset pos
+	auto s = 50.0f;
+	auto x = (sdlutils().width() - s) / 2.0f;
+	auto y = (sdlutils().height() - s) / 2.0f;
+
+	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 
 }

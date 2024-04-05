@@ -16,6 +16,12 @@ public:
 	void initSystem() override;
 	void update() override;
 
+
+	void resetRound();
+	void resetGame();
+	void reset();
+
 private:
 	Transform *pmTR_;
+	int lives;
 };

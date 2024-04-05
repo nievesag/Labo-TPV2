@@ -10,6 +10,8 @@ NewRoundState::~NewRoundState()
 
 void NewRoundState::enter()
 {
+	
+
 }
 
 void NewRoundState::leave()

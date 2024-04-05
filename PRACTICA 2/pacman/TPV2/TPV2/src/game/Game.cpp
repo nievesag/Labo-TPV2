@@ -76,6 +76,13 @@ void Game::init() {
 	newRoundState_ = new NewRoundState();
 	gameOverState_ = new GameOverState();
 
+	pauseState_->setContext(mngr_);
+	runningState_->setContext(mngr_);
+	newGameState_->setContext(mngr_);
+	newRoundState_->setContext(mngr_);
+	gameOverState_->setContext(mngr_);
+
+
 	// inicializa en nuevo juego
 	currentState_ = newGameState_;
 }
