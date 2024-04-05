@@ -36,13 +36,13 @@ Game::Game() :
 		ihdlr(ih()),
 
 		// systems
-		pacmanSys_(), 
-		renderSys_(), 
-		collisionSys_(),
-		ghostSys_(),
-		foodSys_(),
-		inmunitySys_(),
-		gamectrlSys_(),
+		//pacmanSys_(), 
+		//renderSys_(), 
+		//collisionSys_(),
+		//ghostSys_(),
+		//foodSys_(),
+		//inmunitySys_(),
+		//gamectrlSys_(),
 
 		// game states
 		pauseState_(nullptr), 
@@ -112,6 +112,9 @@ void Game::start() {
 	while (!exit) {
 		Uint32 startTime = sdlutils().currRealTime();
 
+		// limpia pantalla
+		sdlutils().clearRenderer();
+
 		// refresh the input handler
 		ihdlr.refresh();
 
@@ -124,16 +127,13 @@ void Game::start() {
 		// llama al update del estado actual
 		currentState_->update();
 
-		// limpia pantalla
-		sdlutils().clearRenderer();
-
 		// update del render
 		renderSys_->update();
 
 		// muestra render
 		sdlutils().presentRenderer();
 
-		// falta lo de los mensajes
+		// falta lo de los mensajes el flush
 
 		// refresh del manager (elimina entidades)
 		mngr_->refresh();

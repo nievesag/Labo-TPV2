@@ -6,10 +6,8 @@
 
 int main(int, char**) {
 
-	std::cout << "me hago xcaca";
-
 	try {
-		Game g;
+		Game &g = *Game::instance();
 		g.init();
 		g.start();
 	}
@@ -26,7 +24,5 @@ int main(int, char**) {
 		std::cerr << "Caught and exception of unknown type ...";
 	}
 
-
 	return 0;
 }
-

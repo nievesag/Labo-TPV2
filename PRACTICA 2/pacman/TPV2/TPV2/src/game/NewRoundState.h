@@ -1,6 +1,9 @@
 #pragma once
 
 #include "GameState.h"
+#include <SDL_rect.h>
+class Texture;
+class InputHandler;
 
 class NewRoundState : public GameState
 {
@@ -12,5 +15,6 @@ public:
 	void update() override;
 
 private:
-
+	Texture* msg_;
+	SDL_Rect dest_;
 };
