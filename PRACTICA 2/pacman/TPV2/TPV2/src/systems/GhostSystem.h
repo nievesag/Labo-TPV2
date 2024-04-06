@@ -20,4 +20,5 @@ public:
 private: 
 	int ghostLimit_ = 10;
 	int currentGhosts_ = 0;
+	int followChance = 5;
 };

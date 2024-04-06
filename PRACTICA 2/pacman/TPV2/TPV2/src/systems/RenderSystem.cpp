@@ -25,6 +25,7 @@ void RenderSystem::update() {
 	drawMsgs();
 	drawStars();
 	drawPacMan();
+	drawGhosts();
 }
 
 void RenderSystem::drawStars() {
@@ -65,6 +66,17 @@ void RenderSystem::drawMsgs() {
 	// draw add stars message
 	sdlutils().msgs().at("addstars").render(10, 10);
 
+}
+
+void RenderSystem::drawGhosts()
+{
+	// draw stars
+	for (auto e : mngr_->getEntities(ecs::grp::GHOSTS)) {
+
+		auto tr = mngr_->getComponent<Transform>(e);
+		auto tex = mngr_->getComponent<Image>(e)->tex_;
+		draw(tr, tex);
+	}
 }
 
 void RenderSystem::draw(Transform *tr, Texture *tex) {
