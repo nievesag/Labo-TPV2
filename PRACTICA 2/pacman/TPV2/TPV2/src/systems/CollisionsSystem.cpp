@@ -90,7 +90,9 @@ void CollisionsSystem::checkPacmanFruit()
 				m.eat_fruit_data.e = e;
 				mngr_->send(m);
 
-				if (mngr_->getComponent<IsMiraculousComponent>(e) != nullptr) {
+				if (mngr_->getComponent<IsMiraculousComponent>(e) != nullptr) 
+				{
+					// si la fruta con la que colisiones es miracoulosa empieza la inmunidad de pacman
 					if(mngr_->getComponent<IsMiraculousComponent>(e)->isMiraculous)
 					{
 						Message m;
