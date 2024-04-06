@@ -1,14 +1,14 @@
 SYSTEMS:
-+ PACMAN SYSTEM:
++ PACMAN SYSTEM: DONE
 	- mueve a pacman
 	- reset pos en nueva ronda
 	- reset vidas en new game
-+ GHOST SYSTEM:
++ GHOST SYSTEM:	DONE
 	- genera y mueve fantasmas
 	- quita fantasmas actuales cuando acaba una ronda
 	- COLISIONES: INMUNIDAD -> fantasma muere / !INMUNIDAD -> PACMAN MUERE (envía mensaje y cambia estado)
 	- INMUNIDAD: no genera fantasmas y cambia imagen de fantasmas
-+ FOOD SYSTEM:
++ FOOD SYSTEM:	MID DONE
 	- responsable FRUTAS: coloca en grid y milagrosidad
 	- UPDATE: actualiza estado de frutas milagrosas
 	- COLISIONES: pacman-fruta (desaparece)
@@ -17,17 +17,17 @@ SYSTEMS:
 + INMUNITY SYSTEM: 
 	- COLISIONES: pacman-frutaMilagrosa, si !INMUN -> avisa de que entra en periodo inmune
 	- UPDATE: si INMUN = 10 seg -> SendMessage("times up")
-+ COLLISION SYSTEM:
++ COLLISION SYSTEM: DONE
 	- comprueba colisiones entre las ents
 	- envía los mensajes correspondientes
-+ RENDER SYSTEM:
++ RENDER SYSTEM: DONE
 	- dibuja pacman, frutas, fantasmas, sus vidas, etc
 	- usar varios frames en fantasmas y pacman para las animaciones
 -> se puede hacer un método render en la clase system e incorporarla en los distintos sistemas
 
 -----
 
-GAMESTATES:
+GAMESTATES: 	DONE
 + RUNNING STATE: 
 	- update: llama al update de los sistemas y al refresh (bucle ppal) del manager
 	- si el usuario pulsa "p" cambia a pausestate
@@ -42,7 +42,7 @@ GAMESTATES:
 
 -----
 
-+ ENTITIES:
++ ENTITIES:	DONE
 	- PACMAN: transform / framedImage / CurrentLifesComponent / isInmuneComponent
 	- FRUTA: transform / Image / IsMiraculous (info necesaria para cambiar de estado)
 	- FANTASMA: transform / framedImage
