@@ -111,6 +111,7 @@ void GhostSystem::generateGhost()
 void GhostSystem::killPacman()
 {
 	//
+
 }
 
 void GhostSystem::moveGhosts()

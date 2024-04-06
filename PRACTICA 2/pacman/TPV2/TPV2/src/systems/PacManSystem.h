@@ -21,10 +21,13 @@ public:
 	void resetGame();
 	void reset();
 	void die();
+	void playSound();
+	void stopSound();
 
 private:
 	Transform *pmTR_;
 	int lives;
+	bool playing = false;
 
 	ecs::entity_t pacman;
 };

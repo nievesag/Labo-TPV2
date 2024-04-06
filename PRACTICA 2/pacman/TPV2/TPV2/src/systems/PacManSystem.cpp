@@ -49,6 +49,7 @@ void PacManSystem::initSystem() {
 	pmTR_->height_ = height;
 	img->setRow(0);
 	img->setColFrames(4);
+
 }
 
 void PacManSystem::update()
@@ -124,6 +125,8 @@ void PacManSystem::update()
 		pmTR_->pos_.setY(sdlutils().height() - pmTR_->height_);
 		pmTR_->vel_.set(0.0f, 0.0f);
 	}
+
+	playSound();
 }
 
 void PacManSystem::resetGame()
@@ -165,6 +168,26 @@ void PacManSystem::die()
 	gameOver.id = _m_GAME_OVER;
 
 	mngr_->send(gameOver, true);
+
+	stopSound();
+
+	sdlutils().soundEffects().at("death").play();
+}
+
+void PacManSystem::playSound()
+{
+	if (!playing) {
+		sdlutils().soundEffects().at("chomp").play(-1);
+		playing = true;
+	}
+}
+
+void PacManSystem::stopSound()
+{
+	if (playing) {
+		sdlutils().soundEffects().at("chomp").pauseChannel();
+		playing = false;
+	}
 }
 
 void PacManSystem::resetRound()

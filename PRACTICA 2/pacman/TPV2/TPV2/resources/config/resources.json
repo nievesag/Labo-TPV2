@@ -115,7 +115,27 @@
   ],
 
   "sounds": [
- 
+    {
+      "id": "chomp",
+      "file": "resources/sound/pacman_chomp.wav"
+    },
+    {
+      "id": "death",
+      "file": "resources/sound/pacman_death.wav"
+    },
+    {
+      "id": "eat",
+      "file": "resources/sound/pacman_death.wav"
+    },
+    {
+      "id": "intro",
+      "file": "resources/sound/pacman_intro.wav"
+    },
+    {
+      "id": "won",
+      "file": "resources/sound/pacman_won.wav"
+    }
+
   ],
 
   "musics": [
