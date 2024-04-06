@@ -27,7 +27,7 @@ public:
 	void updateState();
 	void destroyFruit(ecs::entity_t fruit);
 	bool noFruits();
-	void end();
+	void resetFruits();
 
 private:
 	int totalFruits;
@@ -37,5 +37,4 @@ private:
 
 	int offsetX = 150;
 	int offsetY = 150;
-
 };

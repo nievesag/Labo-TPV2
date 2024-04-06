@@ -38,8 +38,7 @@ void NewRoundState::update()
 		Game::instance()->getMngr()->send(newRoundMessage, true);
 
 		// Cuando empieza una ronda, hay que resetear los contadores de tiempo
-		// (el de generacion de fantasmas, el de frutas milagrosas, etc.)
-		// -> no se si es aqui o en el enter del runningstate
+		// (el de generacion de fantasmas, el de frutas milagrosas)
 	}
 
 	// muestra mensaje

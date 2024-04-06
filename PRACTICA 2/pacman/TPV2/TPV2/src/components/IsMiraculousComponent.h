@@ -2,7 +2,7 @@
 
 #include "../ecs/Component.h"
 
-class IsMiraculousComponent : public ecs::Component
+struct IsMiraculousComponent : public ecs::Component
 {
 	__CMPID_DECL__(ecs::cmp::MIRACULOUS)
 

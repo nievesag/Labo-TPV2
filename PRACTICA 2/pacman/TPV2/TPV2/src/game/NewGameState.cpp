@@ -25,19 +25,19 @@ void NewGameState::update()
 
 		// -- MENSAJE --
 		// crea mensaje
-		Message newGameMessage;
+		//Message newGameMessage;
 
-		// establece id
-		newGameMessage.id = _m_NEW_GAME;
+		//// establece id
+		//newGameMessage.id = _m_NEW_GAME;
 
-		// lo envia
-		Game::instance()->getMngr()->send(newGameMessage, true);
+		//// lo envia
+		//Game::instance()->getMngr()->send(newGameMessage, true);
 
 		// cambia al estado
 		Game::instance()->setState(Game::NEWROUND);
 	}
 
-	// muestra mensaje
+	// muestra mensaje (menu)
 	msg_->render(dest_);
 }
 

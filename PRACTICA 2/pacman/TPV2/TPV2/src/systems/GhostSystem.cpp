@@ -23,22 +23,17 @@ void GhostSystem::initSystem()
 {
 	ghostLimit_ = 10;
 	currentGhosts_ = 0;
-	
 }
 
 void GhostSystem::update()
 {
-	
 	generateGhost();
-
 	moveGhosts();
-
 }
 
 void GhostSystem::generateGhost()
 {
 	// Always use the random number generator provided by SDLUtils
-	//
 	auto& rand = sdlutils().rand();
 
 	if (ghostCD + lastSpawn < sdlutils().virtualTimer().currTime() 
@@ -47,19 +42,17 @@ void GhostSystem::generateGhost()
 		lastSpawn = sdlutils().virtualTimer().currTime();
 
 		// add and entity to the manager
-				//
 		auto e = mngr_->addEntity(ecs::grp::GHOSTS);
 
 		// add a Transform component, and initialise it with random size and position
-		//
 		auto tr = mngr_->addComponent<Transform>(e);
 
 		// add an Image Component
 		//
 		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8); //mngr_->addComponent<Image>(e, &sdlutils().images().at("tennis_ball"));
 
+
 		// image with frames setup
-		//
 		int width = 40;
 		int height = 40;
 
@@ -70,47 +63,41 @@ void GhostSystem::generateGhost()
 
 		switch (pos)
 		{
+		// esquina superior izq 
 		case 0:
-			// esquina superior izq 
-
 			tr->pos_.setX(0);
 			tr->pos_.setY(0);
-
 			break;
-		case 1:
-			// esquina superior derecha
 
+		// esquina superior derecha
+		case 1:
 			tr->pos_.setX(0);
 			tr->pos_.setY(sdlutils().height() - height);	// - height
 			break;
-		case 2:
-			// esquina inferior izquierda
 
+		// esquina inferior izquierda
+		case 2:
 			tr->pos_.setX(sdlutils().width() - width);	// - width
 			tr->pos_.setY(0);
 			break;
+
 		case 3:
 			// esquina inferior derecha
-
 			tr->pos_.setX(sdlutils().width() - width);	// - width
 			tr->pos_.setY(sdlutils().height() - height);	// - height
 			break;
+
 		default:
 			break;
 		}
 
 		currentGhosts_++;
 	}
-
-
-	
-
 }
 
 void GhostSystem::killPacman()
 {
 	//
-
 }
 
 void GhostSystem::moveGhosts()
@@ -119,8 +106,6 @@ void GhostSystem::moveGhosts()
 
 	// recorre todos los ghosts
 	for (auto& g : ghosts) {
-
-		//std::cout << "existe " << mngr_->getComponent<Transform>(g)->pos_ << std::endl;
 
 		// coge el Transform de la entidad
 		auto gt = mngr_->getComponent<Transform>(g);
@@ -136,7 +121,6 @@ void GhostSystem::moveGhosts()
 
 			// modifica la velocidad del ghost con respecto de la del pacman
 			gt->vel_ = (posPM->pos_ - gt->pos_).normalize() * 1.1f;
-
 		}
 
 		gt->pos_ = gt->pos_ + gt->vel_;
@@ -160,9 +144,13 @@ void GhostSystem::moveGhosts()
 			gt->pos_.setY(sdlutils().height() - gt->height_);
 			gt->vel_.set(0.0f, 0.0f);
 		}
-		
 	}
 }
+
+//void GhostSystem::resetGhosts()
+//{
+//	// reset de contador y los borra(?
+//}
 
 void GhostSystem::recieve(const Message& m)
 {
@@ -170,6 +158,15 @@ void GhostSystem::recieve(const Message& m)
 	case _m_KILL_PACMAN:
 		killPacman();
 		break;
+
+	case _m_ROUND_START:
+		//resetGhosts(); // resetea contador de generacion de fantasmas
+		break;
+
+	case _m_NEW_GAME:
+		//resetGhosts(); // resetea contador de generacion de fantasmas
+		break;
+
 	default:
 		break;
 	}
