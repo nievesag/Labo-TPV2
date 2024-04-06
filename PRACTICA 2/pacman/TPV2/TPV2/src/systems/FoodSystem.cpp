@@ -106,9 +106,6 @@ void FoodSystem::destroyFruit(ecs::entity_t fruit)
 
 		mngr_->send(roundOver, true);
 
-
-
-
 		
 	}
 }
@@ -123,4 +120,10 @@ bool FoodSystem::noFruits()
 void FoodSystem::resetFruits()
 {
 	// resetea las frutas en panatalla y los contadores
+	for (auto& f : mngr_->getEntities(ecs::grp::FRUITS)) {
+		destroyFruit(f);
+	}
+
+	setFruits();
+
 }
