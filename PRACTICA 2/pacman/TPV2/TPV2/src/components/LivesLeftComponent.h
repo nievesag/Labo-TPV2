@@ -30,11 +30,6 @@ struct LivesLeftComponent : public ecs::Component
 		return livesLeft_;
 	}
 
-	int getLives()
-	{
-		return livesLeft_;
-	}
-
 	void resetLives()
 	{
 		livesLeft_ = maxLives_;
