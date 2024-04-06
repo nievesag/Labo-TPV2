@@ -5,6 +5,7 @@
 #include "../components/Transform.h"
 #include "../ecs/Manager.h"
 #include "../utils/Collisions.h"
+#include "../components/IsMiraculousComponent.h"
 
 CollisionsSystem::CollisionsSystem() {
 	// TODO Auto-generated constructor stub
@@ -71,11 +72,12 @@ void CollisionsSystem::checkPacmanFruit()
 	auto pm = mngr_->getHandler(ecs::hdlr::PACMAN);
 	auto pTR = mngr_->getComponent<Transform>(pm);
 
-
 	auto& fruits = mngr_->getEntities(ecs::grp::FRUITS);
 	auto n = fruits.size();
 	for (auto i = 0u; i < n; i++) {
 		auto e = fruits[i];
+		auto isMiraculous = mngr_->getComponent<IsMiraculousComponent>(e);
+
 		if (mngr_->isAlive(e)) { // if the fruit is active (it might have died in this frame)
 
 			auto gTR = mngr_->getComponent<Transform>(e);
@@ -89,11 +91,15 @@ void CollisionsSystem::checkPacmanFruit()
 				m.id = _m_EAT_FRUIT;
 				m.eat_fruit_data.e = e;
 				mngr_->send(m);
-			}
 
-			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			// !!!!!!!!! IMPORTANTE FALTA COMPROBAR SI LA FRUTA ES MILAGROSA Y MANDAR EL MENSAJE _m_INMUNITY_START SI LO ES
-			// i->isMiraculous;
+				if(isMiraculous->isMiraculous)
+				{
+					Message m;
+					m.id = _m_IMMUNITY_START;
+					m.eat_fruit_data.e = e;
+					mngr_->send(m);
+				}
+			}
 		}
 	}
 }
