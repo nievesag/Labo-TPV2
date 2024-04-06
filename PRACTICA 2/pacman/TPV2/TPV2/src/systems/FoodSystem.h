@@ -21,10 +21,11 @@ public:
 	virtual ~FoodSystem();
 	void initSystem() override;
 	void update() override;
+	void recieve(const Message& m) override;
 
 	void setFruits();
 	void updateState();
-	void destroyFruit();
+	void destroyFruit(ecs::entity_t fruit);
 	bool noFruits();
 	void end();
 

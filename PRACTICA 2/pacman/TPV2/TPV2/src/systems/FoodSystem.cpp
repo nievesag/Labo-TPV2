@@ -22,6 +22,24 @@ void FoodSystem::update()
 {
 }
 
+void FoodSystem::recieve(const Message& m)
+{
+	switch (m.id) {
+	case _m_EAT_FRUIT:
+		destroyFruit(m.eat_fruit_data.e);
+		break;
+
+	case _m_ROUND_START:
+		
+		break;
+
+	case _m_NEW_GAME:
+
+	default:
+		break;
+	}
+}
+
 void FoodSystem::setFruits()
 {
 
@@ -58,8 +76,18 @@ void FoodSystem::updateState()
 {
 }
 
-void FoodSystem::destroyFruit()
+void FoodSystem::destroyFruit(ecs::entity_t fruit)
 {
+	mngr_->setAlive(fruit, false);
+
+	if (noFruits()) {
+
+		// round end
+
+		// message end ig
+
+	}
+
 }
 
 bool FoodSystem::noFruits()
