@@ -29,6 +29,7 @@ void RunningState::enter()
 	inmunitySys_ = mngr_->getSystem<InmunitySystem>();
 	gameCtrlSys_ = mngr_->getSystem<GameCtrlSystem>();
 
+
 	//pacmanSys_->initSystem();
 	//collisionSys_->initSystem();
 	//ghostSys_->initSystem();
