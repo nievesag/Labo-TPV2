@@ -2,7 +2,6 @@
 
 #include "../ecs/System.h"
 
-
 class GhostSystem : public ecs::System
 {
 public:
@@ -17,6 +16,7 @@ public:
 	void generateGhost();
 	void killPacman();
 	void moveGhosts();
+	void resetGhosts();
 
 private: 
 	int ghostLimit_;

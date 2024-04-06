@@ -2,13 +2,9 @@
 
 #include "../ecs/Manager.h"
 
-FoodSystem::FoodSystem()
-{
-}
+FoodSystem::FoodSystem() {}
 
-FoodSystem::~FoodSystem()
-{
-}
+FoodSystem::~FoodSystem() {}
 
 void FoodSystem::initSystem()
 {
@@ -20,6 +16,7 @@ void FoodSystem::initSystem()
 
 void FoodSystem::update()
 {
+
 }
 
 void FoodSystem::recieve(const Message& m)
@@ -30,10 +27,12 @@ void FoodSystem::recieve(const Message& m)
 		break;
 
 	case _m_ROUND_START:
-		
+		resetFruits();
 		break;
 
 	case _m_NEW_GAME:
+		resetFruits();
+		break;
 
 	default:
 		break;
@@ -42,7 +41,6 @@ void FoodSystem::recieve(const Message& m)
 
 void FoodSystem::setFruits()
 {
-
 	for (int i = 0; i < cols*fils; i++ ) {
 
 		// add and entity to the manager
@@ -55,12 +53,10 @@ void FoodSystem::setFruits()
 		tr->height_ = 25;
 
 		// add an Image Component
-		//
 		auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("HolaSDL"));
 
 		// miraculous ladybug
 		//
-
 
 		// grid
 		float cellx = (offsetX - tr->width_) / 2;	// distancia por celda en x
@@ -68,24 +64,21 @@ void FoodSystem::setFruits()
 
 		tr->pos_.set(cellx + (offsetX * (i % cols)),	// posicion de la celda en x
 					 celly + (offsetY * (i / cols)));	// posicion de la celda en y
-		
 	}
 }
 
 void FoodSystem::updateState()
 {
+
 }
 
 void FoodSystem::destroyFruit(ecs::entity_t fruit)
 {
-	
-
 	mngr_->setAlive(fruit, false);
 
 	auto fruits = mngr_->getEntities(ecs::grp::FRUITS);
 
 	std::cout << fruits.size() << std::endl;
-
 
 	if (noFruits()) {
 
@@ -95,9 +88,7 @@ void FoodSystem::destroyFruit(ecs::entity_t fruit)
 		roundOver.id = _m_ROUND_OVER;
 
 		mngr_->send(roundOver, true);
-
 	}
-
 }
 
 bool FoodSystem::noFruits()
@@ -107,9 +98,7 @@ bool FoodSystem::noFruits()
     return fruits.size() <= 1;
 }
 
-void FoodSystem::end()
+void FoodSystem::resetFruits()
 {
-    // cambia el estado
-    
-   
+	// resetea las frutas en panatalla y los contadores
 }
