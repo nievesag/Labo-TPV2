@@ -3,6 +3,7 @@
 #include "../ecs/Manager.h"
 #include "../game/Game.h"
 #include "../components/IsMiraculousComponent.h"
+#include "../components/ImageWithFrames.h"
 
 FoodSystem::FoodSystem() {}
 
@@ -55,7 +56,9 @@ void FoodSystem::setFruits()
 		tr->height_ = 25;
 
 		// add an Image Component
-		auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("HolaSDL"));
+		//auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("HolaSDL"));
+		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8);
+
 
 		// A UNA DE CADA 10 FRUTAS LE ASIGNAS EL COMPONENTE MIRACULOUS
 		// add component miraculous
@@ -73,6 +76,11 @@ void FoodSystem::setFruits()
 
 		tr->pos_.set(cellx + (offsetX * (i % cols)),	// posicion de la celda en x
 					 celly + (offsetY * (i / cols)));	// posicion de la celda en y
+
+		img->setRow(1);
+		img->setCol(4);
+		img->setColFrames(1);
+		img->setXoffset(6);
 	}
 }
 

@@ -23,6 +23,9 @@ ImageWithFrames::ImageWithFrames(Texture *tex, int rows, int cols) :
 	ncol_ = cols;
 	nrow_ = rows;
 
+	xoffset = 0;
+	yoffset = 0;
+
 }
 
 ImageWithFrames::~ImageWithFrames() {
@@ -40,7 +43,7 @@ void ImageWithFrames::render() {
 		currFrameC_ = (currFrameC_ + 1) % ncol_;
 	}
 
-	int c = (currFrameC_ % ncol_);
+	int c = (currFrameC_ % ncol_) + xoffset;
 	//							lados				altura
 	auto src = build_sdlrect(c * frameWidth_, currFrameR_ * frameHeight_, frameWidth_, frameHeight_);
 

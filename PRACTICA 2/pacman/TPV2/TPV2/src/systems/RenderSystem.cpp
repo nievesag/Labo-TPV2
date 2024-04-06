@@ -95,9 +95,10 @@ void RenderSystem::drawFruits()
 	// draw stars
 	for (auto e : mngr_->getEntities(ecs::grp::FRUITS)) {
 
-		auto tr = mngr_->getComponent<Transform>(e);
-		auto tex = mngr_->getComponent<Image>(e)->tex_;
-		draw(tr, tex);
+		//auto tr = mngr_->getComponent<Transform>(e);
+		//auto tex = mngr_->getComponent<Image>(e)->tex_;
+		//draw(tr, tex);
+		mngr_->getComponent<ImageWithFrames>(e)->render();
 	}
 }
 

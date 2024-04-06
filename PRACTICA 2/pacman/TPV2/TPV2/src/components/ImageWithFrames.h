@@ -20,6 +20,12 @@ public:
 	void render() override;
 
 	void setRow(int row) { currFrameR_ = row; }
+	void setCol(int col) { currFrameC_ = col; }
+
+	// para poner el offset DE LOS FRAMES (ir saltando de frame en frame)
+	void setXoffset(int x) { xoffset = x; }
+	void setYoffset(int y) { yoffset = y; }
+
 	void setColFrames(int col);
 
 private:
@@ -37,6 +43,8 @@ private:
 	int ncol_;
 	int frameWidth_;
 	int frameHeight_;
+	int xoffset;
+	int yoffset;
 	Uint32 lastFrameChange_;
 };
 
