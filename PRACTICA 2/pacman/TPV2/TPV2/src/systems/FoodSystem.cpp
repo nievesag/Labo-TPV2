@@ -63,7 +63,8 @@ void FoodSystem::setFruits()
 
 		if (rnd < isMiraculousChance) {
 
-			mngr_->addComponent<IsMiraculousComponent>(e);
+			auto iM = mngr_->addComponent<IsMiraculousComponent>(e);
+			iM->MiraculousTransformation();
 		}
 
 		// grid
