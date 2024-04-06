@@ -142,7 +142,8 @@ void FoodSystem::miraculousFruitManager()
 					// deja de ser milagrosa
 					miracleCmp->resetIsMiraculous();
 
-					// poner imagen normal
+					// poner imagen norma
+					// INEEEESSSSSSSS ES AQUI Y AHI ABAJO 
 				}
 			}
 
@@ -157,6 +158,7 @@ void FoodSystem::miraculousFruitManager()
 					miracleCmp->MiraculousTransformation();
 
 					// poner imagen milagrosa
+					// AQUI
 				}
 			}
 		}
