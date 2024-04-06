@@ -20,7 +20,7 @@ public:
 	void render() override;
 
 	void setRow(int row) { currFrameR_ = row; }
-	void setColFrames(int rows);
+	void setColFrames(int col);
 
 private:
 	Texture *tex_;

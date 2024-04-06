@@ -52,7 +52,6 @@ void GhostSystem::generateGhost()
 		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8); //mngr_->addComponent<Image>(e, &sdlutils().images().at("tennis_ball"));
 
 		
-
 		// image with frames setup
 		int width = 40;
 		int height = 40;

@@ -34,12 +34,19 @@ void PacManSystem::initSystem() {
 	// le aniade componentes
 	pmTR_ = mngr_->addComponent<Transform>(pacman);
 	//mngr_->addComponent<Image>(pacman, &sdlutils().images().at("pacman"));
-	auto img = mngr_->addComponent<ImageWithFrames>(pacman, &sdlutils().images().at("pacman"), 8, 8);
+	auto img = mngr_->addComponent<ImageWithFrames>(pacman, &sdlutils().images().at("pacman_spritesheet"), 8, 8);
 	mngr_->addComponent<LivesLeftComponent>(pacman, 3); // inicializa vidas a 3
 	mngr_->addComponent<IsInmuneComponent>(pacman, false); // inicializa a no inmune
 
 	// inicializa las cosas
 	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
+
+	// image with frames setup
+	int width = 40;
+	int height = 40;
+
+	pmTR_->width_ = width;
+	pmTR_->height_ = height;
 	img->setRow(0);
 	img->setColFrames(4);
 }
