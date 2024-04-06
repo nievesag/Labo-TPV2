@@ -44,9 +44,11 @@ void RenderSystem::drawStars() {
 
 void RenderSystem::drawPacMan() {
 	auto e = mngr_->getHandler(ecs::hdlr::PACMAN);
-	auto tr = mngr_->getComponent<Transform>(e);
+	/*auto tr = mngr_->getComponent<Transform>(e);
 	auto tex = mngr_->getComponent<Image>(e)->tex_;
-	draw(tr, tex);
+	draw(tr, tex);*/
+
+	mngr_->getComponent<ImageWithFrames>(e)->render();
 }
 
 void RenderSystem::drawMsgs() {
