@@ -6,6 +6,8 @@
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
 #include "StarsSystem.h"
+#include "../game/Game.h"
+
 GameCtrlSystem::GameCtrlSystem() :
 		score_() {
 	// TODO Auto-generated constructor stub
@@ -39,6 +41,12 @@ void GameCtrlSystem::recieve(const Message &m) {
 	switch (m.id) {
 	case _m_STAR_EATEN:
 		score_ += mngr_->getComponent<Points>(m.star_eaten_data.e)->points_;
+		break;
+	case _m_GAME_OVER:
+		Game::instance()->setState(Game::GAMEOVER);
+		break;
+	case _m_ROUND_OVER:
+		Game::instance()->setState(Game::NEWROUND);
 		break;
 	default:
 		break;

@@ -7,6 +7,7 @@
 #include "../systems/FoodSystem.h"
 #include "../systems/InmunitySystem.h"
 #include "../systems/RenderSystem.h"
+#include "../systems/GameCtrlSystem.h"
 
 class RunningState : public GameState
 {
@@ -25,4 +26,5 @@ private:
 	FoodSystem* foodSys_;
 	InmunitySystem* inmunitySys_;
 	RenderSystem* renderSys_;
+	GameCtrlSystem* gameCtrlSys_;
 };

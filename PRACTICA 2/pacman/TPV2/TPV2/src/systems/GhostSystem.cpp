@@ -110,7 +110,6 @@ void GhostSystem::killPacman()
 {
 	//
 
-	std::cout << "MUEREEEEEEEEEEEEE" << std::endl;
 }
 
 void GhostSystem::moveGhosts()

@@ -80,6 +80,7 @@ void Game::init() {
 	ghostSys_ = mngr_->addSystem<GhostSystem>();
 	foodSys_ = mngr_->addSystem<FoodSystem>();
 	inmunitySys_ = mngr_->addSystem<InmunitySystem>();
+	gamectrlSys_ = mngr_->addSystem<GameCtrlSystem>();
 
 	// crea estados
 	pauseState_ = new PauseState();

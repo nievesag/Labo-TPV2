@@ -144,7 +144,12 @@ void PacManSystem::recieve(const Message& m)
 
 void PacManSystem::die()
 {
-	std::cout << "VGFEYIUWJGUYIKHERNAUIRFGHPE9OHG dead" << std::endl;
+	// round end
+	Message gameOver;
+
+	gameOver.id = _m_GAME_OVER;
+
+	mngr_->send(gameOver, true);
 }
 
 void PacManSystem::resetRound()

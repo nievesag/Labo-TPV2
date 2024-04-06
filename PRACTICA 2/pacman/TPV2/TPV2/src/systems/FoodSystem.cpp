@@ -46,7 +46,7 @@ void FoodSystem::setFruits()
 	for (int i = 0; i < cols*fils; i++ ) {
 
 		// add and entity to the manager
-			//
+	
 		auto e = mngr_->addEntity(ecs::grp::FRUITS);
 
 		auto tr = mngr_->addComponent<Transform>(e);
@@ -78,13 +78,23 @@ void FoodSystem::updateState()
 
 void FoodSystem::destroyFruit(ecs::entity_t fruit)
 {
+	
+
 	mngr_->setAlive(fruit, false);
+
+	auto fruits = mngr_->getEntities(ecs::grp::FRUITS);
+
+	std::cout << fruits.size() << std::endl;
+
 
 	if (noFruits()) {
 
 		// round end
+		Message roundOver;
 
-		// message end ig
+		roundOver.id = _m_ROUND_OVER;
+
+		mngr_->send(roundOver, true);
 
 	}
 
@@ -92,7 +102,9 @@ void FoodSystem::destroyFruit(ecs::entity_t fruit)
 
 bool FoodSystem::noFruits()
 {
-    return totalFruits == 0;
+	auto fruits = mngr_->getEntities(ecs::grp::FRUITS);
+
+    return fruits.size() <= 1;
 }
 
 void FoodSystem::end()

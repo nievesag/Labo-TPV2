@@ -31,7 +31,7 @@ public:
 
 private:
 	int totalFruits;
-	int maxFruits = 10;
+	int maxFruits = 20;
 
 	int cols, fils;
 

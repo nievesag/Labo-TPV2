@@ -27,12 +27,13 @@ void RunningState::enter()
 	ghostSys_ = mngr_->getSystem<GhostSystem>();
 	foodSys_ = mngr_->getSystem<FoodSystem>();
 	inmunitySys_ = mngr_->getSystem<InmunitySystem>();
+	gameCtrlSys_ = mngr_->getSystem<GameCtrlSystem>();
 
-	pacmanSys_->initSystem();
-	collisionSys_->initSystem();
-	ghostSys_->initSystem();
-	foodSys_->initSystem();
-	inmunitySys_->initSystem();
+	//pacmanSys_->initSystem();
+	//collisionSys_->initSystem();
+	//ghostSys_->initSystem();
+	//foodSys_->initSystem();
+	//inmunitySys_->initSystem();
 }
 
 void RunningState::update()
@@ -49,6 +50,7 @@ void RunningState::update()
 	ghostSys_->update();
 	foodSys_->update();
 	inmunitySys_->update();
+	gameCtrlSys_->update();
 }
 
 void RunningState::leave()
