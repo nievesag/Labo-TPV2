@@ -11,12 +11,9 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../components/IsInmuneComponent.h"
 
-PacManSystem::PacManSystem() :
-		pmTR_(nullptr) {
-}
+PacManSystem::PacManSystem() : pmTR_(nullptr) {}
 
-PacManSystem::~PacManSystem() {
-}
+PacManSystem::~PacManSystem() {}
 
 void PacManSystem::initSystem() {
 
@@ -33,7 +30,6 @@ void PacManSystem::initSystem() {
 
 	// le aniade componentes
 	pmTR_ = mngr_->addComponent<Transform>(pacman);
-	//mngr_->addComponent<Image>(pacman, &sdlutils().images().at("pacman"));
 	auto img = mngr_->addComponent<ImageWithFrames>(pacman, &sdlutils().images().at("pacman_spritesheet"), 8, 8);
 	mngr_->addComponent<LivesLeftComponent>(pacman, 3); // inicializa vidas a 3
 	mngr_->addComponent<IsInmuneComponent>(pacman, false); // inicializa a no inmune
@@ -49,7 +45,6 @@ void PacManSystem::initSystem() {
 	pmTR_->height_ = height;
 	img->setRow(0);
 	img->setColFrames(4);
-
 }
 
 void PacManSystem::update()

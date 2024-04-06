@@ -31,13 +31,14 @@ void CollisionsSystem::checkPacmanGhosts()
 	auto pTR = mngr_->getComponent<Transform>(pm);
 
 	// For safety, we traverse with a normal loop until the current size. In this
-	// particular case we could use a for-each loop since the list stars is not
-	// modified.
+	// particular case we could use a for-each loop since the list stars is not modified
 	auto& ghosts = mngr_->getEntities(ecs::grp::GHOSTS);
 	auto n = ghosts.size();
 	for (auto i = 0u; i < n; i++) {
 		auto e = ghosts[i];
-		if (mngr_->isAlive(e)) { // if the ghost is active (it might have died in this frame)
+
+		// if the ghost is active (it might have died in this frame)
+		if (mngr_->isAlive(e)) { 
 
 			// the PacMan Transform
 			auto gTR = mngr_->getComponent<Transform>(e);

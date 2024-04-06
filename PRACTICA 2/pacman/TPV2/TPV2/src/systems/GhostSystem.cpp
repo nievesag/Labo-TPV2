@@ -9,13 +9,9 @@
 #include "../sdlutils/InputHandler.h"
 #include "GameCtrlSystem.h"
 
-GhostSystem::GhostSystem()
-{
-}
+GhostSystem::GhostSystem() {}
 
-GhostSystem::~GhostSystem()
-{
-}
+GhostSystem::~GhostSystem() {}
 
 void GhostSystem::initSystem()
 {
@@ -46,10 +42,8 @@ void GhostSystem::generateGhost()
 		auto tr = mngr_->addComponent<Transform>(e);
 
 		// add an Image Component
-		//
 		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8); //mngr_->addComponent<Image>(e, &sdlutils().images().at("tennis_ball"));
 
-		
 		// image with frames setup
 		int width = 40;
 		int height = 40;
@@ -68,7 +62,6 @@ void GhostSystem::generateGhost()
 
 			img->setRow(4);
 			img->setColFrames(8);
-
 			break;
 
 		// esquina superior derecha
@@ -108,8 +101,7 @@ void GhostSystem::generateGhost()
 
 void GhostSystem::killPacman()
 {
-	//
-
+	// 
 }
 
 void GhostSystem::moveGhosts()
@@ -162,9 +154,7 @@ void GhostSystem::moveGhosts()
 void GhostSystem::resetGhosts()
 {
 	destroyGhosts();
-
 	currentGhosts_ = 0;
-
 }
 
 void GhostSystem::destroyGhosts()
@@ -172,7 +162,6 @@ void GhostSystem::destroyGhosts()
 	for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) {
 		mngr_->setAlive(g, false);
 	}
-
 }
 
 //void GhostSystem::resetGhosts()

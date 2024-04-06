@@ -13,12 +13,9 @@
 #include "../systems/FoodSystem.h"
 #include "../systems/InmunitySystem.h"
 
+RunningState::RunningState() {}
 
-RunningState::RunningState()
-{}
-
-RunningState::~RunningState()
-{}
+RunningState::~RunningState() {}
 
 void RunningState::enter()
 {
@@ -47,7 +44,4 @@ void RunningState::update()
 	gameCtrlSys_->update();
 }
 
-void RunningState::leave()
-{
-
-}
+void RunningState::leave() {}

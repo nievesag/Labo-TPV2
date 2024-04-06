@@ -79,6 +79,7 @@ void Game::init() {
 	newRoundState_ = new NewRoundState();
 	gameOverState_ = new GameOverState();
 
+	// para poder usar mngr_ desde fuera
 	pauseState_->setContext(mngr_);
 	runningState_->setContext(mngr_);
 	newGameState_->setContext(mngr_);

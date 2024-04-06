@@ -12,18 +12,14 @@
 #include "GameCtrlSystem.h"
 #include "../components/LivesLeftComponent.h"
 
-RenderSystem::RenderSystem() {
-	
+RenderSystem::RenderSystem() {}
 
-}
+RenderSystem::~RenderSystem() {}
 
-RenderSystem::~RenderSystem() {
-}
+void RenderSystem::initSystem() {}
 
-void RenderSystem::initSystem() {
-}
-
-void RenderSystem::update() {
+void RenderSystem::update()
+{
 	drawPacMan();
 	drawGhosts();
 	drawLives();
@@ -31,23 +27,15 @@ void RenderSystem::update() {
 }
 
 void RenderSystem::drawPacMan() {
-	auto e = mngr_->getHandler(ecs::hdlr::PACMAN);
-	/*auto tr = mngr_->getComponent<Transform>(e);
-	auto tex = mngr_->getComponent<Image>(e)->tex_;
-	draw(tr, tex);*/
 
+	auto e = mngr_->getHandler(ecs::hdlr::PACMAN);
 	mngr_->getComponent<ImageWithFrames>(e)->render();
 }
 
-
 void RenderSystem::drawGhosts()
 {
-	// draw stars
+	// draw ghosts
 	for (auto e : mngr_->getEntities(ecs::grp::GHOSTS)) {
-
-		/*auto tr = mngr_->getComponent<Transform>(e);
-		auto tex = mngr_->getComponent<ImageWithFrames>(e)->tex_;
-		draw(tr, tex);*/
 
 		mngr_->getComponent<ImageWithFrames>(e)->render();
 	}
@@ -61,19 +49,16 @@ void RenderSystem::drawLives()
 
 void RenderSystem::drawFruits()
 {
-	// draw stars
+	// draw fruits
 	for (auto e : mngr_->getEntities(ecs::grp::FRUITS)) {
 
-		//auto tr = mngr_->getComponent<Transform>(e);
-		//auto tex = mngr_->getComponent<Image>(e)->tex_;
-		//draw(tr, tex);
 		mngr_->getComponent<ImageWithFrames>(e)->render();
 	}
 }
 
-void RenderSystem::draw(Transform *tr, Texture *tex) {
+void RenderSystem::draw(Transform *tr, Texture *tex)
+{
 	SDL_Rect dest = build_sdlrect(tr->pos_, tr->width_, tr->height_);
-
 	assert(tex != nullptr);
 	tex->render(dest, tr->rot_);
 }

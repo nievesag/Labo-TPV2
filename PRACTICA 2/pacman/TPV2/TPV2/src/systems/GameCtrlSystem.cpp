@@ -7,15 +7,16 @@
 #include "../game/Game.h"
 #include "../sdlutils/SDLUtils.h"
 
-GameCtrlSystem::GameCtrlSystem() : score_() {}
+GameCtrlSystem::GameCtrlSystem() {}
 
 GameCtrlSystem::~GameCtrlSystem() {}
 
-void GameCtrlSystem::initSystem() { score_ = 0; }
+void GameCtrlSystem::initSystem() {}
 
 void GameCtrlSystem::update() {}
 
-void GameCtrlSystem::recieve(const Message &m) {
+void GameCtrlSystem::recieve(const Message &m)
+{
 	switch (m.id) {
 	case _m_GAME_OVER:
 		Game::instance()->setState(Game::GAMEOVER);

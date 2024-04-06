@@ -16,9 +16,7 @@ NewRoundState::NewRoundState()
 
 NewRoundState::~NewRoundState() {}
 
-void NewRoundState::enter()
-{
-}
+void NewRoundState::enter() {}
 
 void NewRoundState::update()
 {
