@@ -2,6 +2,16 @@
 
 #include "../ecs/System.h"
 
+#include <algorithm>
+#include "../components/Image.h"
+#include "../components/Points.h"
+#include "../components/StarMotion.h"
+#include "../components/Transform.h"
+#include "../ecs/Manager.h"
+#include "../sdlutils/SDLUtils.h"
+#include "../sdlutils/InputHandler.h"
+#include "GameCtrlSystem.h"
+
 class FoodSystem : public ecs::System
 {
 public:
@@ -11,4 +21,16 @@ public:
 	virtual ~FoodSystem();
 	void initSystem() override;
 	void update() override;
+
+	void setFruits();
+	void updateState();
+	void destroyFruit();
+	bool noFruits();
+	void end();
+
+private:
+	int totalFruits;
+	int maxFruits = 10;
+
+
 };
