@@ -76,8 +76,6 @@ void CollisionsSystem::checkPacmanFruit()
 	auto n = fruits.size();
 	for (auto i = 0u; i < n; i++) {
 		auto e = fruits[i];
-		auto isMiraculous = mngr_->getComponent<IsMiraculousComponent>(e);
-
 		if (mngr_->isAlive(e)) { // if the fruit is active (it might have died in this frame)
 
 			auto gTR = mngr_->getComponent<Transform>(e);
@@ -92,13 +90,13 @@ void CollisionsSystem::checkPacmanFruit()
 				m.eat_fruit_data.e = e;
 				mngr_->send(m);
 
-				if(isMiraculous->isMiraculous)
-				{
-					Message m;
-					m.id = _m_IMMUNITY_START;
-					m.eat_fruit_data.e = e;
-					mngr_->send(m);
-				}
+				//if(mngr_->getComponent<IsMiraculousComponent>(e)->isMiraculous)
+				//{
+				//	Message m;
+				//	m.id = _m_IMMUNITY_START;
+				//	m.eat_fruit_data.e = e;
+				//	mngr_->send(m);
+				//}
 			}
 		}
 	}

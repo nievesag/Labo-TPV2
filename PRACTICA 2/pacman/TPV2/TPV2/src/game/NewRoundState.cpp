@@ -45,6 +45,4 @@ void NewRoundState::update()
 	msg_->render(dest_);
 }
 
-void NewRoundState::leave()
-{
-}
+void NewRoundState::leave() {}

@@ -1,6 +1,8 @@
 #include "FoodSystem.h"
 
 #include "../ecs/Manager.h"
+#include "../game/Game.h"
+#include "../components/IsMiraculousComponent.h"
 
 FoodSystem::FoodSystem() {}
 
@@ -39,7 +41,6 @@ void FoodSystem::recieve(const Message& m)
 	}
 }
 
-// A UNA DE CADA 10 FRUTAS LE ASIGNAS EL COMPONENTE MIRACULOUS
 void FoodSystem::setFruits()
 {
 	for (int i = 0; i < cols*fils; i++ ) {
@@ -56,8 +57,14 @@ void FoodSystem::setFruits()
 		// add an Image Component
 		auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("HolaSDL"));
 
-		// miraculous ladybug
-		//
+		// A UNA DE CADA 10 FRUTAS LE ASIGNAS EL COMPONENTE MIRACULOUS
+		// add component miraculous
+		int rnd = sdlutils().rand().nextInt(0, 1000);
+
+		if (rnd < isMiraculousChance) {
+
+			mngr_->addComponent<IsMiraculousComponent>(e);
+		}
 
 		// grid
 		float cellx = (offsetX - tr->width_) / 2;	// distancia por celda en x

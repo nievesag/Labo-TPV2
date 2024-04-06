@@ -37,4 +37,7 @@ private:
 
 	int offsetX = 150;
 	int offsetY = 150;
+
+	// cuando generamos frutas, con probabilidad del 0.1 se genera una fruta milagrosa
+	int isMiraculousChance = 100;
 };
