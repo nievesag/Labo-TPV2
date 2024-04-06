@@ -25,10 +25,9 @@ void FoodSystem::setFruits()
 	//
 	auto& rand = sdlutils().rand();
 
-	if (ghostCD + lastSpawn < sdlutils().virtualTimer().currTime()
-		&& currentGhosts_ < ghostLimit_) {
+	for (int i = 0; i < 10; i++ ) {
 
-		lastSpawn = sdlutils().virtualTimer().currTime();
+		int a = sdlutils().virtualTimer().currTime();
 
 		// add and entity to the manager
 				//
