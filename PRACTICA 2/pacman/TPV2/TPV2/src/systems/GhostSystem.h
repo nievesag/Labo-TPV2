@@ -18,7 +18,10 @@ public:
 	void moveGhosts();
 
 private: 
-	int ghostLimit_ = 10;
-	int currentGhosts_ = 0;
+	int ghostLimit_;
+	int currentGhosts_;
 	int followChance = 5;
+
+	int lastSpawn;
+	int ghostCD = 2000; 
 };

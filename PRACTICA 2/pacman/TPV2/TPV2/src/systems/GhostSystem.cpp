@@ -40,10 +40,13 @@ void GhostSystem::generateGhost()
 	//
 	auto& rand = sdlutils().rand();
 
-	for (auto i = currentGhosts_; i < ghostLimit_; i++) {
+	if (ghostCD + lastSpawn < sdlutils().virtualTimer().currTime() 
+		&& currentGhosts_ < ghostLimit_) {
+
+		lastSpawn = sdlutils().virtualTimer().currTime();
 
 		// add and entity to the manager
-		//
+				//
 		auto e = mngr_->addEntity(ecs::grp::GHOSTS);
 
 		// add a Transform component, and initialise it with random size and position
@@ -53,7 +56,7 @@ void GhostSystem::generateGhost()
 		// add an Image Component
 		//
 		auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("tennis_ball"));
-		
+
 		// image with frames setup
 		//
 		int width = 40;
@@ -98,6 +101,9 @@ void GhostSystem::generateGhost()
 		currentGhosts_++;
 	}
 
+
+	
+
 }
 
 void GhostSystem::killPacman()
@@ -133,6 +139,7 @@ void GhostSystem::moveGhosts()
 
 		}
 
+		gt->pos_ = gt->pos_ + gt->vel_;
 
 		// check left/right borders
 		if (gt->pos_.getX() < 0) {
