@@ -12,4 +12,8 @@ public:
 	virtual ~CollisionsSystem();
 	void initSystem() override;
 	void update() override;
+
+	void checkCollisions();
+
+	void checkPacmanGhosts();
 };

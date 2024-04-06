@@ -38,5 +38,10 @@ struct Message {
 			unsigned int n;
 		} create_stars_data;
 
+		// _m_KILL_PACMAN
+		struct {
+			ecs::entity_t e;
+		} kill_pacman_data;
+
 	};
 };
