@@ -84,11 +84,6 @@ void FoodSystem::setFruits()
 
 		currentGhosts_++;
 	}
-
-
-
-
-
 }
 
 void FoodSystem::updateState()

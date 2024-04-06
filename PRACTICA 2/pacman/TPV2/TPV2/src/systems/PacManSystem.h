@@ -20,10 +20,7 @@ public:
 	void resetRound();
 	void resetGame();
 	void reset();
-
-	void recieve(const Message& m) override;
 	void die();
-
 
 private:
 	Transform *pmTR_;
