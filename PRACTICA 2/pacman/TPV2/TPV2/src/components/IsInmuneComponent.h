@@ -2,22 +2,22 @@
 
 #include "../ecs/Component.h"
 
-class IsInmuneComponent
+struct IsInmuneComponent : public ecs::Component
 {
 	__CMPID_DECL__(ecs::cmp::INMUNE)
 
-	IsInmuneComponent() : isInmune() {}
+	IsInmuneComponent(bool isInmune_) : isInmune(isInmune_) {}
 	virtual ~IsInmuneComponent() {}
 
 	bool isInmune;
 
-	bool getIsInmune()
-	{
-		return isInmune;
-	}
-
 	void setInmune(bool i)
 	{
 		isInmune = i;
+	}
+
+	bool getIsInmune()
+	{
+		return isInmune;
 	}
 };

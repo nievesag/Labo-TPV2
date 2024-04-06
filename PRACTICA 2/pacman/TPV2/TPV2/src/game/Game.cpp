@@ -55,11 +55,11 @@ Game::Game() :
 Game::~Game() {
 	// libera la memoria de los estados
 	// si lo descomentas de momento da error
-	/*delete pauseState_;
+	delete pauseState_;
 	delete runningState_;
 	delete newGameState_;
 	delete newRoundState_;
-	delete gameOverState_;*/
+	delete gameOverState_;
 
 	// borra el manager
 	delete mngr_;
@@ -96,11 +96,8 @@ void Game::init() {
 	gameOverState_->setContext(mngr_);
 
 	// inicializa en nuevo juego
-	currentState_ = runningState_; //newGameState_;
+	currentState_ = newGameState_;
 	runningState_->enter();
-
-	// falta lo de los mensajes
-
 }
 
 void Game::start() {

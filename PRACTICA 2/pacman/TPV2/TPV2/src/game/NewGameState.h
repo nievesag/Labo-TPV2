@@ -13,6 +13,7 @@ public:
 	void leave() override;
 	void update() override;
 	void enter() override;
+
 private:
 	Texture* msg_;
 	SDL_Rect dest_;
