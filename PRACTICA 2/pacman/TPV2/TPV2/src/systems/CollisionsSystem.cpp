@@ -90,13 +90,15 @@ void CollisionsSystem::checkPacmanFruit()
 				m.eat_fruit_data.e = e;
 				mngr_->send(m);
 
-				//if(mngr_->getComponent<IsMiraculousComponent>(e)->isMiraculous)
-				//{
-				//	Message m;
-				//	m.id = _m_IMMUNITY_START;
-				//	m.eat_fruit_data.e = e;
-				//	mngr_->send(m);
-				//}
+				if (mngr_->getComponent<IsMiraculousComponent>(e) != nullptr) {
+					if(mngr_->getComponent<IsMiraculousComponent>(e)->isMiraculous)
+					{
+						Message m;
+						m.id = _m_IMMUNITY_START;
+						m.eat_fruit_data.e = e;
+						mngr_->send(m);
+					}
+				}
 			}
 		}
 	}
