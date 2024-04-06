@@ -31,10 +31,7 @@ void FoodSystem::setFruits()
 			//
 		auto e = mngr_->addEntity(ecs::grp::FRUITS);
 
-		// add a Transform component, and initialise it with random size and position
-		//
 		auto tr = mngr_->addComponent<Transform>(e);
-
 
 		tr->width_ = 25;
 		tr->height_ = 25;
