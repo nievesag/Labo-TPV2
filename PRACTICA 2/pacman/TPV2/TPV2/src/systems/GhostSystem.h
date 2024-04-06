@@ -15,8 +15,9 @@ public:
 
 	void generateGhost();
 	void killPacman();
+	void moveGhosts();
 
 private: 
-	int ghostLimit_;
-	int currentGhosts_;
+	int ghostLimit_ = 10;
+	int currentGhosts_ = 0;
 };

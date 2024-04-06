@@ -27,32 +27,11 @@ void GhostSystem::initSystem()
 
 void GhostSystem::update()
 {
-	// no va porque no esta adaptado
-	auto currTime = sdlutils().currRealTime();
-	auto ghosts = mngr_->getEntities(ecs::grp::GHOSTS);
-	auto n = ghosts.size();
+	
+	generateGhost();
 
-	for (auto i = 0u; i < n; i++) {
-		auto tr = mngr_->getComponent<Transform>(ghosts[i]);
-		auto starmotion = mngr_->getComponent<StarMotion>(ghosts[i]);
+	moveGhosts();
 
-		if (starmotion->shouldUpdate(currTime)) {
-
-			// rotate it
-			tr->rot_ += starmotion->rot_;
-
-			// resize it
-			tr->width_ *= 0.95f;
-			tr->height_ *= 0.95f;
-
-			// check if it should die
-			if (tr->width_ < starmotion->sizeLimit_
-				|| tr->height_ < starmotion->sizeLimit_) {
-				mngr_->setAlive(ghosts[i], false);
-				currentGhosts_--;
-			}
-		}
-	}
 }
 
 void GhostSystem::generateGhost()
@@ -66,19 +45,34 @@ void GhostSystem::generateGhost()
 	//	starsLimit_ - currNumOfStars_);
 
 
-	for (auto i = 0u; i < ghostLimit_; i++) {
+	for (auto i = currentGhosts_; i < ghostLimit_; i++) {
 
 		// add and entity to the manager
 		//
 		auto e = mngr_->addEntity(ecs::grp::GHOSTS);
 
-		// add a Transform component, and initialise it with random
-		// size and position
+		// add a Transform component, and initialise it with random size and position
 		//
 		auto tr = mngr_->addComponent<Transform>(e);
-		auto s = rand.nextInt(50, 100);
-		auto x = rand.nextInt(0, sdlutils().width() - s);
-		auto y = rand.nextInt(0, sdlutils().height() - s);
+
+		int pos = sdlutils().rand().nextInt(0, 4);
+		int x, y, s;
+
+		switch (pos)
+		{
+		case 0:
+			x = 0;
+			y = 0;
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		default:
+			break;
+		}
 		tr->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 
 		// add an Image Component
@@ -106,6 +100,54 @@ void GhostSystem::killPacman()
 	//
 
 	std::cout << "MUEREEEEEEEEEEEEE" << std::endl;
+}
+
+void GhostSystem::moveGhosts()
+{
+	auto ghosts = mngr_->getEntities(ecs::grp::GHOSTS);
+
+	// recorre todos los ghosts
+	for (auto& g : ghosts) {
+
+		// coge el Transform de la entidad
+		auto gt = mngr_->getComponent<Transform>(g);
+
+		// probabilidad random de que se actualice el vector
+		int prob = sdlutils().rand().nextInt(1, 500);
+
+		if (prob == 1) {
+
+			// coge el transform del pacman
+			auto PM = mngr_->getHandler(ecs::hdlr::PACMAN);
+			auto posPM = mngr_->getComponent<Transform>(PM);
+
+			// modifica la velocidad del ghost con respecto de la del pacman
+			gt->vel_ = (posPM->pos_ - gt->pos_).normalize() * 1.1f;
+
+		}
+
+
+		// check left/right borders
+		if (gt->pos_.getX() < 0) {
+			gt->pos_.setX(0.0f);
+			gt->vel_.set(0.0f, 0.0f);
+		}
+		else if (gt->pos_.getX() + gt->width_ > sdlutils().width()) {
+			gt->pos_.setX(sdlutils().width() - gt->width_);
+			gt->vel_.set(0.0f, 0.0f);
+		}
+
+		// check upper/lower borders
+		if (gt->pos_.getY() < 0) {
+			gt->pos_.setY(0.0f);
+			gt->vel_.set(0.0f, 0.0f);
+		}
+		else if (gt->pos_.getY() + gt->height_ > sdlutils().height()) {
+			gt->pos_.setY(sdlutils().height() - gt->height_);
+			gt->vel_.set(0.0f, 0.0f);
+		}
+		
+	}
 }
 
 void GhostSystem::recieve(const Message& m)
