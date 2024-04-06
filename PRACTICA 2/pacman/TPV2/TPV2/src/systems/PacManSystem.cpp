@@ -162,15 +162,22 @@ void PacManSystem::recieve(const Message& m)
 
 void PacManSystem::die()
 {
-	// round end
+	mngr_->getComponent<LivesLeftComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->updateLives(-1);
+
 	Message gameOver;
 
-	gameOver.id = _m_GAME_OVER;
-
+	// si aun quedan vidas
+	if(mngr_->getComponent<LivesLeftComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->livesLeft_ > 0)
+	{
+		gameOver.id = _m_ROUND_OVER;
+	}
+	else
+	{
+		gameOver.id = _m_GAME_OVER;
+	}
 	mngr_->send(gameOver, true);
 
 	stopSound();
-
 	sdlutils().soundEffects().at("death").play();
 }
 
