@@ -39,6 +39,7 @@ void FoodSystem::recieve(const Message& m)
 	}
 }
 
+// A UNA DE CADA 10 FRUTAS LE ASIGNAS EL COMPONENTE MIRACULOUS
 void FoodSystem::setFruits()
 {
 	for (int i = 0; i < cols*fils; i++ ) {
