@@ -51,6 +51,7 @@ void GhostSystem::generateGhost()
 		//
 		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8); //mngr_->addComponent<Image>(e, &sdlutils().images().at("tennis_ball"));
 
+		
 
 		// image with frames setup
 		int width = 40;
@@ -67,24 +68,37 @@ void GhostSystem::generateGhost()
 		case 0:
 			tr->pos_.setX(0);
 			tr->pos_.setY(0);
+
+			img->setRow(4);
+			img->setColFrames(8);
+
 			break;
 
 		// esquina superior derecha
 		case 1:
 			tr->pos_.setX(0);
 			tr->pos_.setY(sdlutils().height() - height);	// - height
+
+			img->setRow(5);
+			img->setColFrames(8);
 			break;
 
 		// esquina inferior izquierda
 		case 2:
 			tr->pos_.setX(sdlutils().width() - width);	// - width
 			tr->pos_.setY(0);
+
+			img->setRow(6);
+			img->setColFrames(8);
 			break;
 
 		case 3:
 			// esquina inferior derecha
 			tr->pos_.setX(sdlutils().width() - width);	// - width
 			tr->pos_.setY(sdlutils().height() - height);	// - height
+
+			img->setRow(7);
+			img->setColFrames(8);
 			break;
 
 		default:

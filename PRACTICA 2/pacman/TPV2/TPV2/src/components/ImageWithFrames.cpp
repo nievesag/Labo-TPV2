@@ -22,6 +22,7 @@ ImageWithFrames::ImageWithFrames(Texture *tex, int rows, int cols) :
 
 	ncol_ = cols;
 	nrow_ = rows;
+
 }
 
 ImageWithFrames::~ImageWithFrames() {
@@ -37,22 +38,19 @@ void ImageWithFrames::render() {
 	if (sdlutils().virtualTimer().currTime() > lastFrameChange_ + 50) {
 		lastFrameChange_ = sdlutils().virtualTimer().currTime();
 		currFrameC_ = (currFrameC_ + 1) % ncol_;
-		if (currFrameC_ == 0)
-			currFrameR_ = (currFrameR_ + 1) % nrow_;
 	}
 
-	int r = (currFrameR_ + srow_);
-	int c = (currFrameC_ + scol_);
-	
-	
-	auto src = build_sdlrect(c * frameWidth_ + x_, r * frameHeight_ + y_, w_,
-			h_);
+	int c = (currFrameC_ % ncol_);
+	//							lados				altura
+	auto src = build_sdlrect(c * frameWidth_, currFrameR_ * frameHeight_, frameWidth_, frameHeight_);
 
 	auto dest = build_sdlrect(tr_->getPos(), tr_->getWidth(), tr_->getHeight());
 
-	//tex_->render(src, dest, tr_->getRot());
+	tex_->render(src, dest, tr_->getRot());
 
-	tex_->render(build_sdlrect((currFrameC_ % ncol_) * frameWidth_, (currFrameC_ / ncol_) * frameHeight_, frameWidth_, frameHeight_),
-		build_sdlrect(tr_->getPos(), tr_->getWidth(), tr_->getHeight()), tr_->getRot());
+}
 
+void ImageWithFrames::setColFrames(int rows)
+{
+	nrow_ = rows;
 }

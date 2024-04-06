@@ -19,6 +19,9 @@ public:
 	void initComponent() override;
 	void render() override;
 
+	void setRow(int row) { currFrameR_ = row; }
+	void setColFrames(int rows);
+
 private:
 	Texture *tex_;
 	Transform *tr_;
