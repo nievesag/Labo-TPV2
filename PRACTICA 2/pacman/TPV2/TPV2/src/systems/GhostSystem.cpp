@@ -161,6 +161,22 @@ void GhostSystem::moveGhosts()
 	}
 }
 
+void GhostSystem::resetGhosts()
+{
+	destroyGhosts();
+
+	currentGhosts_ = 0;
+
+}
+
+void GhostSystem::destroyGhosts()
+{
+	for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) {
+		mngr_->setAlive(g, false);
+	}
+
+}
+
 //void GhostSystem::resetGhosts()
 //{
 //	// reset de contador y los borra(?
@@ -174,11 +190,11 @@ void GhostSystem::recieve(const Message& m)
 		break;
 
 	case _m_ROUND_START:
-		//resetGhosts(); // resetea contador de generacion de fantasmas
+		resetGhosts(); // resetea contador de generacion de fantasmas
 		break;
 
 	case _m_NEW_GAME:
-		//resetGhosts(); // resetea contador de generacion de fantasmas
+		resetGhosts(); // resetea contador de generacion de fantasmas
 		break;
 
 	default:

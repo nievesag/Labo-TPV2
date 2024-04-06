@@ -91,12 +91,25 @@ void FoodSystem::destroyFruit(ecs::entity_t fruit)
 
 	if (noFruits()) {
 
+
+		// round end
+		Message wonGame;
+
+		wonGame.id = _m_WIN_GAME;
+
+		mngr_->send(wonGame, true);
+
 		// round end
 		Message roundOver;
 
 		roundOver.id = _m_ROUND_OVER;
 
 		mngr_->send(roundOver, true);
+
+
+
+
+		
 	}
 }
 

@@ -155,6 +155,10 @@ void PacManSystem::recieve(const Message& m)
 		mngr_->getComponent<IsInmuneComponent>(pacman)->setInmune(false);
 		break;
 
+	case _m_ROUND_OVER:
+		stopSound();
+		sdlutils().soundEffects().at("won").play();
+		break;
 	default:
 		break;
 	}

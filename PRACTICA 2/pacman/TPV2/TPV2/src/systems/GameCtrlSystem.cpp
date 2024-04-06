@@ -7,6 +7,7 @@
 #include "../sdlutils/InputHandler.h"
 #include "StarsSystem.h"
 #include "../game/Game.h"
+#include "../sdlutils/SDLUtils.h"
 
 GameCtrlSystem::GameCtrlSystem() :
 		score_() {
@@ -32,6 +33,9 @@ void GameCtrlSystem::recieve(const Message &m) {
 		break;
 	case _m_ROUND_OVER:
 		Game::instance()->setState(Game::NEWROUND);
+		break;
+	case _m_WIN_GAME:
+		sdlutils().soundEffects().at("won").play();
 		break;
 
 	default:

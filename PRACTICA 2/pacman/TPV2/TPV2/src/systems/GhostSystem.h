@@ -17,6 +17,7 @@ public:
 	void killPacman();
 	void moveGhosts();
 	void resetGhosts();
+	void destroyGhosts();
 
 private: 
 	int ghostLimit_;

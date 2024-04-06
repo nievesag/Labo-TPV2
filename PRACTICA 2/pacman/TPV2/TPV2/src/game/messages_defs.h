@@ -10,6 +10,7 @@ enum msgId : msgId_type {
 	_m_CREATE_STARS, 
 	_m_KILL_PACMAN,
 	_m_EAT_FRUIT,	
+	_m_WIN_GAME,	
 	_m_NEW_GAME,
 	_m_GAME_OVER,
 	_m_ROUND_START,
