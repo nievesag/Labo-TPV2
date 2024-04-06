@@ -2,27 +2,16 @@
 
 #include "GameCtrlSystem.h"
 
-#include "../components/Points.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/InputHandler.h"
-#include "StarsSystem.h"
 #include "../game/Game.h"
 #include "../sdlutils/SDLUtils.h"
 
-GameCtrlSystem::GameCtrlSystem() :
-		score_() {
-	// TODO Auto-generated constructor stub
-	
+GameCtrlSystem::GameCtrlSystem() : score_() {}
 
-}
+GameCtrlSystem::~GameCtrlSystem() {}
 
-GameCtrlSystem::~GameCtrlSystem() {
-	// TODO Auto-generated destructor stub
-}
-
-void GameCtrlSystem::initSystem() {
-	score_ = 0;
-}
+void GameCtrlSystem::initSystem() { score_ = 0; }
 
 void GameCtrlSystem::update() {}
 
@@ -31,9 +20,11 @@ void GameCtrlSystem::recieve(const Message &m) {
 	case _m_GAME_OVER:
 		Game::instance()->setState(Game::GAMEOVER);
 		break;
+
 	case _m_ROUND_OVER:
 		Game::instance()->setState(Game::NEWROUND);
 		break;
+
 	case _m_WIN_GAME:
 		sdlutils().soundEffects().at("won").play();
 		break;

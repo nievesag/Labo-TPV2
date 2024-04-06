@@ -28,6 +28,4 @@ private:
 	Transform *pmTR_;
 	int lives;
 	bool playing = false;
-
-	ecs::entity_t pacman;
 };

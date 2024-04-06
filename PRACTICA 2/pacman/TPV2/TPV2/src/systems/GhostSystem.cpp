@@ -3,8 +3,6 @@
 #include <algorithm>
 #include "../components/Image.h"
 #include "../components/ImageWithFrames.h"
-#include "../components/Points.h"
-#include "../components/StarMotion.h"
 #include "../components/Transform.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/SDLUtils.h"

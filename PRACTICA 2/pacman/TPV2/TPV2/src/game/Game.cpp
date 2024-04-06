@@ -35,15 +35,6 @@ Game::Game() :
 		// input handler
 		ihdlr(ih()),
 
-		// systems
-		//pacmanSys_(), 
-		//renderSys_(), 
-		//collisionSys_(),
-		//ghostSys_(),
-		//foodSys_(),
-		//inmunitySys_(),
-		//gamectrlSys_(),
-
 		// game states
 		pauseState_(nullptr), 
 		runningState_(nullptr), 
@@ -54,7 +45,6 @@ Game::Game() :
 
 Game::~Game() {
 	// libera la memoria de los estados
-	// si lo descomentas de momento da error
 	delete pauseState_;
 	delete runningState_;
 	delete newGameState_;
@@ -133,7 +123,6 @@ void Game::start() {
 
 		// flush del manager para enviar mensajes pendientes
 		// (si usas el mecanismo de enviar mensajes con delay)
-		// -> sinceramente no se si hace falta porq creo q no tienen delay(?
 		mngr_->flushMessages();
 
 		// refresh del manager (elimina entidades)

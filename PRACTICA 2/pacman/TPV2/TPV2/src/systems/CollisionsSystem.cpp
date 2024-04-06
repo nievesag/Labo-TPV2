@@ -7,42 +7,32 @@
 #include "../utils/Collisions.h"
 #include "../components/IsMiraculousComponent.h"
 
-CollisionsSystem::CollisionsSystem() {
-	// TODO Auto-generated constructor stub
+CollisionsSystem::CollisionsSystem() {}
 
-}
+CollisionsSystem::~CollisionsSystem() {}
 
-CollisionsSystem::~CollisionsSystem() {
-	// TODO Auto-generated destructor stub
-}
+void CollisionsSystem::initSystem() {}
 
-void CollisionsSystem::initSystem() {
-}
-
-void CollisionsSystem::update() {
-
+void CollisionsSystem::update()
+{
 	checkCollisions();
-
 }
 
 void CollisionsSystem::checkCollisions()
 {
 	checkPacmanGhosts();
 	checkPacmanFruit();
-
 }
 
 void CollisionsSystem::checkPacmanGhosts()
 {
 	// the PacMan's Transform
-	//
 	auto pm = mngr_->getHandler(ecs::hdlr::PACMAN);
 	auto pTR = mngr_->getComponent<Transform>(pm);
 
 	// For safety, we traverse with a normal loop until the current size. In this
 	// particular case we could use a for-each loop since the list stars is not
 	// modified.
-	//
 	auto& ghosts = mngr_->getEntities(ecs::grp::GHOSTS);
 	auto n = ghosts.size();
 	for (auto i = 0u; i < n; i++) {

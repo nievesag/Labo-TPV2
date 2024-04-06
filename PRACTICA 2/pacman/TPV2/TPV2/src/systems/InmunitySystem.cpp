@@ -13,7 +13,6 @@ void InmunitySystem::initSystem() {
 	// coge la primera entidad del vector de entidades de tipo PACMAN
 	auto pacmanvec = mngr_->getEntities(ecs::hdlr::PACMAN);
 	pacman = *pacmanvec.begin();
-
 }
 
 void InmunitySystem::update()

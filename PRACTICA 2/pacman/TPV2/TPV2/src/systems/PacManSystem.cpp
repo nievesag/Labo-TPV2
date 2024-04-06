@@ -132,7 +132,7 @@ void PacManSystem::update()
 void PacManSystem::resetGame()
 {
 	// vidas
-	auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(pacman);
+	auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(mngr_->getHandler(ecs::hdlr::PACMAN));
 	livesLeftComponent->resetLives();
 }
 
@@ -152,13 +152,14 @@ void PacManSystem::recieve(const Message& m)
 		break;
 
 	case _m_IMMUNITY_END:
-		mngr_->getComponent<IsInmuneComponent>(pacman)->setInmune(false);
+		mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->setInmune(false);
 		break;
 
 	case _m_ROUND_OVER:
 		stopSound();
 		sdlutils().soundEffects().at("won").play();
 		break;
+
 	default:
 		break;
 	}

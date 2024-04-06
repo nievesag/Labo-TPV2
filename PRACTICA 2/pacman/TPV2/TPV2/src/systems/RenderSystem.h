@@ -17,9 +17,7 @@ public:
 	void update() override;
 
 private:
-	void drawStars();
 	void drawPacMan();
-	void drawMsgs();
 	void drawGhosts();
 	void drawLives();
 	void drawFruits();
