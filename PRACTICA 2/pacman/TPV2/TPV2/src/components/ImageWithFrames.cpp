@@ -50,7 +50,8 @@ void ImageWithFrames::render() {
 
 }
 
-void ImageWithFrames::setColFrames(int rows)
+void ImageWithFrames::setColFrames(int col)
 {
-	nrow_ = rows;
+	ncol_ = col;
+
 }
