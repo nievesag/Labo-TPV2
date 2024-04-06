@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "../components/Image.h"
+#include "../components/ImageWithFrames.h"
 #include "../components/Points.h"
 #include "../components/StarMotion.h"
 #include "../components/Transform.h"
@@ -55,7 +56,7 @@ void GhostSystem::generateGhost()
 
 		// add an Image Component
 		//
-		auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("tennis_ball"));
+		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8); //mngr_->addComponent<Image>(e, &sdlutils().images().at("tennis_ball"));
 
 		// image with frames setup
 		//

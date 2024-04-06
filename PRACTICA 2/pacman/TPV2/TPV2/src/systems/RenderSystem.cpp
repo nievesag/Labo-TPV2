@@ -3,6 +3,7 @@
 #include "RenderSystem.h"
 
 #include "../components/Image.h"
+#include "../components/ImageWithFrames.h"
 #include "../components/Transform.h"
 #include "../ecs/Manager.h"
 #include "../sdlutils/macros.h"
@@ -73,9 +74,11 @@ void RenderSystem::drawGhosts()
 	// draw stars
 	for (auto e : mngr_->getEntities(ecs::grp::GHOSTS)) {
 
-		auto tr = mngr_->getComponent<Transform>(e);
-		auto tex = mngr_->getComponent<Image>(e)->tex_;
-		draw(tr, tex);
+		/*auto tr = mngr_->getComponent<Transform>(e);
+		auto tex = mngr_->getComponent<ImageWithFrames>(e)->tex_;
+		draw(tr, tex);*/
+
+		mngr_->getComponent<ImageWithFrames>(e)->render();
 	}
 }
 

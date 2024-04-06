@@ -11,7 +11,8 @@
 	POINTS, \
 	LIFES, \
 	INMUNE, \
-	MIRACULOUS
+	MIRACULOUS, \
+	IMAGEWITHFRAMES
 
 // Groups list - must have at least one element
 //

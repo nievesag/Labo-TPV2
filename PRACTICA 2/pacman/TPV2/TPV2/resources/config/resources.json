@@ -42,6 +42,10 @@
     {
       "id": "HolaSDL",
       "file": "resources/images/SDL_Logo.png"
+    },
+    {
+      "id": "pacman_spritesheet",
+      "file": "resources/images/pacman_sprites.png"
     }
   ],
 

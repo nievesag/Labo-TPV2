@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components\Image.h" />
+    <ClInclude Include="src\components\ImageWithFrames.h" />
     <ClInclude Include="src\components\IsInmuneComponent.h" />
     <ClInclude Include="src\components\IsMiraculousComponent.h" />
     <ClInclude Include="src\components\LivesLeftComponent.h" />
@@ -72,6 +73,7 @@
     <ClInclude Include="src\utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\ImageWithFrames.cpp" />
     <ClCompile Include="src\components\IsMiraculousComponent.cpp" />
     <ClCompile Include="src\components\LivesLeftComponent.cpp" />
     <ClCompile Include="src\ecs\Manager.cpp" />

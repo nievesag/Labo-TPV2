@@ -32,6 +32,43 @@ struct Transform: public ecs::Component {
 		pos_ = pos_ + vel_;
 	}
 
+
+	Vector2D& getPos() {
+		return pos_;
+	}
+	Vector2D& getVel() {
+		return vel_;
+	}
+	void setPos(Vector2D pos) {
+		pos_ = pos;
+	}
+
+	float getWidth() {
+		return width_;
+	}
+
+	void setWidth(float w) {
+		width_ = w;
+	}
+
+	float getHeight() {
+		return height_;
+	}
+
+	void setHeight(float h) {
+		height_ = h;
+	}
+
+	float getRot() {
+		return rot_;
+	}
+
+	void setRot(float r) {
+		rot_ = r;
+	}
+
+
+
 	Vector2D pos_;
 	Vector2D vel_;
 	float width_;
