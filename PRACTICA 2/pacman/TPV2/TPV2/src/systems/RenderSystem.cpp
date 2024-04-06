@@ -28,6 +28,7 @@ void RenderSystem::update() {
 	drawPacMan();
 	drawGhosts();
 	drawLives();
+	drawFruits();
 }
 
 void RenderSystem::drawStars() {
@@ -82,6 +83,17 @@ void RenderSystem::drawLives()
 {
 	auto e = mngr_->getHandler(ecs::hdlr::PACMAN);
 	mngr_->getComponent<LivesLeftComponent>(e)->render();
+}
+
+void RenderSystem::drawFruits()
+{
+	// draw stars
+	for (auto e : mngr_->getEntities(ecs::grp::FRUITS)) {
+
+		auto tr = mngr_->getComponent<Transform>(e);
+		auto tex = mngr_->getComponent<Image>(e)->tex_;
+		draw(tr, tex);
+	}
 }
 
 void RenderSystem::draw(Transform *tr, Texture *tex) {

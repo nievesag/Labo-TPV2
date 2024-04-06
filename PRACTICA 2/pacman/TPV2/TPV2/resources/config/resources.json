@@ -38,6 +38,10 @@
     {
       "id": "heart",
       "file": "resources/images/heart.png"
+    },
+    {
+      "id": "HolaSDL",
+      "file": "resources/images/SDL_Logo.png"
     }
   ],
 

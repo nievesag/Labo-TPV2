@@ -12,6 +12,10 @@ FoodSystem::~FoodSystem()
 
 void FoodSystem::initSystem()
 {
+	cols = 5;
+	fils = 4;
+
+	setFruits();
 }
 
 void FoodSystem::update()
@@ -21,68 +25,35 @@ void FoodSystem::update()
 void FoodSystem::setFruits()
 {
 
-	// Always use the random number generator provided by SDLUtils
-	//
-	auto& rand = sdlutils().rand();
-
-	for (int i = 0; i < 10; i++ ) {
-
-		int a = sdlutils().virtualTimer().currTime();
+	for (int i = 0; i < cols*fils; i++ ) {
 
 		// add and entity to the manager
-				//
-		auto e = mngr_->addEntity(ecs::grp::GHOSTS);
+			//
+		auto e = mngr_->addEntity(ecs::grp::FRUITS);
 
 		// add a Transform component, and initialise it with random size and position
 		//
 		auto tr = mngr_->addComponent<Transform>(e);
 
+
+		tr->width_ = 25;
+		tr->height_ = 25;
+
 		// add an Image Component
 		//
-		auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("tennis_ball"));
+		auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("HolaSDL"));
 
-		// image with frames setup
+		// miraculous ladybug
 		//
-		int width = 40;
-		int height = 40;
 
-		tr->width_ = width;
-		tr->height_ = height;
 
-		int pos = sdlutils().rand().nextInt(0, 4);
+		// grid
+		float cellx = (offsetX - tr->width_) / 2;	// distancia por celda en x
+		float celly = (offsetY - tr->height_) / 2;	// distancia por celda en y
 
-		switch (pos)
-		{
-		case 0:
-			// esquina superior izq 
-
-			tr->pos_.setX(0);
-			tr->pos_.setY(0);
-
-			break;
-		case 1:
-			// esquina superior derecha
-
-			tr->pos_.setX(0);
-			tr->pos_.setY(sdlutils().height() - height);	// - height
-			break;
-		case 2:
-			// esquina inferior izquierda
-
-			tr->pos_.setX(sdlutils().width() - width);	// - width
-			tr->pos_.setY(0);
-			break;
-		case 3:
-			// esquina inferior derecha
-
-			tr->pos_.setX(sdlutils().width() - width);	// - width
-			tr->pos_.setY(sdlutils().height() - height);	// - height
-			break;
-		default:
-			break;
-		}
-
-		currentGhosts_++;
+		tr->pos_.set(cellx + (offsetX * (i % cols)),	// posicion de la celda en x
+					 celly + (offsetY * (i / cols)));	// posicion de la celda en y
+		
 	}
 }
 

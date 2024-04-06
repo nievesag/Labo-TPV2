@@ -22,5 +22,6 @@ private:
 	void drawMsgs();
 	void drawGhosts();
 	void drawLives();
+	void drawFruits();
 	void draw(Transform *tr, Texture *tex);
 };

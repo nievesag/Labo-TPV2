@@ -32,5 +32,9 @@ private:
 	int totalFruits;
 	int maxFruits = 10;
 
+	int cols, fils;
+
+	int offsetX = 150;
+	int offsetY = 150;
 
 };
