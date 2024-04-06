@@ -15,6 +15,8 @@ struct IsMiraculousComponent : public ecs::Component
 	// gestiona la trasformacion a la miraculousidad
 	void MiraculousTransformation();
 
+	void resetIsMiraculous();
+
 	// frecuencia N -> una fruta milagrosa se convierte en milagrosa cada N segundos
 	uint32_t minNFrecuency = 10000; // 10 segundos
 	uint32_t maxNFrecuency = 20000; // 20 segundos

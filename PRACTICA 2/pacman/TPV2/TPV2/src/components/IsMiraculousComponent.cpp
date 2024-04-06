@@ -3,10 +3,17 @@
 
 IsMiraculousComponent::IsMiraculousComponent()
 {
+	minNFrecuency = 10000; // 10 segundos
+	maxNFrecuency = 20000; // 20 segundos
+
+	// duracion M -> queda en estado milagroso durante M segundo
+	minMDuration = 1000; // 1 segundo
+	maxMDuration = 5000; // 5 segundos
+
 	// inicializa la N frecuency
 	NFrecuency = sdlutils().rand().nextInt(minNFrecuency, maxNFrecuency);
 
-	// lo resetea tiempo y tipo de fruta
+	// inicializa variables miembro
 	timeOfActivation = sdlutils().virtualTimer().currTime();
 	isMiraculous = false;
 }
@@ -23,4 +30,10 @@ void IsMiraculousComponent::MiraculousTransformation()
 
 	// es miraculousa a true
 	isMiraculous = true;
+}
+
+void IsMiraculousComponent::resetIsMiraculous()
+{
+	// es miraculousa a false
+	isMiraculous = false;
 }

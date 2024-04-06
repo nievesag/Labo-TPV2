@@ -24,10 +24,10 @@ public:
 	void recieve(const Message& m) override;
 
 	void setFruits();
-	void updateState();
 	void destroyFruit(ecs::entity_t fruit);
 	bool noFruits();
 	void resetFruits();
+	void miraculousFruitManager();
 
 private:
 	int totalFruits;

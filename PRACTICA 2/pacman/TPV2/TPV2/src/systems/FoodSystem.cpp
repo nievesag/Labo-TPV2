@@ -13,13 +13,12 @@ void FoodSystem::initSystem()
 {
 	cols = 5;
 	fils = 4;
-
 	setFruits();
 }
 
-void FoodSystem::update()
+void FoodSystem::update() 
 {
-
+	miraculousFruitManager();
 }
 
 void FoodSystem::recieve(const Message& m)
@@ -47,7 +46,6 @@ void FoodSystem::setFruits()
 	for (int i = 0; i < cols*fils; i++ ) {
 
 		// add and entity to the manager
-	
 		auto e = mngr_->addEntity(ecs::grp::FRUITS);
 
 		auto tr = mngr_->addComponent<Transform>(e);
@@ -56,9 +54,8 @@ void FoodSystem::setFruits()
 		tr->height_ = 25;
 
 		// add an Image Component
-		//auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("HolaSDL"));
+		// auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("HolaSDL"));
 		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8);
-
 
 		// A UNA DE CADA 10 FRUTAS LE ASIGNAS EL COMPONENTE MIRACULOUS
 		// add component miraculous
@@ -84,11 +81,6 @@ void FoodSystem::setFruits()
 	}
 }
 
-void FoodSystem::updateState()
-{
-
-}
-
 void FoodSystem::destroyFruit(ecs::entity_t fruit)
 {
 	mngr_->setAlive(fruit, false);
@@ -98,30 +90,21 @@ void FoodSystem::destroyFruit(ecs::entity_t fruit)
 	std::cout << fruits.size() << std::endl;
 
 	if (noFruits()) {
-
-
 		// round end
 		Message wonGame;
-
 		wonGame.id = _m_WIN_GAME;
-
 		mngr_->send(wonGame, true);
 
 		// round end
 		Message roundOver;
-
 		roundOver.id = _m_ROUND_OVER;
-
 		mngr_->send(roundOver, true);
-
-		
 	}
 }
 
 bool FoodSystem::noFruits()
 {
 	auto fruits = mngr_->getEntities(ecs::grp::FRUITS);
-
     return fruits.size() <= 1;
 }
 
@@ -133,5 +116,49 @@ void FoodSystem::resetFruits()
 	}
 
 	setFruits();
+}
 
+void FoodSystem::miraculousFruitManager()
+{
+	// recorre el grupo de todas las frutas y actualiza las miraculousas
+	for (auto& e : mngr_->getEntities(ecs::grp::FRUITS)) {
+
+		// coge el componente de miracoulosidad de la fruta
+		auto miracleCmp = mngr_->getComponent<IsMiraculousComponent>(e);
+
+		// para cambiar la imagen a PERA
+		auto img = mngr_->getComponent<Image>(e);
+
+		// si tiene el componente (solo lo tienen ciertas frutas)
+		if (miracleCmp != nullptr) {
+
+			// si isMiraculous true
+			if (miracleCmp->isMiraculous) 
+			{
+				// si el momento en el que se activo + la duracion max es menor que current time ->
+				// se acabo el tiempo de miracoulosidad
+				if (miracleCmp->timeOfActivation + miracleCmp->MDuration < sdlutils().virtualTimer().currTime()) {
+
+					// deja de ser milagrosa
+					miracleCmp->resetIsMiraculous();
+
+					// poner imagen normal
+				}
+			}
+
+			// si isMiraculous true
+			else 
+			{
+				// si el momento en el que se activo + la frecuencia de spawneo max es menor que el tiempo actual ->
+				// toca transformar fruta en milagrosa
+				if (miracleCmp->timeOfActivation + miracleCmp->NFrecuency < sdlutils().virtualTimer().currTime()) {
+
+					// activa la transformacion en esa fruta
+					miracleCmp->MiraculousTransformation();
+
+					// poner imagen milagrosa
+				}
+			}
+		}
+	}
 }
