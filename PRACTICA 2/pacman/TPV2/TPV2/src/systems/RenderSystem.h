@@ -21,5 +21,6 @@ private:
 	void drawPacMan();
 	void drawMsgs();
 	void drawGhosts();
+	void drawLives();
 	void draw(Transform *tr, Texture *tex);
 };

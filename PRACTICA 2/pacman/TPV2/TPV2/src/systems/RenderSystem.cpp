@@ -9,6 +9,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/Texture.h"
 #include "GameCtrlSystem.h"
+#include "../components/LivesLeftComponent.h"
 
 RenderSystem::RenderSystem() {
 	
@@ -26,6 +27,7 @@ void RenderSystem::update() {
 	drawStars();
 	drawPacMan();
 	drawGhosts();
+	drawLives();
 }
 
 void RenderSystem::drawStars() {
@@ -43,9 +45,7 @@ void RenderSystem::drawPacMan() {
 	auto tr = mngr_->getComponent<Transform>(e);
 	auto tex = mngr_->getComponent<Image>(e)->tex_;
 	draw(tr, tex);
-
 }
-
 
 void RenderSystem::drawMsgs() {
 	// draw the score
@@ -65,7 +65,6 @@ void RenderSystem::drawMsgs() {
 
 	// draw add stars message
 	sdlutils().msgs().at("addstars").render(10, 10);
-
 }
 
 void RenderSystem::drawGhosts()
@@ -77,6 +76,12 @@ void RenderSystem::drawGhosts()
 		auto tex = mngr_->getComponent<Image>(e)->tex_;
 		draw(tr, tex);
 	}
+}
+
+void RenderSystem::drawLives()
+{
+	auto e = mngr_->getHandler(ecs::hdlr::PACMAN);
+	mngr_->getComponent<LivesLeftComponent>(e)->render();
 }
 
 void RenderSystem::draw(Transform *tr, Texture *tex) {
