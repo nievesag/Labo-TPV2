@@ -4,14 +4,14 @@ InmunitySystem::InmunitySystem()
 {
 }
 
-InmunitySystem::~InmunitySystem()
-{
-}
+InmunitySystem::~InmunitySystem() {}
 
 void InmunitySystem::initSystem()
 {
+
 }
 
 void InmunitySystem::update()
 {
+
 }
