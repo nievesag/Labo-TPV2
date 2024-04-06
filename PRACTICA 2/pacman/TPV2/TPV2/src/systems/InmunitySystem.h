@@ -9,6 +9,14 @@ public:
 
 	InmunitySystem();
 	virtual ~InmunitySystem();
+
 	void initSystem() override;
 	void update() override;
+	void recieve(const Message& m) override;
+
+private:
+	uint32_t maxInmunityDuration = 10000;
+	uint32_t timeOfActivation;
+
+	ecs::entity_t pacman;
 };

@@ -135,6 +135,11 @@ void PacManSystem::recieve(const Message& m)
 
 	case _m_NEW_GAME:
 		resetGame();
+		break;
+
+	case _m_IMMUNITY_END:
+		mngr_->getComponent<IsInmuneComponent>(pacman)->setInmune(false);
+		break;
 
 	default:
 		break;
