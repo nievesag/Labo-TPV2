@@ -46,13 +46,13 @@ void CollisionsSystem::checkPacmanGhosts()
 	auto n = ghosts.size();
 	for (auto i = 0u; i < n; i++) {
 		auto e = ghosts[i];
-		if (mngr_->isAlive(e)) { // if the star is active (it might have died in this frame)
+		if (mngr_->isAlive(e)) { // if the ghost is active (it might have died in this frame)
 
 			// the Star's Transform
 			//
 			auto gTR = mngr_->getComponent<Transform>(e);
 
-			// check if PacMan collides with the Star (i.e., eat it)
+			// check if PacMan collides with the ghost 
 			if (Collisions::collides(			//
 				pTR->pos_, pTR->width_, pTR->height_, //
 				gTR->pos_, gTR->width_, gTR->height_)) {
