@@ -16,4 +16,5 @@ public:
 	void checkCollisions();
 
 	void checkPacmanGhosts();
+	void checkPacmanFruit();
 };

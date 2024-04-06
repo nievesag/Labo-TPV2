@@ -9,6 +9,7 @@ enum msgId : msgId_type {
 	_m_STAR_EATEN, 
 	_m_CREATE_STARS, 
 	_m_KILL_PACMAN,
+	_m_EAT_FRUIT,	
 	_m_NEW_GAME,
 	_m_GAME_OVER,
 	_m_ROUND_START,
@@ -42,6 +43,11 @@ struct Message {
 		struct {
 			ecs::entity_t e;
 		} kill_pacman_data;
+
+		// _m_EAT_FRUIT
+		struct {
+			ecs::entity_t e;
+		} eat_fruit_data;
 
 	};
 };
