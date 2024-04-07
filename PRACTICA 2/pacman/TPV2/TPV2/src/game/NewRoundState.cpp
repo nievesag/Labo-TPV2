@@ -25,6 +25,7 @@ void NewRoundState::enter()
 void NewRoundState::update()
 {
 	// si se pulsa enter pasa a estado running y envia mensaje
+
 	if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_RETURN)) {
 
 		Game::instance()->setState(Game::RUNNING);

@@ -154,12 +154,13 @@ void PacManSystem::recieve(const Message& m)
 		break;
 	case _m_ROUND_OVER:
 		stopSound();
-		sdlutils().soundEffects().at("won").play();
 		break;
 	case _m_PAUSE_GAME:
 		stopSound();
 		break;
-
+	case _m_WIN_GAME:
+		stopSound();
+		break;
 	default:
 		break;
 	}

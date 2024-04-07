@@ -21,6 +21,8 @@ void GameOverState::enter()
 	{
 		// guarda la textura correspondiente al menu de victoria
 		msg_ = &sdlutils().msgs().at("game_over_win");
+
+		sdlutils().soundEffects().at("won").play();
 	}
 	else
 	{

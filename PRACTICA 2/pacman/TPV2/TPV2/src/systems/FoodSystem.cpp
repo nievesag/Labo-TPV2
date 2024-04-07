@@ -11,8 +11,8 @@ FoodSystem::~FoodSystem() {}
 
 void FoodSystem::initSystem()
 {
-	cols = 5;
-	fils = 4;
+	cols = 2;	// 5
+	fils = 2;	// 4
 	setFruits();
 }
 
@@ -95,10 +95,10 @@ void FoodSystem::destroyFruit(ecs::entity_t fruit)
 		wonGame.id = _m_WIN_GAME;
 		mngr_->send(wonGame, true);
 
-		// round end
-		Message roundOver;
-		roundOver.id = _m_ROUND_OVER;
-		mngr_->send(roundOver, true);
+		//// round end
+		//Message roundOver;
+		//roundOver.id = _m_ROUND_OVER;
+		//mngr_->send(roundOver, true);
 	}
 }
 
