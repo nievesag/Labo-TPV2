@@ -28,6 +28,7 @@ void InmunitySystem::update()
 		Message m;
 		m.id = _m_IMMUNITY_END;
 		mngr_->send(m, true);
+
 	}
 }
 
@@ -35,11 +36,7 @@ void InmunitySystem::recieve(const Message& m)
 {
 	switch (m.id) {
 	case _m_IMMUNITY_START:
-		// si no se encuentra en periodo de inmunidad empieza el contador
-		if(!mngr_->getComponent<IsInmuneComponent>(pacman)->isInmune)
-		{
-			timeOfActivation = sdlutils().virtualTimer().currTime();
-		}
+		timeOfActivation = sdlutils().virtualTimer().currTime();
 		break;
 
 	default:

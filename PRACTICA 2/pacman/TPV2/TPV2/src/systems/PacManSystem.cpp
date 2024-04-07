@@ -149,7 +149,9 @@ void PacManSystem::recieve(const Message& m)
 	case _m_IMMUNITY_END:
 		mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->setInmune(false);
 		break;
-
+	case _m_IMMUNITY_START:
+		mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->setInmune(true);
+		break;
 	case _m_ROUND_OVER:
 		stopSound();
 		sdlutils().soundEffects().at("won").play();

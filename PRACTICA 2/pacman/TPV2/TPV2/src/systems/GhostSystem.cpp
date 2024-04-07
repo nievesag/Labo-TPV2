@@ -16,7 +16,7 @@ GhostSystem::~GhostSystem() {}
 
 void GhostSystem::initSystem()
 {
-	ghostLimit_ = 10;
+	ghostLimit_ = 3;
 	currentGhosts_ = 0;
 }
 
@@ -167,11 +167,31 @@ void GhostSystem::changeGhosts()
 	// si pacman es inmune en ese momento cambia la image de los fantasmas
 	if(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune)
 	{
-		
+
+		for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) {
+
+			auto img = mngr_->getComponent<ImageWithFrames>(g);
+
+			img->setXoffset(6);
+			img->setRow(3);
+			img->setColFrames(2);
+
+		}
 	}
 	// vuelven a la normalidad
 	else
 	{
+		for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) {
+
+			auto img = mngr_->getComponent<ImageWithFrames>(g);
+
+
+			int color = sdlutils().rand().nextInt(4, 7);
+
+			img->setRow(color);
+			img->reset();
+			img->setColFrames(8);
+		}
 		
 	}
 }

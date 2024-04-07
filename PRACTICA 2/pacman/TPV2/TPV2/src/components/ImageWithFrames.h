@@ -28,6 +28,8 @@ public:
 
 	void setColFrames(int col);
 
+	void reset();
+
 private:
 	Texture *tex_;
 	Transform *tr_;

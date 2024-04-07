@@ -44,8 +44,8 @@ void ImageWithFrames::render() {
 	}
 
 	int c = (currFrameC_ % ncol_) + xoffset;
-	//							lados				altura
-	auto src = build_sdlrect(c * frameWidth_, currFrameR_ * frameHeight_, frameWidth_, frameHeight_);
+	//								lados				altura
+	auto src = build_sdlrect(c * frameWidth_, (currFrameR_ + yoffset) * frameHeight_, frameWidth_, frameHeight_);
 
 	auto dest = build_sdlrect(tr_->getPos(), tr_->getWidth(), tr_->getHeight());
 
@@ -58,3 +58,11 @@ void ImageWithFrames::setColFrames(int col)
 	ncol_ = col;
 
 }
+
+void ImageWithFrames::reset()
+{
+	xoffset = 0;
+	yoffset = 0;
+
+}
+

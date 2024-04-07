@@ -127,7 +127,7 @@ void FoodSystem::miraculousFruitManager()
 		auto miracleCmp = mngr_->getComponent<IsMiraculousComponent>(e);
 
 		// para cambiar la imagen a PERA
-		auto img = mngr_->getComponent<Image>(e);
+		auto img = mngr_->getComponent<ImageWithFrames>(e);
 
 		// si tiene el componente (solo lo tienen ciertas frutas)
 		if (miracleCmp != nullptr) {
@@ -144,6 +144,7 @@ void FoodSystem::miraculousFruitManager()
 
 					// poner imagen norma
 					// INEEEESSSSSSSS ES AQUI Y AHI ABAJO 
+					img->setXoffset(6);
 				}
 			}
 
@@ -157,8 +158,7 @@ void FoodSystem::miraculousFruitManager()
 					// activa la transformacion en esa fruta
 					miracleCmp->MiraculousTransformation();
 
-					// poner imagen milagrosa
-					// AQUI
+					img->setXoffset(7);
 				}
 			}
 		}
