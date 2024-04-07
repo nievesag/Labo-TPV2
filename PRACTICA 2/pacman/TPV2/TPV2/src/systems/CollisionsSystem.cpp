@@ -6,6 +6,7 @@
 #include "../ecs/Manager.h"
 #include "../utils/Collisions.h"
 #include "../components/IsMiraculousComponent.h"
+#include "../components/IsInmuneComponent.h"
 
 CollisionsSystem::CollisionsSystem() {}
 
@@ -46,11 +47,23 @@ void CollisionsSystem::checkPacmanGhosts()
 			// check if PacMan collides with the ghost 
 			if (Collisions::collides(			
 				pTR->pos_, pTR->width_, pTR->height_, 
-				gTR->pos_, gTR->width_, gTR->height_)) {
-
+				gTR->pos_, gTR->width_, gTR->height_)) 
+			{
 				Message m;
-				m.id = _m_KILL_PACMAN;
-				m.kill_pacman_data.e = e;
+				// si pacman no es inmune, muere pacman
+				if(!(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune))
+				{
+					m.id = _m_KILL_PACMAN;
+					m.kill_pacman_data.e = e;
+				}
+
+				// si pacman es inmune, muere el fantasma
+				else
+				{
+					m.id = _m_EAT_GHOST;
+					m.eat_ghost_data.e = e;
+				}
+
 				mngr_->send(m);
 			}
 		}

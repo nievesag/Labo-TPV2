@@ -17,6 +17,8 @@ public:
 	void moveGhosts();
 	void resetGhosts();
 	void destroyGhosts();
+	void changeGhosts();
+	void destroyGhost(ecs::entity_t ghost);
 
 private: 
 	int ghostLimit_;

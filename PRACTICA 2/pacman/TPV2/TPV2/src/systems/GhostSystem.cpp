@@ -8,6 +8,7 @@
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/InputHandler.h"
 #include "GameCtrlSystem.h"
+#include "../components/IsInmuneComponent.h"
 
 GhostSystem::GhostSystem() {}
 
@@ -30,8 +31,9 @@ void GhostSystem::generateGhost()
 	// Always use the random number generator provided by SDLUtils
 	auto& rand = sdlutils().rand();
 
-	if (ghostCD + lastSpawn < sdlutils().virtualTimer().currTime() 
-		&& currentGhosts_ < ghostLimit_) {
+	if (ghostCD + lastSpawn < sdlutils().virtualTimer().currTime() &&
+		currentGhosts_ < ghostLimit_ && 
+		!(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune)) {
 
 		lastSpawn = sdlutils().virtualTimer().currTime();
 
@@ -159,6 +161,26 @@ void GhostSystem::destroyGhosts()
 	}
 }
 
+void GhostSystem::changeGhosts()
+{
+	// HOLAAA INEESSSS AQUI ESS
+	// si pacman es inmune en ese momento cambia la image de los fantasmas
+	if(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune)
+	{
+		
+	}
+	// vuelven a la normalidad
+	else
+	{
+		
+	}
+}
+
+void GhostSystem::destroyGhost(ecs::entity_t ghost)
+{
+	mngr_->setAlive(ghost, false);
+}
+
 void GhostSystem::recieve(const Message& m)
 {
 	switch (m.id) {
@@ -168,6 +190,18 @@ void GhostSystem::recieve(const Message& m)
 
 	case _m_NEW_GAME:
 		resetGhosts(); // resetea contador de generacion de fantasmas
+		break;
+
+	case _m_IMMUNITY_START:
+		changeGhosts(); // cambia la image de los fantasmas al ser pacman inmune
+		break;
+
+	case _m_IMMUNITY_END:
+		changeGhosts(); // cambia la image de los fantasmas al dejar de ser pacman inmune
+		break;
+
+	case _m_EAT_GHOST:
+		destroyGhost(m.eat_ghost_data.e);
 		break;
 
 	default:
