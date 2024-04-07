@@ -14,7 +14,6 @@ public:
 	void recieve(const Message& m) override;
 
 	void generateGhost();
-	void killPacman();
 	void moveGhosts();
 	void resetGhosts();
 	void destroyGhosts();

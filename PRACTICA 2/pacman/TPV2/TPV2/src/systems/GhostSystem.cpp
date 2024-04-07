@@ -99,11 +99,6 @@ void GhostSystem::generateGhost()
 	}
 }
 
-void GhostSystem::killPacman()
-{
-	// 
-}
-
 void GhostSystem::moveGhosts()
 {
 	auto ghosts = mngr_->getEntities(ecs::grp::GHOSTS);
@@ -164,18 +159,9 @@ void GhostSystem::destroyGhosts()
 	}
 }
 
-//void GhostSystem::resetGhosts()
-//{
-//	// reset de contador y los borra(?
-//}
-
 void GhostSystem::recieve(const Message& m)
 {
 	switch (m.id) {
-	case _m_KILL_PACMAN:
-		killPacman();
-		break;
-
 	case _m_ROUND_START:
 		resetGhosts(); // resetea contador de generacion de fantasmas
 		break;
