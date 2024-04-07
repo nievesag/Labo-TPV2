@@ -11,8 +11,8 @@ FoodSystem::~FoodSystem() {}
 
 void FoodSystem::initSystem()
 {
-	cols = 2;	// 5
-	fils = 2;	// 4
+	cols = 5;	// 5
+	fils = 4;	// 4
 	setFruits();
 }
 
