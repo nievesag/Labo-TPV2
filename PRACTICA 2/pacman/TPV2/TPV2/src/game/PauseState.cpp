@@ -22,6 +22,7 @@ void PauseState::enter()
 	// pausa el tiempo al entrar al estado
 	sdlutils().virtualTimer().pause();
 
+	// pausa sonidos
 	sdlutils().soundEffects().at("chomp").pauseChannel();
 
 }

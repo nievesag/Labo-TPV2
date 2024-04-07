@@ -15,5 +15,4 @@ public:
 
 protected:
 	ecs::Manager* mngr_;
-
 };

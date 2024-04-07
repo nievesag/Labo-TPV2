@@ -49,4 +49,3 @@ private:
 	int yoffset;
 	Uint32 lastFrameChange_;
 };
-

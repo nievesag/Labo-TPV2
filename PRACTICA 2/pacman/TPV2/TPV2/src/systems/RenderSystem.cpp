@@ -20,14 +20,16 @@ void RenderSystem::initSystem() {}
 
 void RenderSystem::update()
 {
+	// en cada frame dibuja lo que debe
 	drawPacMan();
 	drawGhosts();
 	drawLives();
 	drawFruits();
 }
 
-void RenderSystem::drawPacMan() {
-
+void RenderSystem::drawPacMan()
+{
+	// pinta a pacman
 	auto e = mngr_->getHandler(ecs::hdlr::PACMAN);
 	mngr_->getComponent<ImageWithFrames>(e)->render();
 }
@@ -43,6 +45,7 @@ void RenderSystem::drawGhosts()
 
 void RenderSystem::drawLives()
 {
+	// pinta la interfaz de vidas
 	auto e = mngr_->getHandler(ecs::hdlr::PACMAN);
 	mngr_->getComponent<LivesLeftComponent>(e)->render();
 }

@@ -21,10 +21,10 @@ public:
 	void destroyGhost(ecs::entity_t ghost);
 
 private: 
-	int ghostLimit_;
-	int currentGhosts_;
-	int followChance = 5;
+	int ghostLimit_; // maximo de fantasmas en pantalla
+	int currentGhosts_; // fantasmas actuales en pantalla
+	int followChance = 5; // probabilidad de que ese fantasma siga a pacman
 
-	int lastSpawn;
-	int ghostCD = 2000; 
+	int lastSpawn; // tiempo de spawn del ultimo fantasma spawneado
+	int ghostCD = 2000; // cooldown de generacion de fantasmas
 };

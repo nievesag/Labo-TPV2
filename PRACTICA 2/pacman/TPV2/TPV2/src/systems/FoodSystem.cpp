@@ -11,13 +11,14 @@ FoodSystem::~FoodSystem() {}
 
 void FoodSystem::initSystem()
 {
-	cols = 5;	// 5
-	fils = 4;	// 4
-	setFruits();
+	cols = 5;
+	fils = 4;
+	setFruits(); // coloca las frutas
 }
 
 void FoodSystem::update() 
 {
+	// en cada frame se comprueba si alguna fruta debe transformarse
 	miraculousFruitManager();
 }
 
@@ -25,15 +26,15 @@ void FoodSystem::recieve(const Message& m)
 {
 	switch (m.id) {
 	case _m_EAT_FRUIT:
-		destroyFruit(m.eat_fruit_data.e);
+		destroyFruit(m.eat_fruit_data.e); // destruye la fruta al comersela pacman
 		break;
 
 	case _m_ROUND_START:
-		resetFruits();
+		resetFruits(); // vuelve a colocar las frutas al inicio de ronda
 		break;
 
 	case _m_NEW_GAME:
-		resetFruits();
+		resetFruits(); // vuelve a colocar las frutas al inicio de partida
 		break;
 
 	default:
@@ -43,29 +44,32 @@ void FoodSystem::recieve(const Message& m)
 
 void FoodSystem::setFruits()
 {
-	for (int i = 0; i < cols*fils; i++ ) {
-
+	// crea las frutas en un grid
+	for (int i = 0; i < cols*fils; i++ ) 
+	{
 		// add and entity to the manager
 		auto e = mngr_->addEntity(ecs::grp::FRUITS);
 
+		// aniade transform
 		auto tr = mngr_->addComponent<Transform>(e);
 
 		tr->width_ = 25;
 		tr->height_ = 25;
 
 		// add an Image Component
-		// auto img = mngr_->addComponent<Image>(e, &sdlutils().images().at("HolaSDL"));
 		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8);
 
+		// ---
 		// A UNA DE CADA 10 FRUTAS LE ASIGNAS EL COMPONENTE MIRACULOUS
 		// add component miraculous
 		int rnd = sdlutils().rand().nextInt(0, 1000);
 
-		if (rnd < isMiraculousChance) {
-
+		if (rnd < isMiraculousChance) 
+		{
 			auto iM = mngr_->addComponent<IsMiraculousComponent>(e);
 			iM->MiraculousTransformation();
 		}
+		// ---
 
 		// grid
 		float cellx = (offsetX - tr->width_) / 2;	// distancia por celda en x
@@ -83,27 +87,22 @@ void FoodSystem::setFruits()
 
 void FoodSystem::destroyFruit(ecs::entity_t fruit)
 {
+	// mata la fruta con la que haya colisionado pacman
 	mngr_->setAlive(fruit, false);
 
-	auto fruits = mngr_->getEntities(ecs::grp::FRUITS);
-
-	std::cout << fruits.size() << std::endl;
-
-	if (noFruits()) {
+	// si no quedan frutas (te acabas de comer la ultima) -> has ganado
+	if (noFruits()) 
+	{
 		// round end
 		Message wonGame;
 		wonGame.id = _m_WIN_GAME;
 		mngr_->send(wonGame, true);
-
-		//// round end
-		//Message roundOver;
-		//roundOver.id = _m_ROUND_OVER;
-		//mngr_->send(roundOver, true);
 	}
 }
 
 bool FoodSystem::noFruits()
 {
+	// devuelve true si la cantidad de entidades en el grupo fruits es menor o igual a 1
 	auto fruits = mngr_->getEntities(ecs::grp::FRUITS);
     return fruits.size() <= 1;
 }
@@ -114,7 +113,6 @@ void FoodSystem::resetFruits()
 	for (auto& f : mngr_->getEntities(ecs::grp::FRUITS)) {
 		destroyFruit(f);
 	}
-
 	setFruits();
 }
 
@@ -140,10 +138,9 @@ void FoodSystem::miraculousFruitManager()
 				if (miracleCmp->timeOfActivation + miracleCmp->MDuration < sdlutils().virtualTimer().currTime()) {
 
 					// deja de ser milagrosa
-					miracleCmp->resetIsMiraculous();
+					miracleCmp->isMiraculous = false;
 
-					// poner imagen norma
-					// INEEEESSSSSSSS ES AQUI Y AHI ABAJO 
+					// poner imagen normal
 					img->setXoffset(6);
 				}
 			}
@@ -158,6 +155,7 @@ void FoodSystem::miraculousFruitManager()
 					// activa la transformacion en esa fruta
 					miracleCmp->MiraculousTransformation();
 
+					// poner imagen de pera
 					img->setXoffset(7);
 				}
 			}

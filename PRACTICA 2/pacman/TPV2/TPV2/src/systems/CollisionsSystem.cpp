@@ -21,6 +21,7 @@ void CollisionsSystem::update()
 
 void CollisionsSystem::checkCollisions()
 {
+	// checkea todas las posibles colisiones
 	checkPacmanGhosts();
 	checkPacmanFruit();
 }
@@ -31,8 +32,7 @@ void CollisionsSystem::checkPacmanGhosts()
 	auto pm = mngr_->getHandler(ecs::hdlr::PACMAN);
 	auto pTR = mngr_->getComponent<Transform>(pm);
 
-	// For safety, we traverse with a normal loop until the current size. In this
-	// particular case we could use a for-each loop since the list stars is not modified
+	// recorre todos los fantasmas 
 	auto& ghosts = mngr_->getEntities(ecs::grp::GHOSTS);
 	auto n = ghosts.size();
 	for (auto i = 0u; i < n; i++) {
@@ -50,17 +50,18 @@ void CollisionsSystem::checkPacmanGhosts()
 				gTR->pos_, gTR->width_, gTR->height_)) 
 			{
 				Message m;
+
 				// si pacman no es inmune, muere pacman
 				if(!(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune))
 				{
-					m.id = _m_KILL_PACMAN;
+					m.id = _m_KILL_PACMAN; // manda mensaje de pacman muerto
 					m.kill_pacman_data.e = e;
 				}
 
 				// si pacman es inmune, muere el fantasma
 				else
 				{
-					m.id = _m_EAT_GHOST;
+					m.id = _m_EAT_GHOST; // manda mensaje de fantasma comido
 					m.eat_ghost_data.e = e;
 				}
 
@@ -76,6 +77,7 @@ void CollisionsSystem::checkPacmanFruit()
 	auto pm = mngr_->getHandler(ecs::hdlr::PACMAN);
 	auto pTR = mngr_->getComponent<Transform>(pm);
 
+	// recorre todas las frutas
 	auto& fruits = mngr_->getEntities(ecs::grp::FRUITS);
 	auto n = fruits.size();
 	for (auto i = 0u; i < n; i++) {
@@ -90,10 +92,11 @@ void CollisionsSystem::checkPacmanFruit()
 				gTR->pos_, gTR->width_, gTR->height_)) {
 
 				Message m;
-				m.id = _m_EAT_FRUIT;
+				m.id = _m_EAT_FRUIT; // manda mensaje de fruta comida
 				m.eat_fruit_data.e = e;
 				mngr_->send(m);
 
+				// INMUNIDAD
 				if (mngr_->getComponent<IsMiraculousComponent>(e) != nullptr) 
 				{
 					// si la fruta con la que colisiones es miracoulosa empieza la inmunidad de pacman

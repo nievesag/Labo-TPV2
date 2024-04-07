@@ -19,7 +19,10 @@ void LivesLeftComponent::initComponent() {}
 
 void LivesLeftComponent::render()
 {
+	// dibuja interfaz de vidas restantes
 	SDL_Rect dest{ 0, 5, 30, 30 };
+
+	// por cada vida que se tiene se pinta un corazon con su offset
 	for (int i = 0; i < livesLeft_; i++) {
 		dest.x = 2 + i * 30;
 		img_->render(dest);

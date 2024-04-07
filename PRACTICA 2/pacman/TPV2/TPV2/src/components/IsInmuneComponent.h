@@ -10,14 +10,4 @@ struct IsInmuneComponent : public ecs::Component
 	virtual ~IsInmuneComponent() {}
 
 	bool isInmune;
-
-	void setInmune(bool i)
-	{
-		isInmune = i;
-	}
-
-	bool getIsInmune()
-	{
-		return isInmune;
-	}
 };

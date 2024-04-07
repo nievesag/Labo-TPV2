@@ -31,9 +31,3 @@ void IsMiraculousComponent::MiraculousTransformation()
 	// es miraculousa a true
 	isMiraculous = true;
 }
-
-void IsMiraculousComponent::resetIsMiraculous()
-{
-	// es miraculousa a false
-	isMiraculous = false;
-}

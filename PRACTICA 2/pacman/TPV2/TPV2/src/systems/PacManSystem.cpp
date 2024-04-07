@@ -34,7 +34,7 @@ void PacManSystem::initSystem() {
 	mngr_->addComponent<LivesLeftComponent>(pacman, 3); // inicializa vidas a 3
 	mngr_->addComponent<IsInmuneComponent>(pacman, false); // inicializa a no inmune
 
-	// inicializa las cosas
+	// inicializa pos
 	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 
 	// image with frames setup
@@ -126,7 +126,7 @@ void PacManSystem::update()
 
 void PacManSystem::resetGame()
 {
-	// vidas
+	// reset vidas
 	auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(mngr_->getHandler(ecs::hdlr::PACMAN));
 	livesLeftComponent->resetLives();
 }
@@ -135,32 +135,37 @@ void PacManSystem::recieve(const Message& m)
 {
 	switch (m.id) {
 	case _m_KILL_PACMAN:
-		die();
+		die(); // mata a pacman
 		break;
 
 	case _m_ROUND_START:
-		resetRound();
+		resetRound(); // resetea ronda
 		break;
 
 	case _m_NEW_GAME:
-		resetGame();
+		resetGame(); // resetea nueva partida
 		break;
 
 	case _m_IMMUNITY_END:
-		mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->setInmune(false);
+		mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune = false; // desactiva inmunidad
 		break;
+
 	case _m_IMMUNITY_START:
-		mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->setInmune(true);
+		mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune = true; // activa inmunidad
 		break;
+
 	case _m_ROUND_OVER:
-		stopSound();
+		stopSound(); // pausa sonido 
 		break;
+
 	case _m_PAUSE_GAME:
-		stopSound();
+		stopSound(); // pausa sonido
 		break;
+
 	case _m_WIN_GAME:
-		stopSound();
+		stopSound(); // pausa sonido
 		break;
+
 	default:
 		break;
 	}
@@ -168,15 +173,17 @@ void PacManSystem::recieve(const Message& m)
 
 void PacManSystem::die()
 {
+	// resta una vida
 	mngr_->getComponent<LivesLeftComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->updateLives(-1);
 
 	Message gameOver;
 
-	// si aun quedan vidas
+	// si aun quedan vidas se inicia otra ronda
 	if(mngr_->getComponent<LivesLeftComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->livesLeft_ > 0)
 	{
 		gameOver.id = _m_ROUND_OVER;
 	}
+	// si no quedan vidas se acaba el juego
 	else
 	{
 		gameOver.id = _m_GAME_OVER;

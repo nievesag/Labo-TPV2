@@ -16,14 +16,8 @@ struct LivesLeftComponent : public ecs::Component
 	void initComponent() override;
 	void render() override;
 
-	void setLives(int lives)
+	int updateLives(int i)
 	{
-		livesLeft_ = lives;
-		assert(livesLeft_ >= 0);
-	}
-
-	int updateLives(int i) {
-
 		// si quieres restar vidas pasar -1
 		livesLeft_ += i;
 		assert(livesLeft_ >= 0);
@@ -33,11 +27,6 @@ struct LivesLeftComponent : public ecs::Component
 	void resetLives()
 	{
 		livesLeft_ = maxLives_;
-	}
-
-	Texture* getLifesTexture()
-	{
-		return img_;
 	}
 
 	int livesLeft_;

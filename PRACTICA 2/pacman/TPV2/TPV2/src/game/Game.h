@@ -31,9 +31,7 @@ public:
 	// (si usas el mecanismo de enviar mensajes con delay)
 	void start();
 
-	inline ecs::Manager* getMngr() {
-		return mngr_;
-	}
+	inline ecs::Manager* getMngr() { return mngr_; }
 
 	inline void setState(State s) {
 

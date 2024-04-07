@@ -9,17 +9,10 @@ struct Image: public ecs::Component {
 
 	__CMPID_DECL__(ecs::cmp::IMAGE)
 
-	Image() :
-			tex_() {
-	}
+	Image() : tex_() {}
+	Image(Texture *tex) : tex_(tex) {}
 
-	Image(Texture *tex) :
-			tex_(tex) {
-	}
-
-	virtual ~Image() {
-	}
+	virtual ~Image() {}
 
 	Texture *tex_;
 };
-

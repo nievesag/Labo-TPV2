@@ -11,10 +11,10 @@
 #include "Transform.h"
 
 ImageWithFrames::ImageWithFrames(Texture *tex, int rows, int cols) :
-		tex_(tex), //
-		tr_(nullptr), //
-		currFrameR_(0), //
-		currFrameC_(0), //
+		tex_(tex), 
+		tr_(nullptr), 
+		currFrameR_(0), 
+		currFrameC_(0), 
 		lastFrameChange_(0)
 {
 	frameWidth_ = tex_->width() / cols;
@@ -25,11 +25,9 @@ ImageWithFrames::ImageWithFrames(Texture *tex, int rows, int cols) :
 
 	xoffset = 0;
 	yoffset = 0;
-
 }
 
-ImageWithFrames::~ImageWithFrames() {
-}
+ImageWithFrames::~ImageWithFrames() {}
 
 void ImageWithFrames::initComponent() {
 	tr_ = mngr_->getComponent<Transform>(ent_);
@@ -44,25 +42,21 @@ void ImageWithFrames::render() {
 	}
 
 	int c = (currFrameC_ % ncol_) + xoffset;
-	//								lados				altura
+	//								 lados				altura
 	auto src = build_sdlrect(c * frameWidth_, (currFrameR_ + yoffset) * frameHeight_, frameWidth_, frameHeight_);
 
 	auto dest = build_sdlrect(tr_->getPos(), tr_->getWidth(), tr_->getHeight());
 
 	tex_->render(src, dest, tr_->getRot());
-
 }
 
 void ImageWithFrames::setColFrames(int col)
 {
 	ncol_ = col;
-
 }
 
 void ImageWithFrames::reset()
 {
 	xoffset = 0;
 	yoffset = 0;
-
 }
-

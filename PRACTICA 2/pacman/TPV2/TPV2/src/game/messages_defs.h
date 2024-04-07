@@ -51,6 +51,7 @@ struct Message {
 			ecs::entity_t e;
 		} eat_fruit_data;
 
+		// _m_EAT_GHOST
 		struct {
 			ecs::entity_t e;
 		} eat_ghost_data;

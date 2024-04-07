@@ -16,25 +16,33 @@ GhostSystem::~GhostSystem() {}
 
 void GhostSystem::initSystem()
 {
+	// maximo de fantasmas en pantalla
 	ghostLimit_ = 7;
+
+	// inicializa fantasmas en pantalla a 0
 	currentGhosts_ = 0;
 }
 
 void GhostSystem::update()
 {
+	// en cada frame:
+	// genera fantasmas si tiene que hacerlo
 	generateGhost();
+
+	// mueve fantasmas
 	moveGhosts();
 }
 
 void GhostSystem::generateGhost()
 {
-	// Always use the random number generator provided by SDLUtils
 	auto& rand = sdlutils().rand();
 
+	// si toca generar fantasma && aun no se ha llegado al limite de fantasmas && pacman no esta en estado inmune
 	if (ghostCD + lastSpawn < sdlutils().virtualTimer().currTime() &&
 		currentGhosts_ < ghostLimit_ && 
 		!(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune)) {
 
+		// guarda momento del ultimo fantasma spawneado
 		lastSpawn = sdlutils().virtualTimer().currTime();
 
 		// add and entity to the manager
@@ -43,16 +51,16 @@ void GhostSystem::generateGhost()
 		// add a Transform component, and initialise it with random size and position
 		auto tr = mngr_->addComponent<Transform>(e);
 
-		// add an Image Component
-		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8); //mngr_->addComponent<Image>(e, &sdlutils().images().at("tennis_ball"));
-
-		// image with frames setup
 		int width = 40;
 		int height = 40;
 
 		tr->width_ = width;
 		tr->height_ = height;
 
+		// add an Image Component
+		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8); 
+
+		// coloca fantasma en una esquina random
 		int pos = sdlutils().rand().nextInt(0, 4);
 
 		switch (pos)
@@ -69,7 +77,7 @@ void GhostSystem::generateGhost()
 		// esquina superior derecha
 		case 1:
 			tr->pos_.setX(0);
-			tr->pos_.setY(sdlutils().height() - height);	// - height
+			tr->pos_.setY(sdlutils().height() - height);
 
 			img->setRow(5);
 			img->setColFrames(8);
@@ -77,17 +85,17 @@ void GhostSystem::generateGhost()
 
 		// esquina inferior izquierda
 		case 2:
-			tr->pos_.setX(sdlutils().width() - width);	// - width
+			tr->pos_.setX(sdlutils().width() - width);
 			tr->pos_.setY(0);
 
 			img->setRow(6);
 			img->setColFrames(8);
 			break;
 
+		// esquina inferior derecha
 		case 3:
-			// esquina inferior derecha
-			tr->pos_.setX(sdlutils().width() - width);	// - width
-			tr->pos_.setY(sdlutils().height() - height);	// - height
+			tr->pos_.setX(sdlutils().width() - width);
+			tr->pos_.setY(sdlutils().height() - height);
 
 			img->setRow(7);
 			img->setColFrames(8);
@@ -97,6 +105,7 @@ void GhostSystem::generateGhost()
 			break;
 		}
 
+		// aumenta contador de fantasmas
 		currentGhosts_++;
 	}
 }
@@ -124,8 +133,10 @@ void GhostSystem::moveGhosts()
 			gt->vel_ = (posPM->pos_ - gt->pos_).normalize() * 1.1f;
 		}
 
+		// se mueve
 		gt->pos_ = gt->pos_ + gt->vel_;
 
+		// -- para que no se salga de los bordes --
 		// check left/right borders
 		if (gt->pos_.getX() < 0) {
 			gt->pos_.setX(0.0f);
@@ -150,12 +161,16 @@ void GhostSystem::moveGhosts()
 
 void GhostSystem::resetGhosts()
 {
+	// elimina todos los fantasmas en pantalla
 	destroyGhosts();
+
+	// resetea el contador
 	currentGhosts_ = 0;
 }
 
 void GhostSystem::destroyGhosts()
 {
+	// mata todas las entidades del grupo GHOSTS
 	for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) {
 		mngr_->setAlive(g, false);
 	}
@@ -163,11 +178,9 @@ void GhostSystem::destroyGhosts()
 
 void GhostSystem::changeGhosts()
 {
-	// HOLAAA INEESSSS AQUI ESS
 	// si pacman es inmune en ese momento cambia la image de los fantasmas
 	if(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune)
 	{
-
 		for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) {
 
 			auto img = mngr_->getComponent<ImageWithFrames>(g);
@@ -185,19 +198,18 @@ void GhostSystem::changeGhosts()
 
 			auto img = mngr_->getComponent<ImageWithFrames>(g);
 
-
 			int color = sdlutils().rand().nextInt(4, 7);
 
 			img->setRow(color);
 			img->reset();
 			img->setColFrames(8);
 		}
-		
 	}
 }
 
 void GhostSystem::destroyGhost(ecs::entity_t ghost)
 {
+	// mata al fantasma que se acabe de comer pacman
 	mngr_->setAlive(ghost, false);
 }
 
@@ -221,7 +233,7 @@ void GhostSystem::recieve(const Message& m)
 		break;
 
 	case _m_EAT_GHOST:
-		destroyGhost(m.eat_ghost_data.e);
+		destroyGhost(m.eat_ghost_data.e); // destruye el fantasma que se ha comido pacman
 		break;
 
 	default:
