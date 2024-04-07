@@ -13,6 +13,7 @@ enum msgId : msgId_type {
 	_m_EAT_GHOST,
 	_m_WIN_GAME,	
 	_m_NEW_GAME,
+	_m_PAUSE_GAME,
 	_m_GAME_OVER,
 	_m_ROUND_START,
 	_m_ROUND_OVER,

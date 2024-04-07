@@ -9,6 +9,7 @@ PauseState::PauseState()
 	// guarda la textura correspondiente al menu de pausa
 	msg_ = &sdlutils().msgs().at("paused");
 
+	
 	// hace el rect destino
 	dest_ = build_sdlrect((sdlutils().width() - msg_->width()) / 2, (sdlutils().height() - msg_->height()) / 2, // pos x, y
 						  msg_->width(), msg_->height()); // tamanio w, h
@@ -20,6 +21,9 @@ void PauseState::enter()
 {
 	// pausa el tiempo al entrar al estado
 	sdlutils().virtualTimer().pause();
+
+	sdlutils().soundEffects().at("chomp").pauseChannel();
+
 }
 
 void PauseState::update()

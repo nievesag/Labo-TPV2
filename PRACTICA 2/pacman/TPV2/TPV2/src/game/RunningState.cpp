@@ -32,6 +32,12 @@ void RunningState::update()
 	// move to pause if P pressed
 	if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_P)) {
 		Game::instance()->setState(Game::PAUSED);
+
+		// message
+		Message m;
+		m.id = _m_PAUSE_GAME;
+		mngr_->send(m, true);
+
 		return;
 	}
 
