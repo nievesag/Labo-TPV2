@@ -16,7 +16,7 @@ GhostSystem::~GhostSystem() {}
 
 void GhostSystem::initSystem()
 {
-	ghostLimit_ = 3;
+	ghostLimit_ = 7;
 	currentGhosts_ = 0;
 }
 
