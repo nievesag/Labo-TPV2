@@ -32,6 +32,7 @@ void NewGameState::update()
 		Message newGameMessage;
 
 		// establece id
+
 		newGameMessage.id = _m_NEW_GAME;
 
 		// lo envia

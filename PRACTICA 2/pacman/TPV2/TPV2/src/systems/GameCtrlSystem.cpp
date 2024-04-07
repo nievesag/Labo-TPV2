@@ -29,10 +29,6 @@ void GameCtrlSystem::recieve(const Message &m)
 	case _m_WIN_GAME:
 		Game::instance()->setState(Game::GAMEOVER);
 		break;
-	case _m_NEW_GAME:
-		Game::instance()->setState(Game::NEWGAME);
-		break;
-
 	default:
 		break;
 	}

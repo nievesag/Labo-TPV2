@@ -40,6 +40,8 @@ void GameOverState::update()
 	// si se pulsa enter pasas al estado newgame
 	if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_RETURN)) {
 
+		Game::instance()->setState(Game::NEWGAME);
+
 		Message newGameMessage;
 		newGameMessage.id = _m_NEW_GAME;
 		Game::instance()->getMngr()->send(newGameMessage, true);
