@@ -16,7 +16,11 @@ NewGameState::NewGameState()
 
 NewGameState::~NewGameState() {}
 
-void NewGameState::enter() {}
+void NewGameState::enter()
+{
+	// pausa el tiempo al entrar al estado
+	sdlutils().virtualTimer().pause();
+}
 
 void NewGameState::update()  
 {
@@ -41,4 +45,8 @@ void NewGameState::update()
 	msg_->render(dest_);
 }
 
-void NewGameState::leave() {}
+void NewGameState::leave()
+{
+	// reanuda el tiempo al salir del estado
+	sdlutils().virtualTimer().resume();
+}

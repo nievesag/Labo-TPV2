@@ -88,7 +88,7 @@ void Game::init() {
 
 	// inicializa en nuevo juego
 	currentState_ = newGameState_;
-	runningState_->enter();
+	currentState_->enter();
 }
 
 void Game::start() {

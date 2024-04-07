@@ -16,7 +16,11 @@ NewRoundState::NewRoundState()
 
 NewRoundState::~NewRoundState() {}
 
-void NewRoundState::enter() {}
+void NewRoundState::enter()
+{
+	// pausa el tiempo al entrar al estado
+	sdlutils().virtualTimer().pause();
+}
 
 void NewRoundState::update()
 {
@@ -43,4 +47,8 @@ void NewRoundState::update()
 	msg_->render(dest_);
 }
 
-void NewRoundState::leave() {}
+void NewRoundState::leave()
+{
+	// reanuda el tiempo al salir del estado
+	sdlutils().virtualTimer().resume();
+}

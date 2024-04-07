@@ -11,6 +11,9 @@ GameOverState::~GameOverState() {}
 
 void GameOverState::enter()
 {
+	// pausa el tiempo al entrar al estado
+	sdlutils().virtualTimer().pause();
+
 	auto pacman = mngr_->getHandler(ecs::hdlr::PACMAN);
 
 	// si aun quedan vidas al entrar en el estado
@@ -46,4 +49,8 @@ void GameOverState::update()
 	msg_->render(dest_);
 }
 
-void GameOverState::leave() {}
+void GameOverState::leave()
+{
+	// reanuda el tiempo al salir del estado
+	sdlutils().virtualTimer().resume();
+}
