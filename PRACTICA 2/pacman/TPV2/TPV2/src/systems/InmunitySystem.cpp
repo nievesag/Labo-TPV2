@@ -20,7 +20,7 @@ void InmunitySystem::update()
 	// si actualmente se encuentra en un estado de inmunidad y han pasado 10 segundos desde su inicio:
 	// lo apaga enviando un mensaje correspondiente
 
-	mngr_->getComponent<Transform>(pacman);
+	// mngr_->getComponent<Transform>(pacman);
 
 	if(mngr_->getComponent<IsInmuneComponent>(pacman)->isInmune &&
 		timeOfActivation + maxInmunityDuration < sdlutils().virtualTimer().currTime())
