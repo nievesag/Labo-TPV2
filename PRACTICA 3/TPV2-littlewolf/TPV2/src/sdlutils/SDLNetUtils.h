@@ -5,6 +5,7 @@
 #include <iostream>
 #include <SDL_net.h>
 #include <cassert>
+#include <cmath>
 
 // start of macros
 //
@@ -124,7 +125,7 @@ public:
 	}
 
 	/*
-	 * Return the local port associated to a UDP socket
+	 * Return the local port associated to the socket
 	 */
 	inline static Uint16 getSocketPort(UDPsocket sock) {
 		return sdlnet_ntoh(SDLNet_UDP_GetPeerAddress(sock, -1)->port);
@@ -306,10 +307,13 @@ public:
 		return deserialize_sint<Uint32>(v, buf);
 	}
 
+	// FLOAT: there are several ways to serialize/deserialize
+
 	// FLOAT
 	//
 	// Treating the 4 bytes as Uint32 and serialize it should
-	// work.
+	// work for most uses, unless we are using some unsual
+	// architecture.
 
 	inline static Uint8* serialize(float &v, Uint8 *buf) {
 		static_assert( sizeof(float) == 4, "float is not 32 bits");
@@ -320,6 +324,89 @@ public:
 		static_assert( sizeof(float) == 4, "float is not 32 bits");
 		return deserialize(reinterpret_cast<Uint32&>(v), buf);
 	}
+
+	// FLOAT - using frexp/ldexp.
+
+	// Based on https://gist.github.com/ahamez/fa4760800d454a080cd83e5963ca5bf2
+	//
+	// Not sure about runtime of frexp and ldexp! I guess not the same
+	// on all compilers.
+	//
+
+//	constexpr static auto max_int = std::numeric_limits<std::int32_t>::max();
+//
+//	inline static Uint8* serialize(float &v, Uint8 *buf) {
+//		static_assert( sizeof(float) == 4, "float is not 32 bits");
+//
+//		int32_t exp = 0;
+//		int32_t mant = static_cast<std::int32_t>(max_int * std::frexp(v, &exp));
+//
+//		buf = serialize(exp, buf);
+//		buf = serialize(mant, buf);
+//
+//		return buf;
+//	}
+//
+//	inline static Uint8* deserialize(float &v, Uint8 *buf) {
+//		int32_t exp = 0;
+//		int32_t mant = 0;
+//
+//		buf = deserialize(exp, buf);
+//		buf = deserialize(mant, buf);
+//
+//		v = std::ldexp(static_cast<float>(mant) / max_int, exp);
+//
+//		return buf;
+//
+//	}
+
+	// FLOAT - using bit-field
+	//
+
+//	typedef union {
+//		float f;
+//		struct {
+//			uint32_t mantisa :23;
+//			uint32_t exponent :8;
+//			uint32_t sign :1;
+//		} parts;
+//	} float_cast;
+//
+//	inline static Uint8* serialize(float &v, Uint8 *buf) {
+//		static_assert( sizeof(float) == 4, "float is not 32 bits");
+//
+//		float_cast data;
+//
+//		data.f = v;
+//		uint32_t mantisa = data.parts.mantisa;
+//		uint8_t exponent = data.parts.exponent;
+//		uint8_t sign = data.parts.sign;
+//		buf = serialize(mantisa, buf);
+//		buf = serialize(exponent, buf);
+//		buf = serialize(sign, buf);
+//		return buf;
+//	}
+//
+//	inline static Uint8* deserialize(float &v, Uint8 *buf) {
+//		static_assert( sizeof(float) == 4, "float is not 32 bits");
+//
+//		uint32_t mantisa;
+//		uint8_t exponent;
+//		uint8_t sign;
+//
+//		buf = deserialize(mantisa, buf);
+//		buf = deserialize(exponent, buf);
+//		buf = deserialize(sign, buf);
+//
+//		float_cast data;
+//		data.parts.mantisa = mantisa;
+//		data.parts.exponent = exponent;
+//		data.parts.sign = sign;
+//
+//		v = data.f;
+//
+//		return buf;
+//	}
 
 	// (de)serialization of arrays is done, by default, by calling the serialize/deserialize on
 	// each element. There are special cases for 1-byte types to use memcpy (they
@@ -402,8 +489,8 @@ public:
 	// receive a message that was send by method 'send' above, i.e., with
 	// the size as a header.
 	//
-	// returns a pointer to the buffer where the message is stored, or nullptr
-	// if something went wring.
+	// returns a pair of a pointer to the buffer where the message is stored, or nullptr
+	// if something went wrong, and the corresponding size.
 	//
 	// We don't return the size, the user should identify the message by other means
 	//
