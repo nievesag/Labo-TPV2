@@ -5,13 +5,17 @@
 
 class LittleWolf;
 
-class Game {
+class Game : public Singleton<Game> {
+	friend Singleton<Game>;
 public:
 	Game();
 	virtual ~Game();
 	void init();
 	void start();
+
+
 private:
+
 	LittleWolf *little_wolf_;
 
 };

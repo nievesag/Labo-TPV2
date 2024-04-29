@@ -3,6 +3,7 @@
 #include "Networking.h"
 
 #include <iostream>
+#include "../utils/Vector2D.h"
 
 #include "LittleWolf.h"
 #include "Game.h"
@@ -143,12 +144,18 @@ void Networking::update() {
 }
 
 void Networking::handle_new_client(Uint8 id) {
-	if (id != clientId_)
-		Game::instance()->get_fighters().send_my_info();
+
+	// AQUI FALTAN COSAS
+	if (id != clientId_) {
+		//Game::instance()->get_fighters().send_my_info();
+
+	}
 }
 
 void Networking::handle_disconnet(Uint8 id) {
-	Game::instance()->get_fighters().removePlayer(id);
+
+	// AQUI FALTAN COSAS
+	//Game::instance()->get_fighters().removePlayer(id);
 }
 
 void Networking::send_state(const Vector2D &pos, float w, float h, float rot) {
@@ -165,9 +172,10 @@ void Networking::send_state(const Vector2D &pos, float w, float h, float rot) {
 
 void Networking::handle_player_state(const PlayerStateMsg &m) {
 
+
+	// AQUI FALTAN COSAS
 	if (m._client_id != clientId_) {
-		Game::instance()->get_fighters().update_player_state(m._client_id, m.x,
-				m.y, m.w, m.h, m.rot);
+		//Game::instance()->get_fighters().update_player_state(m._client_id, m.x, m.y, m.w, m.h, m.rot);
 	}
 }
 
