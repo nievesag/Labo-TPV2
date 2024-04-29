@@ -4,8 +4,7 @@
 
 #include <iostream>
 
-#include "Bullets.h"
-#include "Fighter.h"
+#include "LittleWolf.h"
 #include "Game.h"
 #include "netwrok_messages.h"
 #include "../sdlutils/SDLNetUtils.h"
