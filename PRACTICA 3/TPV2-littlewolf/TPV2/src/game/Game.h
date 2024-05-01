@@ -13,6 +13,11 @@ public:
 	void init();
 	void start();
 
+	LittleWolf& get_wolves() {
+		return *little_wolf_;
+	}
+
+
 
 private:
 

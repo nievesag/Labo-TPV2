@@ -132,6 +132,11 @@ public:
 	// update the world, tec
 	void update();
 
+	//
+	void update_player_info(Uint8 id, Line foview, Point wher, Point vel, float s,
+		float a, float thet, uint8_t state);
+
+
 private:
 
 	// Calculates wall size using the <corrected> ray to the wall.

@@ -45,6 +45,21 @@ void LittleWolf::update() {
 	shoot(p); // handle shooting
 }
 
+void LittleWolf::update_player_info(Uint8 id, Line foview, Point wher, Point vel, float s,
+	float a, float thet, uint8_t state)
+{
+	Player& p = players_[id];
+
+	p.id = id;
+	p.fov = foview;
+	p.where = wher;
+	p.velocity = vel;
+	p.speed = s;
+	p.acceleration = a;
+	p.theta = thet;
+	p.state = static_cast<PlayerState>(state);
+}
+
 void LittleWolf::load(std::string filename) {
 	std::ifstream in(filename);
 	if (in.fail()) {

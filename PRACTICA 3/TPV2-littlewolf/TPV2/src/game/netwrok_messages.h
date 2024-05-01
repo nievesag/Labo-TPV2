@@ -4,6 +4,10 @@
 
 #include <SDL_stdinc.h>
 #include "../sdlutils/SDLNetUtils.h"
+#include "LittleWolf.h"
+
+
+class LittleWolf;
 
 enum MsgType : Uint8 {
 	_NONE = 0, //
@@ -51,14 +55,16 @@ struct PlayerStateMsg: MsgWithId {
 
 struct PlayerInfoMsg: MsgWithId {
 
-	float x;
-	float y;
-	int w;
-	int h;
-	float rot;
-	Uint8 state;
+	uint8_t id;          // the id
+	LittleWolf::Line fov;            // focal view
+	LittleWolf::Point wh;         // current position (wrt. to the grid)
+	LittleWolf::Point velo;      // current velocity
+	float spee;         // maximum speed
+	float acc;  // acceleration
+	float the;         // rotation (in rad)
+	LittleWolf::PlayerState stat;   // the state
 
-	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, x,y,w,h,rot,state)
+	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, fov, where, velocity, speed, acceleration, theta, state)
 
 };
 struct ShootMsg: MsgWithId {
