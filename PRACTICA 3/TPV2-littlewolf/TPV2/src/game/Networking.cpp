@@ -145,7 +145,6 @@ void Networking::update() {
 
 void Networking::handle_new_client(Uint8 id) {
 
-	// AQUI FALTAN COSAS
 	if (id != clientId_) {
 		Game::instance()->get_wolves().send_my_info();
 
@@ -154,19 +153,21 @@ void Networking::handle_new_client(Uint8 id) {
 
 void Networking::handle_disconnet(Uint8 id) {
 
-	// AQUI FALTAN COSAS
-	//Game::instance()->get_fighters().removePlayer(id);
+	Game::instance()->get_wolves().removePlayer(id);
 }
 
-void Networking::send_state(const Vector2D &pos, float w, float h, float rot) {
+void Networking::send_state(Uint8 id, LittleWolf::Line foview, LittleWolf::Point wher, LittleWolf::Point vel, float s,
+	float a, float thet, uint8_t state) {
 	PlayerStateMsg m;
 	m._type = _PLAYER_STATE;
 	m._client_id = clientId_;
-	m.x = pos.getX();
-	m.y = pos.getY();
-	m.w = w;
-	m.h = h;
-	m.rot = rot;
+	m.fov = foview;
+	m.wh = wher;
+	m.velocity = vel;
+	m.speed = s;
+	m.acceleration = a;
+	m.theta = thet;
+	//m.state = state;
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 
@@ -174,7 +175,7 @@ void Networking::handle_player_state(const PlayerStateMsg &m) {
 
 	// AQUI FALTAN COSAS
 	if (m._client_id != clientId_) {
-		Game::instance()->get_wolves().update_player_state(m._client_id, m.x, m.y, m.w, m.h, m.rot);
+		Game::instance()->get_wolves().update_player_state(m._client_id, m.fov, m.wh, m.velocity, m.speed, m.acceleration, m.theta);
 	}
 }
 

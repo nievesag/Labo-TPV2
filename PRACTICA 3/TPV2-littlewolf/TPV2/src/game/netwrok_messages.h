@@ -43,13 +43,17 @@ struct MsgWithMasterId: MsgWithId {
 
 struct PlayerStateMsg: MsgWithId {
 
-	float x;
-	float y;
-	int w;
-	int h;
-	float rot;
 
-	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, x,y,w,h,rot)
+	uint8_t id;          // the id
+	LittleWolf::Line fov;            // focal view
+	LittleWolf::Point wh;         // current position (wrt. to the grid)
+	LittleWolf::Point velocity;      // current velocity
+	float speed;         // maximum speed
+	float acceleration;  // acceleration
+	float theta;         // rotation (in rad)
+	LittleWolf::PlayerState state;   // the state
+
+	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, fov, wh, velocity, speed, acceleration, theta, state)
 
 };
 
@@ -64,7 +68,7 @@ struct PlayerInfoMsg: MsgWithId {
 	float the;         // rotation (in rad)
 	LittleWolf::PlayerState stat;   // the state
 
-	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, fov, where, velocity, speed, acceleration, theta, state)
+	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, fov, wh, velo, spee, acc, the, stat)
 
 };
 struct ShootMsg: MsgWithId {

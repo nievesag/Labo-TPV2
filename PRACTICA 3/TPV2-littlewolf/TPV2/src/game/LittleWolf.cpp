@@ -72,6 +72,21 @@ void LittleWolf::send_my_info()
 
 }
 
+void LittleWolf::update_player_state(Uint8 id, Line foview, Point wher, Point vel, float s, float a, float thet)
+{
+	Player& p = players_[id];
+
+
+	p.id = id;
+	p.fov = foview;
+	p.where = wher;
+	p.velocity = vel;
+	p.speed = s;
+	p.acceleration = a;
+	p.theta = thet;
+
+}
+
 void LittleWolf::load(std::string filename) {
 	std::ifstream in(filename);
 	if (in.fail()) {
@@ -539,4 +554,9 @@ void LittleWolf::bringAllToLife() {
 			players_[i].state = ALIVE;
 		}
 	}
+}
+
+void LittleWolf::removePlayer(Uint8 id)
+{
+	players_[id].state = LittleWolf::NOT_USED;
 }

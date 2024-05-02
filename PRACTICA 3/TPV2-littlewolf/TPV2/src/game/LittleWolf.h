@@ -123,6 +123,9 @@ public:
 	// mark all (used) player alive
 	void bringAllToLife();
 
+	//
+	void removePlayer(Uint8 id);
+
 	// switch to the view of the next player
 	void switchToNextPlayer();
 
@@ -140,9 +143,9 @@ public:
 	void send_my_info();
 
 	// updates player state
-	void update_player_state();
+	void update_player_state(Uint8 id, Line foview, Point wher, Point vel, float s,
+		float a, float thet);
 
-	//
 	
 
 

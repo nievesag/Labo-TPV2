@@ -25,7 +25,8 @@ public:
 		return clientId_ == masterId_;
 	}
 
-	void send_state(const Vector2D &pos, float w, float h, float rot);
+	void send_state(Uint8 id, LittleWolf::Line foview, LittleWolf::Point wher, LittleWolf::Point vel, float s,
+		float a, float thet, uint8_t state);
 	void send_my_info(Uint8 id, LittleWolf::Line foview, LittleWolf::Point wher, LittleWolf::Point vel, float s,
 		float a, float thet, uint8_t state);
 	
