@@ -147,7 +147,7 @@ void Networking::handle_new_client(Uint8 id) {
 
 	// AQUI FALTAN COSAS
 	if (id != clientId_) {
-		//Game::instance()->get_fighters().send_my_info();
+		Game::instance()->get_wolves().send_my_info();
 
 	}
 }
@@ -172,10 +172,9 @@ void Networking::send_state(const Vector2D &pos, float w, float h, float rot) {
 
 void Networking::handle_player_state(const PlayerStateMsg &m) {
 
-
 	// AQUI FALTAN COSAS
 	if (m._client_id != clientId_) {
-		//Game::instance()->get_fighters().update_player_state(m._client_id, m.x, m.y, m.w, m.h, m.rot);
+		Game::instance()->get_wolves().update_player_state(m._client_id, m.x, m.y, m.w, m.h, m.rot);
 	}
 }
 

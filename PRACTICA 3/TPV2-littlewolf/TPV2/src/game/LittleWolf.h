@@ -132,9 +132,18 @@ public:
 	// update the world, tec
 	void update();
 
-	//
+	// updates player info
 	void update_player_info(Uint8 id, Line foview, Point wher, Point vel, float s,
 		float a, float thet, uint8_t state);
+
+	// sends player info
+	void send_my_info();
+
+	// updates player state
+	void update_player_state();
+
+	//
+	
 
 
 private:

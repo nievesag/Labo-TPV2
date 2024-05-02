@@ -4,6 +4,7 @@
 
 
 class LittleWolf;
+class Networking;
 
 class Game : public Singleton<Game> {
 	friend Singleton<Game>;
@@ -17,11 +18,16 @@ public:
 		return *little_wolf_;
 	}
 
+	Networking& get_networking() {
+		return *networking_;
+	}
+
 
 
 private:
 
 	LittleWolf *little_wolf_;
+	Networking* networking_;
 
 };
 

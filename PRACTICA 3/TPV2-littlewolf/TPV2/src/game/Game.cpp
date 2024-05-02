@@ -5,6 +5,7 @@
 #include "../sdlutils/InputHandler.h"
 #include "../sdlutils/SDLUtils.h"
 #include "LittleWolf.h"
+#include "Networking.h"
 
 
 Game::Game() :
@@ -14,6 +15,7 @@ Game::Game() :
 
 Game::~Game() {
 	delete little_wolf_;
+	delete networking_;
 }
 
 void Game::init() {
@@ -24,6 +26,8 @@ void Game::init() {
 
 	little_wolf_ = new LittleWolf(sdlutils().width(), sdlutils().height(),
 			sdlutils().window(), sdlutils().renderer());
+
+	networking_ = new Networking();
 
 	// load a map
 	little_wolf_->load("resources/maps/little_wolf/map_0.txt");

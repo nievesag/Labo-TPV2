@@ -9,6 +9,8 @@
 
 #include "../sdlutils/SDLUtils.h"
 #include "../sdlutils/Texture.h"
+#include "../game/Game.h"
+#include "../game/Networking.h"
 
 LittleWolf::LittleWolf(uint16_t xres, uint16_t yres, SDL_Window *window,
 		SDL_Renderer *render) :
@@ -58,6 +60,16 @@ void LittleWolf::update_player_info(Uint8 id, Line foview, Point wher, Point vel
 	p.acceleration = a;
 	p.theta = thet;
 	p.state = static_cast<PlayerState>(state);
+}
+
+void LittleWolf::send_my_info()
+{
+	Player& p = players_[player_id_];
+
+	//
+	Game::instance()->get_networking().send_my_info(p.id, p.fov, p.where, 
+		p.velocity,p.speed, p.acceleration, p.theta, p.state);
+
 }
 
 void LittleWolf::load(std::string filename) {
