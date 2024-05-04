@@ -125,6 +125,9 @@ public:
 	//
 	void removePlayer(Uint8 id);
 
+	//
+	void killPlayer(Uint8 id);
+
 	// switch to the view of the next player
 	void switchToNextPlayer();
 

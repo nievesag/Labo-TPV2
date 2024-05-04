@@ -529,7 +529,6 @@ void LittleWolf::switchToNextPlayer() {
 
 	// move to the next player view
 	player_id_ = j;
-
 }
 
 void LittleWolf::bringAllToLife() {
@@ -544,4 +543,9 @@ void LittleWolf::bringAllToLife() {
 void LittleWolf::removePlayer(Uint8 id)
 {
 	players_[id].state = LittleWolf::NOT_USED;
+}
+
+void LittleWolf::killPlayer(Uint8 id)
+{
+	players_[id].state = LittleWolf::DEAD;
 }

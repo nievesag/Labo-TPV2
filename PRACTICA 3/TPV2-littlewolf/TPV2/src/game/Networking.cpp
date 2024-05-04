@@ -232,7 +232,7 @@ void Networking::send_dead(Uint8 id) {
 }
 
 void Networking::handle_dead(const MsgWithId &m) {
-	//Game::instance()->get_fighters().killPlayer(m._client_id);
+	Game::instance()->get_wolves().killPlayer(m._client_id);
 }
 
 void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float speed, float acceleration, float theta, Uint8 state) {
@@ -267,7 +267,7 @@ void Networking::handle_player_info(const PlayerInfoMsg &m) {
 
 void Networking::handle_shoot(const ShootMsg& m)
 {
-	//Game::instance()->get_bullets().shoot(Vector2D(m.x, m.y), Vector2D(m.vx, m.vy), m.w, m.h, m.rot);
+	//Game::instance()->get_wolves().get_bullets().shoot(Vector2D(m.x, m.y), Vector2D(m.vx, m.vy), m.w, m.h, m.rot);
 }
 
 void Networking::send_restart() {
@@ -278,5 +278,4 @@ void Networking::send_restart() {
 
 void Networking::handle_restart() {
 	Game::instance()->get_wolves().bringAllToLife();
-
 }
