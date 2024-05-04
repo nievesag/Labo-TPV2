@@ -614,6 +614,11 @@ bool LittleWolf::shoot(Player &p) {
 	return false;
 }
 
+void LittleWolf::render_waiting()
+{
+
+}
+
 void LittleWolf::switchToNextPlayer() {
 
 	// search the next player in the palyer's array

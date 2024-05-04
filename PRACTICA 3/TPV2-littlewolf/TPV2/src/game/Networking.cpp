@@ -109,7 +109,7 @@ void Networking::update() {
 
 	Msg m0; // mensajes de flujo
 	MsgWithMasterId m1; // para mandarle info al master
-	PlayerStateMsg m2; // para informar al master de estados de jugadores
+	//PlayerStateMsg m2; // para informar al master de estados de jugadores
 	ShootMsg m3; // mensaje de disparo
 	MsgWithId m4; // para muertes
 	PlayerInfoMsg m5; // para informar al master de informacion de jugadores
@@ -130,12 +130,6 @@ void Networking::update() {
 			m1.deserialize(p_->data); 
 			masterId_ = m1._master_id; // guardas el nuevo master si hay que cambiarlo
 			handle_disconnet(); // se administra la desconexion
-			break;
-
-		case _PLAYER_STATE:
-			// para informar al master del estado de los jugadores
-			m2.deserialize(p_->data);
-			handle_player_state(m2);
 			break;
 
 		case _PLAYER_INFO:
@@ -283,11 +277,6 @@ void Networking::handle_disconnet() {
 	Game::instance()->get_wolves()->removePlayer();
 }
 
-void Networking::handle_player_state(const PlayerStateMsg &m) {
-
-	// AQUI FALTAN COSAS 
-}
-
 void Networking::handle_dead(const MsgWithId &m) {
 
 	// llama al metodo de little wolf que mata jugador
@@ -295,6 +284,7 @@ void Networking::handle_dead(const MsgWithId &m) {
 }
 
 void Networking::handle_player_info(const PlayerInfoMsg &m) {
+
 	if (m._client_id != clientId_) 
 	{
 		Game::instance()->get_wolves()->update_player_info(m._client_id, m.posX, m.posY, m.velX, m.velY, m.speed, m.acc, m.theta, (LittleWolf::PlayerState)m.state);

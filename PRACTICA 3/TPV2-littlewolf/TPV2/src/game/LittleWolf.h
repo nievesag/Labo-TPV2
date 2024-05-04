@@ -116,7 +116,6 @@ public:
 	LittleWolf(uint16_t xres, uint16_t yres, SDL_Window *window, SDL_Renderer *render);
 	virtual ~LittleWolf();
 
-	#pragma region METODOS MANAGEO
 	// ---- basicos ----
 	// load a map from a file
 	void load(std::string filename);
@@ -127,18 +126,30 @@ public:
 	// update the world, etc
 	void update();
 
+	#pragma region METODOS MULTIPLAYER
+
+private:
+	void render_waiting();
+
+	float lastFrame;
+
+	float waitingTime = 0;
+
+	bool waiting = false;
+
+public:
 	// ---- quitar y meter players ----
 	// add a new player with identifier <id>, returns false if the id is already occupied
 	bool addPlayer(std::uint8_t id);
 
-	// 
+	// para desconectarlo
 	void removePlayer();
 
 	// ---- vida y muerte ----
 	// mark all (used) player alive
 	void bringAllToLife();
 
-	//
+	// para matarlo
 	void killPlayer();
 
 	// ---- vista ----
@@ -151,7 +162,33 @@ public:
 
 	// sends player info
 	void send_my_info();
-#pragma endregion
+
+	// request -> process -> send
+	// cada ordenador requestea hacer algo,
+	// si se confirma se manda mensaje a cada jugador para procesar,
+	// una vez hecho se manda mensaje al host de que se ha completado
+
+	// ---- requests ----
+	// como cada jugador tiene su propia instancia del juego
+	// para actuar no se hace directamente, se solicita al
+	// master actuar
+	void send_shoot_request();
+	void proccess_shoot_request(int playerID);
+
+	// ---- process ----
+	// una vez verificado se procesa desde aqui
+	void proccess_player_hit(int playerID, int idPoints, int currentLifes, int currentPoints);
+	void proccess_player_die(int playerID);
+	void proccess_new_start();
+	void process_wainting_msg();     
+
+	// ---- send ----
+	// tras procesar
+	void send_player_hit(int playerID, int idPoints, int currentLifes, int currentPoints);
+	void send_player_die(int playerID);
+	void send_new_start();
+	void send_waiting_msg();
+	#pragma endregion
 
 private:
 	// Calculates wall size using the <corrected> ray to the wall.
