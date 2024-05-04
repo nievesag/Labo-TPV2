@@ -37,7 +37,7 @@ public:
 private:
 
 	void handle_new_client(Uint8 id);
-	void handle_disconnet(Uint8 id);
+	void handle_disconnet();
 	void handle_player_state(const PlayerStateMsg &m);
 	void handle_player_info(const PlayerInfoMsg &m);
 	void handle_shoot(const ShootMsg &m);

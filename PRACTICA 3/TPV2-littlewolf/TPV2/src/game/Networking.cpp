@@ -11,17 +11,17 @@
 #include "../sdlutils/SDLNetUtils.h"
 
 Networking::Networking() :
-		sock_(), //
-		socketSet_(), //
-		p_(), //
-		srvadd_(), //
-		clientId_(), //
-		masterId_() {
+	sock_(), //
+	socketSet_(), //
+	p_(), //
+	srvadd_(), //
+	clientId_(), //
+	masterId_() {
 }
 
-Networking::~Networking() {
-}
+Networking::~Networking() {}
 
+// INIT
 bool Networking::init(char *host, Uint16 port) {
 
 	if (SDLNet_ResolveHost(&srvadd_, host, port) < 0) {
@@ -63,7 +63,6 @@ bool Networking::init(char *host, Uint16 port) {
 		// si la data de socket esta preparada para ser leida
 		if (SDLNet_SocketReady(sock_)) 
 		{
-
 			if (SDLNetUtils::deserializedReceive(m0, p_, sock_) > 0) 
 			{
 				// actua segun la respuesta de la request de conexion
@@ -169,20 +168,7 @@ void Networking::update() {
 	}
 }
 
-void Networking::handle_new_client(Uint8 id) {
-
-	// si se mete alguien que no estaba
-	if (id != clientId_) 
-	{
-		Game::instance()->get_wolves().send_my_info();
-	}
-}
-
-void Networking::handle_disconnet(Uint8 id) {
-
-	Game::instance()->get_wolves().removePlayer(id);
-}
-
+#pragma region SEND COSAS
 void Networking::send_state(const Vector2D& pos, float w, float h, float rot) {
 
 	// mensaje
@@ -201,41 +187,12 @@ void Networking::send_state(const Vector2D& pos, float w, float h, float rot) {
 	m.h = h;
 	m.rot = rot;
 
+	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
-}
-
-void Networking::handle_player_state(const PlayerStateMsg &m) {
-
-	// AQUI FALTAN COSAS 
-}
-
-void Networking::send_shoot(Vector2D p, Vector2D v, int width, int height,
-		float r) {
-	ShootMsg m;
-	m._type = _SHOOT;
-	m._client_id = clientId_;
-	m.x = p.getX();
-	m.y = p.getY();
-	m.vx = v.getX();
-	m.vy = v.getY();
-	m.w = width;
-	m.h = height;
-	m.rot = r;
-	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
-}
-
-void Networking::send_dead(Uint8 id) {
-	MsgWithId m;
-	m._type = _DEAD;
-	m._client_id = id;
-	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
-}
-
-void Networking::handle_dead(const MsgWithId &m) {
-	Game::instance()->get_wolves().killPlayer(m._client_id);
 }
 
 void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float speed, float acceleration, float theta, Uint8 state) {
+
 	// mensaje
 	PlayerInfoMsg m;
 
@@ -258,6 +215,86 @@ void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float sp
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 
+void Networking::send_shoot(Vector2D p, Vector2D v, int width, int height, float r) {
+
+	// mensaje
+	ShootMsg m;
+
+	// mensaje de info del disparo
+	m._type = _SHOOT;
+
+	// id del jugador que dispara
+	m._client_id = clientId_;
+
+	// info del disparo
+	m.x = p.getX();
+	m.y = p.getY();
+	m.vx = v.getX();
+	m.vy = v.getY();
+	m.w = width;
+	m.h = height;
+	m.rot = r;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+
+void Networking::send_dead(Uint8 id) {
+
+	// mensaje
+	MsgWithId m;
+
+	// mensaje de muerte
+	m._type = _DEAD;
+
+	// id del jugador que muere
+	m._client_id = id;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+
+void Networking::send_restart() {
+
+	// mensaje
+	Msg m;
+
+	// mensaje de restart
+	m._type = _RESTART;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+#pragma endregion
+
+#pragma region HANDLE COSAS
+void Networking::handle_new_client(Uint8 id) {
+
+	// si se mete alguien que no estaba
+	if (id != clientId_) 
+	{
+		// llama al metodo de little wolf de que envia info de jugador
+		Game::instance()->get_wolves().send_my_info();
+	}
+}
+
+void Networking::handle_disconnet() {
+
+	// llama al metodo de little wolf que elimina jugador
+	Game::instance()->get_wolves().removePlayer();
+}
+
+void Networking::handle_player_state(const PlayerStateMsg &m) {
+
+	// AQUI FALTAN COSAS 
+}
+
+void Networking::handle_dead(const MsgWithId &m) {
+
+	// 
+	Game::instance()->get_wolves().killPlayer();
+}
+
 void Networking::handle_player_info(const PlayerInfoMsg &m) {
 	if (m._client_id != clientId_) 
 	{
@@ -270,12 +307,7 @@ void Networking::handle_shoot(const ShootMsg& m)
 	//Game::instance()->get_wolves().get_bullets().shoot(Vector2D(m.x, m.y), Vector2D(m.vx, m.vy), m.w, m.h, m.rot);
 }
 
-void Networking::send_restart() {
-	Msg m;
-	m._type = _RESTART;
-	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
-}
-
 void Networking::handle_restart() {
 	Game::instance()->get_wolves().bringAllToLife();
 }
+#pragma endregion

@@ -123,10 +123,10 @@ public:
 	void bringAllToLife();
 
 	//
-	void removePlayer(Uint8 id);
+	void removePlayer();
 
 	//
-	void killPlayer(Uint8 id);
+	void killPlayer();
 
 	// switch to the view of the next player
 	void switchToNextPlayer();
