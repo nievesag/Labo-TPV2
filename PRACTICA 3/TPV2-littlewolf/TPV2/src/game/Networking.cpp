@@ -22,7 +22,7 @@ Networking::Networking() :
 Networking::~Networking() {}
 
 // INIT
-bool Networking::init(char *host, Uint16 port) {
+bool Networking::init(const char *host, Uint16 port) {
 
 	if (SDLNet_ResolveHost(&srvadd_, host, port) < 0) {
 		SDLNetUtils::print_SDLNet_error();
@@ -130,7 +130,7 @@ void Networking::update() {
 			// informas al master de jugador desconectado
 			m1.deserialize(p_->data); 
 			masterId_ = m1._master_id; // guardas el nuevo master si hay que cambiarlo
-			handle_disconnet(m1._client_id); // se administra la desconexion
+			handle_disconnet(); // se administra la desconexion
 			break;
 
 		case _PLAYER_STATE:
@@ -274,14 +274,14 @@ void Networking::handle_new_client(Uint8 id) {
 	if (id != clientId_) 
 	{
 		// llama al metodo de little wolf de que envia info de jugador
-		Game::instance()->get_wolves().send_my_info();
+		Game::instance()->get_wolves()->send_my_info();
 	}
 }
 
 void Networking::handle_disconnet() {
 
 	// llama al metodo de little wolf que elimina jugador
-	Game::instance()->get_wolves().removePlayer();
+	Game::instance()->get_wolves()->removePlayer();
 }
 
 void Networking::handle_player_state(const PlayerStateMsg &m) {
@@ -291,14 +291,14 @@ void Networking::handle_player_state(const PlayerStateMsg &m) {
 
 void Networking::handle_dead(const MsgWithId &m) {
 
-	// 
-	Game::instance()->get_wolves().killPlayer();
+	// llama al metodo de little wolf que mata jugador
+	Game::instance()->get_wolves()->killPlayer();
 }
 
 void Networking::handle_player_info(const PlayerInfoMsg &m) {
 	if (m._client_id != clientId_) 
 	{
-		Game::instance()->get_wolves().update_player_info(m._client_id, m.posX, m.posY, m.velX, m.velY, m.speed, m.acc, m.theta, (LittleWolf::PlayerState)m.state);
+		Game::instance()->get_wolves()->update_player_info(m._client_id, m.posX, m.posY, m.velX, m.velY, m.speed, m.acc, m.theta, (LittleWolf::PlayerState)m.state);
 	}
 }
 
@@ -308,6 +308,6 @@ void Networking::handle_shoot(const ShootMsg& m)
 }
 
 void Networking::handle_restart() {
-	Game::instance()->get_wolves().bringAllToLife();
+	Game::instance()->get_wolves()->bringAllToLife();
 }
 #pragma endregion
