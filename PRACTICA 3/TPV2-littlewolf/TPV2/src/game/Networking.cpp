@@ -223,12 +223,6 @@ void Networking::send_shoot(Vector2D p, Vector2D v, int width, int height,
 	m.rot = r;
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
-//
-//void Networking::handle_shoot(const ShootMsg &m) {
-//	Game::instance()->get_bullets().shoot(Vector2D(m.x, m.y),
-//			Vector2D(m.vx, m.vy), m.w, m.h, m.rot);
-//
-//}
 
 void Networking::send_dead(Uint8 id) {
 	MsgWithId m;
@@ -269,6 +263,11 @@ void Networking::handle_player_info(const PlayerInfoMsg &m) {
 	{
 		Game::instance()->get_wolves().update_player_info(m._client_id, m.posX, m.posY, m.velX, m.velY, m.speed, m.acc, m.theta, (LittleWolf::PlayerState)m.state);
 	}
+}
+
+void Networking::handle_shoot(const ShootMsg& m)
+{
+	//Game::instance()->get_bullets().shoot(Vector2D(m.x, m.y), Vector2D(m.vx, m.vy), m.w, m.h, m.rot);
 }
 
 void Networking::send_restart() {
