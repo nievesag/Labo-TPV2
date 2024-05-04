@@ -37,3 +37,4 @@ ABRIR EL SERVER:
 1) entrar en la carpeta bin 
 2) hacer click derecho y ejecutar en consola
 3) escribir:  .\TPV2Debug.exe server 2000
+4) Meter el resources en la carpeta bing

@@ -18,8 +18,6 @@
 class LittleWolf {
 public:
 
-	// point / hit / line / gpu / display / wall / playerstate / player / map
-	#pragma region STRUCTS
 	// a point in a 2D-plane
 	struct Point {
 		float x;
@@ -110,70 +108,49 @@ public:
 			}
 		}
 	};
-	#pragma endregion
 
 	// the constructor get the window's dimensions and the sdl winodw/renderer
-	LittleWolf(uint16_t xres, uint16_t yres, SDL_Window *window, SDL_Renderer *render);
+	LittleWolf(uint16_t xres, uint16_t yres, SDL_Window *window,
+			SDL_Renderer *render);
 	virtual ~LittleWolf();
 
-	#pragma region METODOS MANAGEO
-	// ---- basicos ----
 	// load a map from a file
 	void load(std::string filename);
+
+	// add a new player with identifier <id>, returns false if the id is already occupied
+	bool addPlayer(std::uint8_t id);
+
+	// mark all (used) player alive
+	void bringAllToLife();
+
+	// switch to the view of the next player
+	void switchToNextPlayer();
 
 	// render the walls, etc
 	void render();
 
-	// update the world, etc
+	// update the world, tec
 	void update();
 
-	// ---- quitar y meter players ----
-	// add a new player with identifier <id>, returns false if the id is already occupied
-	bool addPlayer(std::uint8_t id);
-
-	// 
-	void removePlayer();
-
-	// ---- vida y muerte ----
-	// mark all (used) player alive
-	void bringAllToLife();
-
-	//
-	void killPlayer();
-
-	// ---- vista ----
-	// switch to the view of the next player
-	void switchToNextPlayer();
-
-	// ---- info ----
-	// updates player info
-	void update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state);
-
-	// sends player info
-	void send_my_info();
-#pragma endregion
-
 private:
+
 	// Calculates wall size using the <corrected> ray to the wall.
-	Wall project(const int xres, const int yres, const float focal, const Point corrected);
+	Wall project(const int xres, const int yres, const float focal,
+			const Point corrected);
 
 	// Casts a ray from <where> in unit <direction> until a <walling> tile is hit.
-	Hit cast(const Point where, Point direction, uint8_t **walling, bool ignore_players, bool ignore_deads);
+	Hit cast(const Point where, Point direction, uint8_t **walling,
+			bool ignore_players, bool ignore_deads);
 
-	// move / spin / shoot
-	#pragma region PLAYER ACTIONS
 	// Moves the player when w,a,s,d are held down. Handles collision detection for the walls.
-	void move(Player &p);
+	bool shoot(Player &p);
 
 	// Spins the player when keys grid_h,l are held down. When left-shit is held down the move is slower
 	inline void spin(Player &p);
 
 	// Moves the player when w,a,s,d are held down. Handles collision detection for the walls.
-	bool shoot(Player &p);
-	#pragma endregion
+	void move(Player &p);
 
-	// metodos de renderizado de mapa y jugadores
-	#pragma region RENDER
 	// Renders the entire scene from the <current player> perspective given a <map> and a software <gpu>.
 	void render_map(Player &p);
 
@@ -182,10 +159,9 @@ private:
 
 	// Render a list of current player
 	void render_players_info();
-	#pragma endregion
 
 	// These are auxiliary function for vectors, colors, etc. All are from original littlewolf.
-	#pragma region AUX
+
 	// Changes the field of view. A focal value of 1.0 is 90 degrees.
 	inline Line viewport(float focal) {
 		Line fov = { { focal, -1.0f }, { focal, +1.0f }, };
@@ -276,7 +252,8 @@ private:
 	}
 
 	// Places a pixels in gpu video memory.
-	inline void put(const Display display, const int x, const int y, const uint32_t pixel) {
+	inline void put(const Display display, const int x, const int y,
+			const uint32_t pixel) {
 		display.pixels[y + x * display.width] = pixel;
 	}
 
@@ -363,10 +340,9 @@ private:
 		assert(tile >= 10);
 		return tile - 10;
 	}
-	#pragma endregion
 
 	// Some fields defining all elements of the world, etc
-	#pragma region WORLD ELEMENTS
+
 	// maximum number of player
 	static constexpr uint8_t max_player = 10;
 
@@ -391,5 +367,6 @@ private:
 
 	// the GPU structure with all the needed elements to draw the world
 	Gpu gpu_;
-	#pragma endregion
+
 };
+

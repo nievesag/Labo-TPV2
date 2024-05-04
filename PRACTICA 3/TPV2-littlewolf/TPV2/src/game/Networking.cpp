@@ -39,7 +39,6 @@ bool Networking::init(const char *host, Uint16 port) {
 	}
 
 	p_ = SDLNet_AllocPacket(512);
-
 	if (!p_) {
 		SDLNetUtils::print_SDLNet_error();
 		return false;
