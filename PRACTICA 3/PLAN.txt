@@ -28,3 +28,12 @@ PROCESA LA LÓGICA DE VALIDACIÓN DE LA ACCIÓN
 		+ en todos los clientes con volumen relativo a la distancia del jugador que haya disparado/muerto
 9. LIMPIAR:
 	- eliminar pulsar R para reiniciar y pulsar N para cambiar de jugador
+
+
+-----------------------
+
+ABRIR EL SERVER:
+
+1) entrar en la carpeta bin 
+2) hacer click derecho y ejecutar en consola
+3) escribir:  .\TPV2Debug.exe server 2000
