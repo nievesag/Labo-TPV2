@@ -89,3 +89,7 @@ void Game::start() {
 
 }
 
+Networking* Game::get_networking()
+{
+	return networking_;
+}

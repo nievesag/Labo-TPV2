@@ -25,10 +25,10 @@ public:
 		return clientId_ == masterId_;
 	}
 
-	void send_state(Uint8 id, LittleWolf::Line foview, LittleWolf::Point wher, LittleWolf::Point vel, float s,
-		float a, float thet, uint8_t state);
-	void send_my_info(Uint8 id, LittleWolf::Line foview, LittleWolf::Point wher, LittleWolf::Point vel, float s,
-		float a, float thet, uint8_t state);
+	void send_state(const Vector2D& pos, float w, float h, float rot);
+	void send_my_info(const Vector2D& pos, const Vector2D& vel,
+		float speed, float acceleration, float theta,
+		Uint8 state);
 	
 	void send_shoot(Vector2D p, Vector2D v, int width, int height, float r);
 	void send_dead(Uint8 id);
@@ -51,4 +51,3 @@ private:
 	Uint8 clientId_;
 	Uint8 masterId_;
 };
-

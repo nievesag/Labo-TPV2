@@ -110,8 +110,7 @@ public:
 	};
 
 	// the constructor get the window's dimensions and the sdl winodw/renderer
-	LittleWolf(uint16_t xres, uint16_t yres, SDL_Window *window,
-			SDL_Renderer *render);
+	LittleWolf(uint16_t xres, uint16_t yres, SDL_Window *window, SDL_Renderer *render);
 	virtual ~LittleWolf();
 
 	// load a map from a file
@@ -136,18 +135,10 @@ public:
 	void update();
 
 	// updates player info
-	void update_player_info(Uint8 id, Line foview, Point wher, Point vel, float s,
-		float a, float thet, uint8_t state);
+	void update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state);
 
 	// sends player info
 	void send_my_info();
-
-	// updates player state
-	void update_player_state(Uint8 id, Line foview, Point wher, Point vel, float s,
-		float a, float thet);
-
-	
-
 
 private:
 
@@ -384,6 +375,4 @@ private:
 
 	// the GPU structure with all the needed elements to draw the world
 	Gpu gpu_;
-
 };
-

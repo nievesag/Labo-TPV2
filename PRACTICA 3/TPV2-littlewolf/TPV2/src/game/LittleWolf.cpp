@@ -47,44 +47,31 @@ void LittleWolf::update() {
 	shoot(p); // handle shooting
 }
 
-void LittleWolf::update_player_info(Uint8 id, Line foview, Point wher, Point vel, float s,
-	float a, float thet, uint8_t state)
+void LittleWolf::update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state)
 {
-	Player& p = players_[id];
+	Player& p = players_[playerID];
 
-	p.id = id;
-	p.fov = foview;
-	p.where = wher;
-	p.velocity = vel;
-	p.speed = s;
-	p.acceleration = a;
-	p.theta = thet;
-	p.state = static_cast<PlayerState>(state);
+	p.id = playerID;
+
+	p.where.x = posX;
+	p.where.y = posY;
+
+	p.velocity.x = velX;
+	p.velocity.y = velY;
+
+	p.speed = speed;
+	p.acceleration = acc;
+	p.theta = theta;
+	p.state = state;
 }
 
 void LittleWolf::send_my_info()
 {
 	Player& p = players_[player_id_];
 
-	//
-	Game::instance()->get_networking().send_my_info(p.id, p.fov, p.where, 
-		p.velocity,p.speed, p.acceleration, p.theta, p.state);
-
-}
-
-void LittleWolf::update_player_state(Uint8 id, Line foview, Point wher, Point vel, float s, float a, float thet)
-{
-	Player& p = players_[id];
-
-
-	p.id = id;
-	p.fov = foview;
-	p.where = wher;
-	p.velocity = vel;
-	p.speed = s;
-	p.acceleration = a;
-	p.theta = thet;
-
+	Game::instance()->get_networking()->send_my_info(
+		Vector2D(p.where.x, p.where.y), Vector2D(p.velocity.x, p.velocity.y),
+		p.speed, p.acceleration, p.theta, p.state);
 }
 
 void LittleWolf::load(std::string filename) {
@@ -398,10 +385,8 @@ void LittleWolf::render_upper_view() {
 
 			info.render(src, dest,
 					p.theta * 180 / 3.14159265358979323846264338327950288f);
-
 		}
 	}
-
 }
 
 void LittleWolf::render_players_info() {

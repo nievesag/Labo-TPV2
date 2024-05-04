@@ -105,9 +105,6 @@
     <ClInclude Include="src\game\LittleWolf.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\Multiplayer.h">
-      <Filter>Header Files\game</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\Networking.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
@@ -156,9 +153,6 @@
       <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Game.cpp">
-      <Filter>Source Files\game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Multiplayer.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Networking.cpp">

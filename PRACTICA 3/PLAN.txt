@@ -2,7 +2,7 @@
 	- si se desconecta se asigna al siguiente con menor identificador
 	- si se conecta alguien con identificador menor que el actual cambia máster
 	- decide las posiciones aleatorias en las que aparecen los siguientes jugadores
--> TODA EL ENVÍO DE MENSAJES SE TRAMITA A TRAVÉS DE ESTE ORDENADOR, CUANDO SE REALICE UNA ACCIÓN ESTE ORDENADOR 
+-> TODO EL ENVÍO DE MENSAJES SE TRAMITA A TRAVÉS DE ESTE ORDENADOR, CUANDO SE REALICE UNA ACCIÓN ESTE ORDENADOR 
 PROCESA LA LÓGICA DE VALIDACIÓN DE LA ACCIÓN
 
 2. CUANDO SE CONECTA JUGADOR:

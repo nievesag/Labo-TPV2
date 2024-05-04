@@ -32,45 +32,40 @@ struct Msg {
 struct MsgWithId: Msg {
 	Uint8 _client_id;
 
-	_IMPL_SERIALIAZION_WITH_BASE_(Msg,_client_id)
+	_IMPL_SERIALIAZION_WITH_BASE_(Msg, _client_id)
 };
 
 struct MsgWithMasterId: MsgWithId {
 	Uint8 _master_id;
 
-	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId,_master_id)
+	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, _master_id)
 };
 
 struct PlayerStateMsg: MsgWithId {
 
+	float x;
+	float y;
+	int w;
+	int h;
+	float rot;
 
-	uint8_t id;          // the id
-	LittleWolf::Line fov;            // focal view
-	LittleWolf::Point wh;         // current position (wrt. to the grid)
-	LittleWolf::Point velocity;      // current velocity
-	float speed;         // maximum speed
-	float acceleration;  // acceleration
-	float theta;         // rotation (in rad)
-	LittleWolf::PlayerState state;   // the state
-
-	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, fov, wh, velocity, speed, acceleration, theta, state)
-
+	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, x, y, w, h, rot)
 };
 
 struct PlayerInfoMsg: MsgWithId {
 
-	uint8_t id;          // the id
-	LittleWolf::Line fov;            // focal view
-	LittleWolf::Point wh;         // current position (wrt. to the grid)
-	LittleWolf::Point velo;      // current velocity
-	float spee;         // maximum speed
-	float acc;  // acceleration
-	float the;         // rotation (in rad)
-	LittleWolf::PlayerState stat;   // the state
+	float posX;   // X pos
+	float posY;   // Y pos
+	float velX;   // X vel     
+	float velY;   // Y vel
+	float speed;  // speed
+	float acc;    // acceleration
+	float theta;  // rotation (in rad)
+	Uint8 state;  // state
 
-	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, fov, wh, velo, spee, acc, the, stat)
-
+	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, posX, posY, velX, velY, speed, acc, theta, state)
 };
+
 struct ShootMsg: MsgWithId {
 
 	float x;
@@ -82,5 +77,4 @@ struct ShootMsg: MsgWithId {
 	float rot;
 
 	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, x,y,vx,vy,w,h,rot)
-
 };

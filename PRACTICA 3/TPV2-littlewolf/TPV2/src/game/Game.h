@@ -20,11 +20,7 @@ public:
 		return *little_wolf_;
 	}
 
-	Networking& get_networking() {
-		return *networking_;
-	}
-
-
+	Networking* get_networking();
 
 private:
 
