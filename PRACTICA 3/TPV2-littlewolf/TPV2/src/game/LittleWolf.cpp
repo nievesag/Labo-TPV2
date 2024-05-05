@@ -360,6 +360,25 @@ void LittleWolf::process_move_request(int playerID)
 void LittleWolf::process_player_die(int playerID)
 {
 	players_[playerID].state = DEAD;
+
+
+	// ---- para pantalla de espera
+	// si quedan menos de 2 jugadores, mandar mensaje de esperar para reiniciar
+	int currentPlayers = 0;
+
+	for(auto& p : players_)
+	{
+		if (p.state == ALIVE)
+		{
+			currentPlayers++;
+		}
+	}
+
+	// cuando quedan menos de dos jugadores
+	if (currentPlayers < 2) 
+	{
+		send_waiting();
+	}
 }
 
 void LittleWolf::process_new_start()
@@ -376,11 +395,6 @@ void LittleWolf::process_new_start()
 			p.state = ALIVE;
 		}
 	}
-}
-
-void LittleWolf::process_shoot()
-{
-
 }
 
 void LittleWolf::process_waiting()
@@ -428,10 +442,6 @@ void LittleWolf::send_new_start()
 void LittleWolf::send_waiting()
 {
 	Game::instance()->get_networking()->send_waiting();
-}
-void LittleWolf::send_is_dead()
-{
-	Game::instance()->get_networking()->send_is_dead();
 }
 #pragma endregion
 
@@ -538,7 +548,6 @@ void LittleWolf::spin(Player& p) {
 bool LittleWolf::shoot(Player& p)
 {
 	// ya no hace falta comprobar el input, se comprueba en el update
-
 	// play gun shot sound
 	sdlutils().soundEffects().at("gunshot").play();
 
@@ -561,8 +570,9 @@ bool LittleWolf::shoot(Player& p)
 		if (hit.tile > 9 && mag(sub(p.where, hit.where)) < shoot_distace)
 		{
 			uint8_t id = tile_to_player(hit.tile);
-			players_[id].state = DEAD;
 			sdlutils().soundEffects().at("pain").play();
+			send_dead(id);
+
 			return true;
 		}
 	}

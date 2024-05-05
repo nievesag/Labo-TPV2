@@ -137,23 +137,11 @@ void Networking::update() {
 			handle_player_info(m_info);
 			break;
 
-		case _SHOOT:
-			// para informar al master de disparos
-			m_shoot.deserialize(p_->data);
-			handle_shoot(m_shoot);
-			break;
-
 		case _DEAD:
 			// para informar al master de muertes
 			m_id.deserialize(p_->data);
 			handle_dead(m_id);
 			break;
-
-		case _RESTART:
-			// para resetear
-			handle_restart();
-			break;
-	
 
 		case _WAITING_SCREEN:
 			handle_waiting();
@@ -169,10 +157,6 @@ void Networking::update() {
 			// para pedir al master moverse
 			m_id.deserialize(p_->data);
 			handle_move_request(m_id);
-			break;
-
-		case _IS_DEAD:
-			handle_is_dead();
 			break;
 
 		default:
@@ -275,17 +259,6 @@ void Networking::send_dead(Uint8 id)
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 
-void Networking::send_is_dead()
-{
-	Msg m;
-
-	// mensaje de muerte
-	m._type = _IS_DEAD;
-
-	// lo envia de manera serializada
-	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
-}
-
 void Networking::send_waiting()
 {
 	Msg m;
@@ -375,24 +348,11 @@ void Networking::handle_new_start()
 	Game::instance()->get_wolves()->process_new_start();
 }
 
-void Networking::handle_player_info(const PlayerInfoMsg &m) {
-
+void Networking::handle_player_info(const PlayerInfoMsg &m)
+{
 	if (m._client_id != clientId_) 
 	{
 		Game::instance()->get_wolves()->update_player_info(m._client_id, m.posX, m.posY, m.velX, m.velY, m.speed, m.acc, m.theta, (LittleWolf::PlayerState)m.state);
-	}
-}
-
-void Networking::handle_shoot(const ShootMsg& m)
-{
-	
-}
-
-void Networking::handle_is_dead()
-{
-	if (is_master())
-	{
-		Game::instance()->get_wolves()->process_shoot();
 	}
 }
 #pragma endregion
