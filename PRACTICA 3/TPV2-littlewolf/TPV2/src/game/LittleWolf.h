@@ -169,7 +169,7 @@ public:
 
 	// ---- info ----
 	// updates player info
-	void update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state);
+	void update_player_info(int id, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state);
 
 
 	void player_syncronize(Uint8 id, const Vector2D& pos);

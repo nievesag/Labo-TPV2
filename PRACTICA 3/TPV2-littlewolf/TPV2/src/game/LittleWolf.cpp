@@ -85,35 +85,29 @@ void LittleWolf::update()
 	}
 }
 
-void LittleWolf::update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state)
+void LittleWolf::update_player_info(int id, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state)
 {
-	if (players_[playerID].state == NOT_USED) {
+	if (players_[id].state == NOT_USED) {
 		
-		Player player = { playerID,
-					viewport(0.8f),
-					{ posX + 0.5f, posY + 0.5f },
-					{ velX,velY },
-					speed,
-					acc,
-					theta,
-					ALIVE };
+		Player player = { id, viewport(0.8f), { posX + 0.5f, posY + 0.5f }, { velX,velY },
+					speed, acc, theta, ALIVE };
 
-		map_.walling[(int)player.where.y][(int)player.where.x] = player_to_tile(playerID);
-		players_[playerID] = player;
+		map_.walling[(int)player.where.y][(int)player.where.x] = player_to_tile(id);
 
-	
+		players_[id] = player;
 	}
 	else {
-		Player& p = players_[playerID];
-
+		Player& p = players_[id];
 
 		bool collision = false;
+
 		// if master
 		if (Game::instance()->get_networking()->is_master()) {
+
 			Point lastPos = p.where;
 
-			// if collision
-			if (tile(p.where, map_.walling) != player_to_tile(playerID)
+			// colisiones
+			if (tile(p.where, map_.walling) != player_to_tile(id)
 				&& tile(p.where, map_.walling) != 0) {
 
 				p.where = lastPos;
@@ -130,7 +124,6 @@ void LittleWolf::update_player_info(int playerID, float posX, float posY, float 
 			map_.walling[(int)p.where.y][(int)p.where.x] = 0;
 
 			// move
-
 			p.where.x = posX;
 			p.where.y = posY;
 
@@ -147,9 +140,6 @@ void LittleWolf::update_player_info(int playerID, float posX, float posY, float 
 
 
 	}
-	//if (p.state == NOT_USED) {
-	//	std::cout << "NOT USED FINALLY aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
-	//}
 }
 
 void LittleWolf::player_syncronize(Uint8 id, const Vector2D& pos)
