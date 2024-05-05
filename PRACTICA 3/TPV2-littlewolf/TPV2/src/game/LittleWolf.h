@@ -161,6 +161,11 @@ public:
 	//
 	bool isUpperView();
 
+
+	// ---- respawn -----
+
+	//
+
 	// ---- info ----
 	// updates player info
 	void update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state);

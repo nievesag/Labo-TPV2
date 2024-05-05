@@ -147,6 +147,13 @@ void Networking::update() {
 			handle_waiting();
 			break;
 
+		case _RESTART:
+			handle_new_start();
+			break;
+		case _NEW_START:
+			handle_new_start();
+			break;
+
 		case _SHOOT_REQUEST:
 			// para pedir al master disparar
 			m_id.deserialize(p_->data);
@@ -345,6 +352,7 @@ void Networking::handle_move_request(const MsgWithId& m)
 
 void Networking::handle_new_start()
 {
+
 	Game::instance()->get_wolves()->process_new_start();
 }
 

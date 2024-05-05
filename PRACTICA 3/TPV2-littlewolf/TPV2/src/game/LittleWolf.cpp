@@ -78,6 +78,11 @@ void LittleWolf::update()
 	{
 		send_shoot_request();
 	}
+
+	if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_R))
+	{
+		send_waiting();
+	}
 }
 
 void LittleWolf::update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state)
@@ -386,15 +391,48 @@ void LittleWolf::process_new_start()
 	// dejas de esperar
 	isWaiting = false;
 
+	auto& rand = sdlutils().rand();
+
 	// ESTO AHORA ESTA IGUAL QUE EL RESTART, HAY QUE CAMBIARLO !!!!!!!!!!
 	// bring all dead players to life -- all stay in the same position
 	for (auto& p : players_)
 	{
 		if (p.state != NOT_USED)
 		{
+
+			// The search for an empty cell start at a random position (orow,ocol)
+			uint16_t orow = rand.nextInt(0, map_.walling_height);
+			uint16_t ocol = rand.nextInt(0, map_.walling_width);
+
+			// search for an empty cell
+			uint16_t row = orow;
+			uint16_t col = (ocol + 1) % map_.walling_width;
+			while (!((orow == row) && (ocol == col)) && map_.walling[row][col] != 0)
+			{
+				col = (col + 1) % map_.user_walling_width;
+				if (col == 0)
+				{
+					row = (row + 1) % map_.walling_height;
+				}
+			}
+
+			// handle the case where the search is failed, which in principle should never
+			// happen unless we start with map with few empty cells
+			if (row >= map_.walling_height)
+			{
+
+			}
+
+			p.where = { col + 0.5f, row + 0.5f };
+
 			p.state = ALIVE;
 		}
 	}
+
+	// AQUI RESTART
+
+	std::cout << " NEW START " << std::endl;
+
 }
 
 void LittleWolf::process_waiting()
@@ -595,6 +633,9 @@ void LittleWolf::render() {
 
 	// render the identifiers, state, etc
 	render_players_info();
+
+	if (isWaiting)
+		render_waiting();
 }
 
 void LittleWolf::render_map(Player &p) {
@@ -779,8 +820,11 @@ void LittleWolf::render_waiting()
 	// convierte el tiempo que queda a string en formato de segundos estandar
 	std::string timeLeft = std::to_string((waitingCounter) / 1000);
 
+
 	// guarda el string del mensaje
 	std::string msg = "The game will restart in " + timeLeft + " seconds";
+
+	std::cout << msg << std::endl;
 
 	// crea la textura del aviso
 	Texture Waiting(sdlutils().renderer(), msg, sdlutils().fonts().at("ARIAL48"), build_sdlcolor(color_rgba(6)));
