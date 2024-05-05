@@ -78,11 +78,6 @@ void LittleWolf::update()
 	{
 		send_shoot_request();
 	}
-
-	if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_R))
-	{
-		send_waiting();
-	}
 }
 
 void LittleWolf::update_player_info(int id, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state)
@@ -414,7 +409,6 @@ void LittleWolf::process_player_die(Uint8 playerID)
 {
 	players_[playerID].state = DEAD;
 
-
 	// ---- para pantalla de espera
 	// si quedan menos de 2 jugadores, mandar mensaje de esperar para reiniciar
 	int currentPlayers = 0;
@@ -441,13 +435,10 @@ void LittleWolf::process_new_start()
 
 	auto& rand = sdlutils().rand();
 
-	// ESTO AHORA ESTA IGUAL QUE EL RESTART, HAY QUE CAMBIARLO !!!!!!!!!!
-	// bring all dead players to life -- all stay in the same position
 	for (auto& p : players_)
 	{
 		if (p.state != NOT_USED)
 		{
-
 			// The search for an empty cell start at a random position (orow,ocol)
 			uint16_t orow = rand.nextInt(0, map_.walling_height);
 			uint16_t ocol = rand.nextInt(0, map_.walling_width);
@@ -477,10 +468,7 @@ void LittleWolf::process_new_start()
 		}
 	}
 
-	// AQUI RESTART
-
 	std::cout << " NEW START " << std::endl;
-
 }
 
 void LittleWolf::process_waiting()
