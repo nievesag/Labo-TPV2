@@ -271,7 +271,7 @@ void Networking::handle_new_client(Uint8 id) {
 	}
 }
 
-void Networking::handle_disconnet() {
+void Networking::handle_disconnect() {
 
 	// llama al metodo de little wolf que elimina jugador
 	Game::instance()->get_wolves()->removePlayer();
