@@ -459,12 +459,24 @@ void LittleWolf::process_new_start()
 			// happen unless we start with map with few empty cells
 			if (row >= map_.walling_height)
 			{
-
+				return;
 			}
 
-			p.where = { col + 0.5f, row + 0.5f };
+			map_.walling[(int)p.where.y][(int)p.where.x] = 0;
 
+			p.where.x = col + 0.5f;
+			p.where.y = row + 0.5f;
+
+			p.velocity.x = 0;
+			p.velocity.y = 0;
+			p.speed = 2.0;
+			p.acceleration = 0.9;
+			p.theta = 0;
 			p.state = ALIVE;
+
+			map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(p.id);
+
+			Game::instance()->get_networking()->send_synconize(p.id, Vector2D(p.where.x, p.where.y));
 		}
 	}
 
