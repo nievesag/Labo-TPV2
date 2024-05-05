@@ -90,8 +90,9 @@ void Game::start() {
 		}
 
 		// update
-		networking_->update();
 		little_wolf_->update();
+		little_wolf_->send_my_info();
+		networking_->update();
 
 		// the clear is not necessary since we copy the whole texture -- I guess ...
 		// sdlutils().clearRenderer();

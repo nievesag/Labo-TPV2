@@ -143,7 +143,7 @@ public:
 	bool addPlayer(std::uint8_t id);
 
 	// para desconectarlo
-	void removePlayer();
+	void removePlayer(Uint8 id);
 
 	// ---- vida y muerte ----
 	// mark all (used) player alive

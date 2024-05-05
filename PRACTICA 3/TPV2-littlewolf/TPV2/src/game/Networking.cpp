@@ -129,7 +129,7 @@ void Networking::update() {
 			// informas al master de jugador desconectado
 			m1.deserialize(p_->data); 
 			masterId_ = m1._master_id; // guardas el nuevo master si hay que cambiarlo
-			handle_disconnect(); // se administra la desconexion
+			handle_disconnect(m1._client_id); // se administra la desconexion
 			break;
 
 		case _PLAYER_INFO:
@@ -278,10 +278,10 @@ void Networking::handle_new_client(Uint8 id) {
 	}
 }
 
-void Networking::handle_disconnect() {
+void Networking::handle_disconnect(Uint8 id) {
 
 	// llama al metodo de little wolf que elimina jugador
-	Game::instance()->get_wolves()->removePlayer();
+	Game::instance()->get_wolves()->removePlayer(id);
 }
 
 void Networking::handle_dead(const MsgWithId &m) {

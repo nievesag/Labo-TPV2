@@ -71,13 +71,10 @@ void LittleWolf::send_my_info()
 
 	Player& p = players_[player_id_];
 
-	std::cout << "sending info..." << std::endl;
-
 	Game::instance()->get_networking()->send_my_info(
 		Vector2D(p.where.x, p.where.y), Vector2D(p.velocity.x, p.velocity.y),
 		p.speed, p.acceleration, p.theta, p.state);
 
-	std::cout << "info sent" << std::endl;
 }
 
 void LittleWolf::load(std::string filename) {
@@ -660,9 +657,9 @@ void LittleWolf::bringAllToLife() {
 	}
 }
 
-void LittleWolf::removePlayer()
+void LittleWolf::removePlayer(Uint8 id)
 {
-	Player& p = players_[player_id_];
+	Player& p = players_[id];
 	p.state = LittleWolf::NOT_USED;
 }
 
