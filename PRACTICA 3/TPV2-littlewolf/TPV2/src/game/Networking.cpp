@@ -109,7 +109,7 @@ void Networking::update() {
 
 	Msg m0; // mensajes de flujo
 	MsgWithMasterId m1; // para mandarle info al master
-	//PlayerStateMsg m2; // para informar al master de estados de jugadores
+	PlayerStateMsg m2; // para informar al master de estados de jugadores
 	ShootMsg m3; // mensaje de disparo
 	MsgWithId m4; // para muertes
 	PlayerInfoMsg m5; // para informar al master de informacion de jugadores
@@ -131,6 +131,7 @@ void Networking::update() {
 			masterId_ = m1._master_id; // guardas el nuevo master si hay que cambiarlo
 			handle_disconnect(m1._client_id); // se administra la desconexion
 			break;
+
 
 		case _PLAYER_INFO:
 			// para informar al master de info de los jugadores
@@ -154,6 +155,7 @@ void Networking::update() {
 			// para resetear
 			handle_restart();
 			break;
+	
 
 		default:
 			break;
@@ -206,9 +208,11 @@ void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float sp
 	m.theta = theta;
 	m.state = state;
 
-	std::cout << p_ << std::endl;
+	std::cout << "current state of player " << clientId_ << " is " << (int)state << std::endl;
+
+	/*std::cout << p_ << std::endl;
 	std::cout << sock_ << std::endl;
-	std::cout << srvadd_.host << std::endl;
+	std::cout << srvadd_.host << std::endl;*/
 
 
 	// lo envia de manera serializada
@@ -280,6 +284,8 @@ void Networking::handle_new_client(Uint8 id) {
 
 void Networking::handle_disconnect(Uint8 id) {
 
+	std::cout << "disconnecting..." << std::endl;
+
 	// llama al metodo de little wolf que elimina jugador
 	Game::instance()->get_wolves()->removePlayer(id);
 }
@@ -305,5 +311,10 @@ void Networking::handle_shoot(const ShootMsg& m)
 
 void Networking::handle_restart() {
 	Game::instance()->get_wolves()->bringAllToLife();
+}
+void Networking::handle_player_state()
+{
+
+
 }
 #pragma endregion

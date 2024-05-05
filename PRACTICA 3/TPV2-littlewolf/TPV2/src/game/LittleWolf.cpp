@@ -41,6 +41,7 @@ void LittleWolf::update()
 	{
 		return;
 	}
+	
 
 	spin(p);  // handle spinning
 	move(p);  // handle moving
@@ -63,12 +64,14 @@ void LittleWolf::update_player_info(int playerID, float posX, float posY, float 
 	p.acceleration = acc;
 	p.theta = theta;
 	p.state = state;
+
+	if (p.state == NOT_USED) {
+		std::cout << "NOT USED FINALLY aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
+	}
 }
 
 void LittleWolf::send_my_info()
 {
-	std::cout << (int)player_id_ << std::endl;
-
 	Player& p = players_[player_id_];
 
 	Game::instance()->get_networking()->send_my_info(
@@ -474,8 +477,14 @@ void LittleWolf::render_players_info() {
 	for (auto i = 0u; i < max_player; i++) {
 		PlayerState s = players_[i].state;
 
+		//std::cout << "Player " << i << std::endl;
 		// render player info if it is used
 		if (s != NOT_USED) {
+
+
+			//if(s == NOT_USED) std::cout << " is NOT USED" << std::endl;
+			//else if(s == ALIVE)std::cout << " is ALIVE" << std::endl;
+			//else if(s == DEAD)std::cout << " is DEAD" << std::endl;
 
 			std::string msg = (i == player_id_ ? "*P" : " P") + std::to_string(i) + (s == DEAD ? " (dead)" : "");
 
@@ -488,7 +497,11 @@ void LittleWolf::render_players_info() {
 			info.render(dest);
 			y += info.height() + 5;
 		}
+
 	}
+
+	//std::cout << std::endl << std::endl << std::endl;
+
 }
 
 void LittleWolf::move(Player &p) {
@@ -660,7 +673,12 @@ void LittleWolf::bringAllToLife() {
 void LittleWolf::removePlayer(Uint8 id)
 {
 	Player& p = players_[id];
+
+	//map_.walling[(int)p.where.y][(int)p.where.x] = 0;
+
 	p.state = LittleWolf::NOT_USED;
+
+	std::cout << "-------------------------------------- REMOVE PLAYER --------------------------------------------" << std::endl;
 }
 
 void LittleWolf::killPlayer()

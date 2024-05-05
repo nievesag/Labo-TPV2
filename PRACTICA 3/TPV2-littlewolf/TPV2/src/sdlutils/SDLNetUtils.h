@@ -582,9 +582,6 @@ public:
 	template<typename T>
 	inline static int serializedSend(T &m, UDPpacket *p, UDPsocket sock,
 			const IPaddress &ip) {
-
-
-		std::cout << "llega" << std::endl;
 		p->address = ip;
 		return serializedSend(m, p, sock);
 	}

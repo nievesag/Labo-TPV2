@@ -94,6 +94,8 @@ void Game::start() {
 		little_wolf_->send_my_info();
 		networking_->update();
 
+
+		
 		// the clear is not necessary since we copy the whole texture -- I guess ...
 		// sdlutils().clearRenderer();
 
@@ -109,6 +111,8 @@ void Game::start() {
 			SDL_Delay(10 - frameTime);
 		}
 	}
+
+	networking_->disconnect();
 }
 
 LittleWolf* Game::get_wolves()

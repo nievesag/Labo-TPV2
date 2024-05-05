@@ -40,6 +40,7 @@ private:
 	void handle_shoot(const ShootMsg &m);
 	void handle_dead(const MsgWithId &m);
 	void handle_restart();
+	void handle_player_state();
 
 	UDPsocket sock_;
 	SDLNet_SocketSet socketSet_;
