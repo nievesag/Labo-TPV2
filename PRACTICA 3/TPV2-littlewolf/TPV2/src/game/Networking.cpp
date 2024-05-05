@@ -170,8 +170,8 @@ void Networking::update() {
 
 		case _SOUND:
 			// informas al master de jugador desconectado
-			m_info.deserialize(p_->data);
-			handle_sound();
+			m_id.deserialize(p_->data);
+			handle_sound(m_id);
 			break;
 
 		default:

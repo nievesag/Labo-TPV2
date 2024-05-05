@@ -692,7 +692,7 @@ bool LittleWolf::shoot(Player& p)
 	sound_x = p.where.x;
 	sound_y = p.where.y;
 
-	Game::instance()->get_networking()->send_sound();
+	Game::instance()->get_networking()->send_sound(p.id);
 
 	//playSoundWithDistance(p.where.x, p.where.y, "gunshot");
 
