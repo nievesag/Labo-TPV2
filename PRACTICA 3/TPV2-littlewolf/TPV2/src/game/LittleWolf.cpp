@@ -911,7 +911,7 @@ void LittleWolf::playSoundWithDistance(float x, float y, std::string sound)
 			float distance = sqrt(pow(x_distance, 2) + pow(y_distance, 2));
 
 			// introducir volumen en una ecuacion en la que a mas distancia menos volumen y viceversa
-			float volume = getVolume(distance);
+			float volume = getVolume(distance / 4.64);
 
 			sdlutils().soundEffects().at(sound).setVolume(volume);
 			sdlutils().soundEffects().at(sound).play();
@@ -922,9 +922,9 @@ void LittleWolf::playSoundWithDistance(float x, float y, std::string sound)
 float LittleWolf::getVolume(float x)
 {
 	float y = (1 / x);
-	if (y <= 0)
+	if (y < 0)
 	{
-		y = 1;
+		y = 0;
 	}
 	else if (y >= 128)
 	{
