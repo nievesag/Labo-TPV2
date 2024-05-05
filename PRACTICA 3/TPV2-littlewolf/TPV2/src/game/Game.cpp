@@ -25,6 +25,7 @@ bool Game::init(const char* host, Uint16 port)
 		SDLNetUtils::print_SDLNet_error();
 	}
 
+
 	// initialize the SDLUtils singleton
 	SDLUtils::init("Demo", 900, 480, "resources/config/littlewolf.resources.json");
 
@@ -40,6 +41,8 @@ bool Game::init(const char* host, Uint16 port)
 	//little_wolf_->addPlayer(1);
 	//little_wolf_->addPlayer(2);
 	//little_wolf_->addPlayer(3);
+
+	std::cout << "hola" << std::endl;
 
 	// cada jugador envia su info
 	little_wolf_->send_my_info();
