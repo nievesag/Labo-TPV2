@@ -163,9 +163,15 @@ void Networking::update() {
 			handle_move_request(m_id);
 			break;
 		case _SYNCRONIZE:
-			// informas al master de jugador desconectado
+			// updatea la info de los jugadores
 			m_info.deserialize(p_->data);
 			handle_syncronize(m_info);
+			break;
+
+		case _SOUND:
+			// informas al master de jugador desconectado
+			m_info.deserialize(p_->data);
+			handle_sound();
 			break;
 
 		default:
@@ -291,8 +297,8 @@ void Networking::send_new_start()
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 
-void Networking::send_restart() {
-
+void Networking::send_restart()
+{
 	// mensaje
 	Msg m;
 
@@ -310,6 +316,17 @@ void Networking::send_synconize(Uint8 id, const Vector2D& pos)
 	m.posY = pos.getY();
 	m._type = _SYNCRONIZE;
 
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+void Networking::send_sound()
+{
+	// mensaje
+	Msg m;
+
+	// mensaje de restart
+	m._type = _SOUND;
+
+	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 #pragma endregion
@@ -372,7 +389,11 @@ void Networking::handle_new_start()
 void Networking::handle_syncronize(PlayerInfoMsg& m)
 {
 	Game::instance()->get_wolves()->player_syncronize(m._client_id, Vector2D(m.posX, m.posY));
+}
 
+void Networking::handle_sound()
+{
+	Game::instance()->get_wolves()->process_sound();
 }
 
 void Networking::handle_player_info(const PlayerInfoMsg &m)
