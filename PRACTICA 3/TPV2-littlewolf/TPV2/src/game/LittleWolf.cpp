@@ -909,7 +909,20 @@ void LittleWolf::playSoundWithDistance(float x, float y, std::string sound)
 
 float LittleWolf::getVolume(float x)
 {
-	return (1 / x);
+	float y = (1 / x);
+	if (y <= 0)
+	{
+		y = 1;
+	}
+	else if (y >= 128)
+	{
+		y = 100;
+	}
+	else
+	{
+		
+	}
+	return y;
 }
 
 // AUX
