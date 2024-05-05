@@ -162,11 +162,6 @@ public:
 	//
 	bool isUpperView();
 
-
-	// ---- respawn -----
-
-	//
-
 	// ---- info ----
 	// updates player info
 	void update_player_info(int id, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state);
@@ -414,6 +409,10 @@ private:
 
 	// Some fields defining all elements of the world, etc
 	#pragma region WORLD ELEMENTS
+
+	void playSoundWithDistance(float x, float y, std::string sound);
+	float getVolume(float x);
+
 	// maximum number of player
 	static constexpr uint8_t max_player = 10;
 
