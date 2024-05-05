@@ -315,11 +315,8 @@ void LittleWolf::waitUpperViewTime()
 	else {
 
 		switchToNormalView();
-
 		cont = false;
-
 	}
-
 }
 
 bool LittleWolf::isUpperView()
@@ -381,6 +378,11 @@ void LittleWolf::process_new_start()
 	}
 }
 
+void LittleWolf::process_shoot()
+{
+
+}
+
 void LittleWolf::process_waiting()
 {
 	// empiezas a esperar
@@ -426,6 +428,10 @@ void LittleWolf::send_new_start()
 void LittleWolf::send_waiting()
 {
 	Game::instance()->get_networking()->send_waiting();
+}
+void LittleWolf::send_is_dead()
+{
+	Game::instance()->get_networking()->send_is_dead();
 }
 #pragma endregion
 

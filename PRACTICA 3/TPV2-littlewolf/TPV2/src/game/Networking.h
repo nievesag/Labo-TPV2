@@ -33,6 +33,7 @@ public:
 	void send_move_request();
 	void send_shoot(Vector2D p, Vector2D v, int width, int height, float r);
 	void send_dead(Uint8 id);
+	void send_is_dead();
 
 	void send_waiting();
 	void send_new_start();
@@ -49,8 +50,7 @@ private:
 	void handle_shoot_request(const MsgWithId& m);
 	void handle_move_request(const MsgWithId& m);
 	void handle_new_start();
-	void handle_restart();
-	void handle_player_state();
+	void handle_is_dead();
 
 	UDPsocket sock_;
 	SDLNet_SocketSet socketSet_;

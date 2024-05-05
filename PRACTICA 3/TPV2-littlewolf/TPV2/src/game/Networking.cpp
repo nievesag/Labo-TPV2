@@ -171,6 +171,10 @@ void Networking::update() {
 			handle_move_request(m_id);
 			break;
 
+		case _IS_DEAD:
+			handle_is_dead();
+			break;
+
 		default:
 			break;
 		}
@@ -266,6 +270,17 @@ void Networking::send_dead(Uint8 id)
 
 	// id del jugador que muere
 	m._client_id = id;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+
+void Networking::send_is_dead()
+{
+	Msg m;
+
+	// mensaje de muerte
+	m._type = _IS_DEAD;
 
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
@@ -373,13 +388,11 @@ void Networking::handle_shoot(const ShootMsg& m)
 	
 }
 
-void Networking::handle_restart()
+void Networking::handle_is_dead()
 {
-	Game::instance()->get_wolves()->bringAllToLife();
-}
-void Networking::handle_player_state()
-{
-
-
+	if (is_master())
+	{
+		Game::instance()->get_wolves()->process_shoot();
+	}
 }
 #pragma endregion

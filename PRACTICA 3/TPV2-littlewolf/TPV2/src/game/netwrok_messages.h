@@ -20,7 +20,8 @@ enum MsgType : Uint8 {
 	_WAITING_SCREEN,
 	_NEW_START,
 	_SHOOT_REQUEST,
-	_MOVE_REQUEST
+	_MOVE_REQUEST,
+	_IS_DEAD
 };
 
 struct Msg {

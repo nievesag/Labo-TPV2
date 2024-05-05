@@ -176,6 +176,7 @@ public:
 	void send_dead(int playerID);
 	void send_new_start();
 	void send_waiting();
+	void send_is_dead();
 
 	// ---- process ----
 	// hace la logica de cada cliente
@@ -184,6 +185,7 @@ public:
 	void process_player_die(int playerID);
 	void process_waiting();
 	void process_new_start(); // despues de waiting inicia partida nueva
+	void process_shoot();
 
 	#pragma endregion
 
