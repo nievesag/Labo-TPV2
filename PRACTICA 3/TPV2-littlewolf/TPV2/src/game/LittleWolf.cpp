@@ -339,22 +339,12 @@ void LittleWolf::bringAllToLife() {
 	}
 }
 
-void LittleWolf::removePlayer(Uint8 id)
+void LittleWolf::removePlayer(int playerID)
 {
-	Player& p = players_[id];
-
-	//map_.walling[(int)p.where.y][(int)p.where.x] = 0;
-
-	p.state = LittleWolf::NOT_USED;
-
-	std::cout << "-------------------------------------- REMOVE PLAYER --------------------------------------------" << std::endl;
+	players_[playerID].state = NOT_USED;
+	std::cout << "------------- REMOVE PLAYER ------------" << std::endl;
 }
 
-void LittleWolf::killPlayer()
-{
-	Player& p = players_[player_id_];
-	p.state = LittleWolf::DEAD;
-}
 #pragma endregion
 
 #pragma region PROCESS
@@ -372,7 +362,7 @@ void LittleWolf::process_move_request(int playerID)
 
 void LittleWolf::process_player_die(int playerID)
 {
-
+	players_[playerID].state = DEAD;
 }
 
 void LittleWolf::process_new_start()

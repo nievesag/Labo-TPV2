@@ -328,7 +328,7 @@ void Networking::handle_disconnect(Uint8 id) {
 void Networking::handle_dead(const MsgWithId &m) {
 
 	// llama al metodo de little wolf que mata jugador
-	Game::instance()->get_wolves()->killPlayer();
+	Game::instance()->get_wolves()->process_player_die(m._client_id);
 }
 
 void Networking::handle_waiting()

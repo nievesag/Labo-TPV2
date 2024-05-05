@@ -139,14 +139,11 @@ public:
 	bool addPlayer(std::uint8_t id);
 
 	// para desconectarlo
-	void removePlayer(Uint8 id);
+	void removePlayer(int playerID);
 
 	// ---- vida y muerte ----
 	// mark all (used) player alive
 	void bringAllToLife();
-
-	// para matarlo
-	void killPlayer();
 
 	// ---- vista ----
 	// switch to the view of the next player
