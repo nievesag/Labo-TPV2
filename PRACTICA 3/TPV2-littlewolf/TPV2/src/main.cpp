@@ -27,7 +27,6 @@ void client(const char* host, Uint16 port)
 // start
 void start(int argc, char** argv)
 {
-
 	SDLNetUtils::initSDLNet();
 
 	if (argc == 3 && strcmp(argv[1], "server") == 0)
@@ -38,11 +37,7 @@ void start(int argc, char** argv)
 	else if (argc == 4 && strcmp(argv[1], "client") == 0)
 	{
 		client(argv[2], static_cast<Uint16>(atoi(argv[3]))); // start in client mode
-	}/*s
-	if(true)
-	{
-		client("localHost", 2000); // start in client mode
-	}*/
+	}
 
 	// en caso de no poder abrirlo automaticamente
 	// te lo pide de teclado
