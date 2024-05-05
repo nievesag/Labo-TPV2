@@ -122,6 +122,8 @@ void LittleWolf::update_player_info(int id, float posX, float posY, float velX, 
 			p.where.x = posX;
 			p.where.y = posY;
 
+			//std::cout << " id " << (int) p.id  << " x " << p.where.x << " y " << p.where.y << std::endl;
+
 			p.velocity.x = velX;
 			p.velocity.y = velY;
 
@@ -143,6 +145,8 @@ void LittleWolf::player_syncronize(Uint8 id, const Vector2D& pos)
 
 	p.where.x = pos.getX();
 	p.where.y = pos.getY();
+
+	std::cout << "id " << (int)id << " x " << p.where.x << " y " << p.where.y << std::endl;
 
 	map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(p.id);
 }
@@ -371,10 +375,7 @@ bool LittleWolf::isUpperView()
 
 void LittleWolf::bringAllToLife() {
 
-	if (Game::instance()->get_networking()->is_master())
-	{
-		reset_random_positions();
-	}
+	reset_random_positions();
 
 	// bring all dead players to life -- all stay in the same position
 	for (auto i = 0u; i < max_player; i++) 
@@ -432,9 +433,9 @@ void LittleWolf::reset_random_positions()
 			p.theta = 0;
 			p.state = ALIVE;
 
-			std::cout << (int)p.id << "row " << p.where.x << std::endl;
-			std::cout << (int)p.id << "col " << p.where.y << std::endl;
-
+			//std::cout << (int)p.id << "row " << p.where.x << std::endl;
+			//std::cout << (int)p.id << "col " << p.where.y << std::endl;
+			//std::cout << std::endl << std::endl << std::endl;
 
 			map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(p.id);
 
