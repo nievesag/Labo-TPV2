@@ -36,6 +36,25 @@ void LittleWolf::update()
 {
 	Player &p = players_[player_id_];
 
+	// antes de hacer nada del juego se comprueba si se esta en tiempo de espera
+	// si estamos en la pantalla de espera
+	if (isWaiting) 
+	{
+		// decrementa el tiempo de espera
+		waitingCounter -= (sdlutils().virtualTimer().currTime() - lastFrame);
+
+		// guarda el ultimo frame para el siguiente update
+		lastFrame = sdlutils().virtualTimer().currTime();
+
+		// si ya ha pasado el tiempo en el ordenador master -> iniciar nueva partida
+		if (Game::instance()->get_networking()->is_master() && waitingCounter <= 0) 
+		{
+			send_new_start();
+		}
+
+		return;
+	}
+
 	// dead player don't move/spin/shoot
 	if (p.state != ALIVE)
 	{
@@ -44,7 +63,20 @@ void LittleWolf::update()
 
 	spin(p);  // handle spinning
 	move(p);  // handle moving
-	shoot(p); // handle shooting
+
+	// Accelerates with key held down
+	if (ih().isKeyDown(SDL_SCANCODE_W) || ih().isKeyDown(SDL_SCANCODE_S) || ih().isKeyDown(SDL_SCANCODE_D) || ih().isKeyDown(SDL_SCANCODE_A))
+	{
+		// send_move_request();
+	}
+
+	// Space shoot -- we use keyDownEvent to force a complete press/release for each bullet
+	if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_SPACE))
+	{
+		send_shoot_request();
+	}
+	//shoot(p); // handle shooting
+
 }
 
 void LittleWolf::update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state)
@@ -63,18 +95,6 @@ void LittleWolf::update_player_info(int playerID, float posX, float posY, float 
 	p.acceleration = acc;
 	p.theta = theta;
 	p.state = state;
-}
-
-void LittleWolf::send_my_info()
-{
-	std::cout << (int)player_id_ << std::endl;
-
-	Player& p = players_[player_id_];
-
-	Game::instance()->get_networking()->send_my_info(
-		Vector2D(p.where.x, p.where.y), Vector2D(p.velocity.x, p.velocity.y),
-		p.speed, p.acceleration, p.theta, p.state);
-
 }
 
 void LittleWolf::load(std::string filename) {
@@ -194,10 +214,9 @@ void LittleWolf::load(std::string filename) {
 	}
 }
 
+#pragma region PLAYER MANAGEMENT
 bool LittleWolf::addPlayer(std::uint8_t id)
 {
-
-
 	std::cout << (int)id << std::endl;
 
 	assert(id < max_player);
@@ -258,6 +277,240 @@ bool LittleWolf::addPlayer(std::uint8_t id)
 	return true;
 }
 
+void LittleWolf::switchToNextPlayer() {
+
+	// search the next player in the palyer's array
+	int j = (player_id_ + 1) % max_player;
+
+	while (j != player_id_ && players_[j].state == NOT_USED)
+	{
+		j = (j + 1) % max_player; 
+	}
+
+	// move to the next player view
+	player_id_ = j;
+}
+
+void LittleWolf::bringAllToLife() {
+
+	// bring all dead players to life -- all stay in the same position
+	for (auto i = 0u; i < max_player; i++) 
+	{
+		if (players_[i].state == DEAD) 
+		{
+			players_[i].state = ALIVE;
+		}
+	}
+}
+
+void LittleWolf::removePlayer(Uint8 id)
+{
+	Player& p = players_[id];
+	p.state = LittleWolf::NOT_USED;
+}
+
+void LittleWolf::killPlayer()
+{
+	Player& p = players_[player_id_];
+	p.state = LittleWolf::DEAD;
+}
+#pragma endregion
+
+#pragma region PROCESS
+void LittleWolf::process_shoot_request(int playerID)
+{
+
+}
+
+void LittleWolf::process_player_die(int playerID)
+{
+
+}
+
+void LittleWolf::process_new_start()
+{
+
+}
+
+void LittleWolf::process_waiting()
+{
+	isWaiting = true;
+	waitingCounter = 5000;
+	lastFrame = sdlutils().virtualTimer().currTime();
+}
+#pragma endregion
+
+#pragma region SEND
+void LittleWolf::send_my_info()
+{
+	std::cout << (int)player_id_ << std::endl;
+
+	Player& p = players_[player_id_];
+
+	Game::instance()->get_networking()->send_my_info(
+		Vector2D(p.where.x, p.where.y), Vector2D(p.velocity.x, p.velocity.y), p.speed, p.acceleration, p.theta, p.state);
+}
+
+void LittleWolf::send_shoot_request()
+{
+	Game::instance()->get_networking()->send_shoot_request();
+}
+
+void LittleWolf::send_dead(int playerID)
+{
+	Game::instance()->get_networking()->send_dead(playerID);
+}
+
+void LittleWolf::send_new_start()
+{
+	Game::instance()->get_networking()->send_new_start();
+}
+
+void LittleWolf::send_waiting()
+{
+	Game::instance()->get_networking()->send_waiting();
+}
+#pragma endregion
+
+// move / spin / shoot
+#pragma region PLAYER ACTIONS
+void LittleWolf::move(Player& p) {
+
+	auto& ihdrl = ih();
+
+	const Point last = p.where, zero = { 0.0f, 0.0f };
+
+	// Accelerates with key held down
+	if (ihdrl.isKeyDown(SDL_SCANCODE_W) || ihdrl.isKeyDown(SDL_SCANCODE_S) || ihdrl.isKeyDown(SDL_SCANCODE_D) || ihdrl.isKeyDown(SDL_SCANCODE_A))
+	{
+		const Point reference = { 1.0f, 0.0f };
+		const Point direction = turn(reference, p.theta);
+		const Point acceleration = mul(direction, p.acceleration);
+
+		// W forwards, S backwards, D right, L left
+		if (ihdrl.isKeyDown(SDL_SCANCODE_W))
+		{
+			p.velocity = add(p.velocity, acceleration);
+		}
+
+		if (ihdrl.isKeyDown(SDL_SCANCODE_S))
+		{
+			p.velocity = sub(p.velocity, acceleration);
+		}
+
+		if (ihdrl.isKeyDown(SDL_SCANCODE_D))
+		{
+			p.velocity = add(p.velocity, rag(acceleration));
+		}
+
+		if (ihdrl.isKeyDown(SDL_SCANCODE_A))
+		{
+			p.velocity = sub(p.velocity, rag(acceleration));
+		}
+	}
+
+	// Otherwise, decelerates
+	else
+	{
+		p.velocity = mul(p.velocity, 1.0f - p.acceleration / p.speed);
+	}
+
+	// Caps velocity if top speed is exceeded
+	if (mag(p.velocity) > p.speed)
+	{
+		p.velocity = mul(unit(p.velocity), p.speed);
+	}
+
+	// Moves
+	p.where = add(p.where, p.velocity);
+
+	// if player hits a wall or a different player,
+	// we take the player back to previous position and put velocity to 0
+	if (tile(p.where, map_.walling) != 10 + player_id_ && tile(p.where, map_.walling) != 0)
+	{
+		p.velocity = zero;
+		p.where = last;
+	}
+
+	// otherwise we make a move
+	else
+	{
+		int y0 = (int)last.y;
+		int x0 = (int)last.x;
+		int y1 = (int)p.where.y;
+		int x1 = (int)p.where.x;
+
+		if (x0 != x1 || y0 != y1)
+		{
+			map_.walling[y1][x1] = map_.walling[y0][x0];
+			map_.walling[y0][x0] = 0;
+		}
+	}
+}
+
+void LittleWolf::spin(Player& p) {
+
+	// L spin right, H spin left -- when left shift is held the player spins slowly
+	auto& ihdrl = ih();
+
+	// turn by 0.05rad, but if left shift is pressed make is 0.005rad
+	float d = 0.05f;
+
+	if (ihdrl.isKeyDown(SDL_SCANCODE_LSHIFT))
+	{
+		d = 0.005f;
+	}
+
+	if (ihdrl.isKeyDown(SDL_SCANCODE_H))
+	{
+		p.theta -= d;
+	}
+
+	if (ihdrl.isKeyDown(SDL_SCANCODE_L))
+	{
+		p.theta += d;
+	}
+}
+
+bool LittleWolf::shoot(Player& p) {
+	auto& ihdrl = ih();
+
+	// Space shoot -- we use keyDownEvent to force a complete press/release for each bullet
+	if (ihdrl.keyDownEvent() && ihdrl.isKeyDown(SDL_SCANCODE_SPACE)) {
+
+		// play gun shot sound
+		sdlutils().soundEffects().at("gunshot").play();
+
+		// we shoot in several directions, because with projection what you see is not exact
+		for (float d = -0.05; d <= 0.05; d += 0.005)
+		{
+			// search which tile was hit
+			const Line camera = rotate(p.fov, p.theta + d);
+			Point direction = lerp(camera, 0.5f);
+			direction.x = direction.x / mag(direction);
+			direction.y = direction.y / mag(direction);
+			const Hit hit = cast(p.where, direction, map_.walling, false, true);
+
+			#if _DEBUG
+			printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile, mag(sub(p.where, hit.where)));
+			#endif
+
+			// if we hit a tile with a player id and the distance from that tile is smaller
+			// than shoot_distace, we mark the player as dead
+			if (hit.tile > 9 && mag(sub(p.where, hit.where)) < shoot_distace)
+			{
+				uint8_t id = tile_to_player(hit.tile);
+				players_[id].state = DEAD;
+				sdlutils().soundEffects().at("pain").play();
+				return true;
+			}
+		}
+	}
+	return false;
+}
+#pragma endregion
+
+#pragma region RENDER
 void LittleWolf::render() {
 
 	// if the player is dead we only render upper view, otherwise the normal view
@@ -272,56 +525,6 @@ void LittleWolf::render() {
 
 	// render the identifiers, state, etc
 	render_players_info();
-}
-
-LittleWolf::Hit LittleWolf::cast(const Point where, Point direction, uint8_t **walling, bool ignore_players, bool ignore_deads) {
-
-	// Determine whether to step horizontally or vertically on the grid
-	Point hor = sh(where, direction);
-	Point ver = sv(where, direction);
-	Point ray = mag(sub(hor, where)) < mag(sub(ver, where)) ? hor : ver;
-
-	// Due to floating point error, the step may not make it to the next grid square.
-	// Three directions (dy, dx, dc) of a tiny step will be added to the ray
-	// depending on if the ray hit a horizontal wall, a vertical wall, or the corner
-	// of two walls, respectively.
-	Point dc = mul(direction, 0.01f);
-	Point dx = { dc.x, 0.0f };
-	Point dy = { 0.0f, dc.y };
-	Point test = add(ray,
-					mag(sub(hor, ver)) < 1e-3f ? dc : 	// Tiny step for corner of two grid squares
-					  dec(ray.x) == 0.0f ? dx :					// Tiny step for vertical grid square
-					  dy);										// Tiny step for a horizontal grid square
-
-	const Hit hit = { tile(test, walling), ray };
-
-	// If a wall was not hit, then continue advancing the ray.
-	if (hit.tile > 0 && hit.tile < 10) 
-	{
-		return hit;
-	}
-	else if (hit.tile > 9 && !ignore_players && (!ignore_deads || players_[hit.tile - 10].state != DEAD)) 
-	{
-		return hit;
-	}
-	else 
-	{
-		return cast(ray, direction, walling, ignore_players, ignore_deads);
-	}
-}
-
-LittleWolf::Wall LittleWolf::project(const int xres, const int yres, const float focal, const Point corrected) {
-
-	// Normal distance of corrected ray is clamped to some small value else wall size will shoot to infinity
-	const float normal = corrected.x < 1e-2f ? 1e-2f : 0.05 * corrected.x;
-	const float size = 0.5f * focal * xres / normal;
-	const int top = (yres + size) / 2.0f;
-	const int bot = (yres - size) / 2.0f;
-
-	// Top and bottom values are clamped to screen size else renderer will waste cycles
-	// (or segfault) when rasterizing pixels off screen.
-	const Wall wall = { top > yres ? yres : top, bot < 0 ? 0 : bot, size };
-	return wall;
 }
 
 void LittleWolf::render_map(Player &p) {
@@ -491,180 +694,72 @@ void LittleWolf::render_players_info() {
 	}
 }
 
-void LittleWolf::move(Player &p) {
-
-	auto &ihdrl = ih();
-
-	const Point last = p.where, zero = { 0.0f, 0.0f };
-
-	// Accelerates with key held down
-	if (ihdrl.isKeyDown(SDL_SCANCODE_W) || ihdrl.isKeyDown(SDL_SCANCODE_S) || ihdrl.isKeyDown(SDL_SCANCODE_D) || ihdrl.isKeyDown(SDL_SCANCODE_A)) 
-	{
-		const Point reference = { 1.0f, 0.0f };
-		const Point direction = turn(reference, p.theta);
-		const Point acceleration = mul(direction, p.acceleration);
-
-		// W forwards, S backwards, D right, L left
-		if (ihdrl.isKeyDown(SDL_SCANCODE_W))
-		{
-			p.velocity = add(p.velocity, acceleration);
-		}
-
-		if (ihdrl.isKeyDown(SDL_SCANCODE_S))
-		{
-			p.velocity = sub(p.velocity, acceleration);
-		}
-
-		if (ihdrl.isKeyDown(SDL_SCANCODE_D))
-		{
-			p.velocity = add(p.velocity, rag(acceleration));
-		}
-
-		if (ihdrl.isKeyDown(SDL_SCANCODE_A))
-		{
-			p.velocity = sub(p.velocity, rag(acceleration));
-		}
-	}
-
-	// Otherwise, decelerates
-	else 
-	{ 
-		p.velocity = mul(p.velocity, 1.0f - p.acceleration / p.speed);
-	}
-
-	// Caps velocity if top speed is exceeded
-	if (mag(p.velocity) > p.speed)
-	{
-		p.velocity = mul(unit(p.velocity), p.speed);
-	}
-
-	// Moves
-	p.where = add(p.where, p.velocity);
-
-	// if player hits a wall or a different player,
-	// we take the player back to previous position and put velocity to 0
-	if (tile(p.where, map_.walling) != 10 + player_id_ && tile(p.where, map_.walling) != 0) 
-	{
-		p.velocity = zero;
-		p.where = last;
-	}
-
-	// otherwise we make a move
-	else 
-	{ 
-		int y0 = (int) last.y;
-		int x0 = (int) last.x;
-		int y1 = (int) p.where.y;
-		int x1 = (int) p.where.x;
-
-		if (x0 != x1 || y0 != y1) 
-		{
-			map_.walling[y1][x1] = map_.walling[y0][x0];
-			map_.walling[y0][x0] = 0;
-		}
-	}
-}
-
-void LittleWolf::spin(Player &p) {
-
-	// L spin right, H spin left -- when left shift is held the player spins slowly
-	auto &ihdrl = ih();
-
-	// turn by 0.05rad, but if left shift is pressed make is 0.005rad
-	float d = 0.05f;
-
-	if (ihdrl.isKeyDown(SDL_SCANCODE_LSHIFT)) 
-	{
-		d = 0.005f;
-	}
-
-	if (ihdrl.isKeyDown(SDL_SCANCODE_H))
-	{
-		p.theta -= d;
-	}
-
-	if (ihdrl.isKeyDown(SDL_SCANCODE_L))
-	{
-		p.theta += d;
-	}
-}
-
-bool LittleWolf::shoot(Player &p) {
-	auto &ihdrl = ih();
-
-	// Space shoot -- we use keyDownEvent to force a complete press/release for each bullet
-	if (ihdrl.keyDownEvent() && ihdrl.isKeyDown(SDL_SCANCODE_SPACE)) {
-
-		// play gun shot sound
-		sdlutils().soundEffects().at("gunshot").play();
-
-		// we shoot in several directions, because with projection what you see is not exact
-		for (float d = -0.05; d <= 0.05; d += 0.005) 
-		{
-			// search which tile was hit
-			const Line camera = rotate(p.fov, p.theta + d);
-			Point direction = lerp(camera, 0.5f);
-			direction.x = direction.x / mag(direction);
-			direction.y = direction.y / mag(direction);
-			const Hit hit = cast(p.where, direction, map_.walling, false, true);
-
-			#if _DEBUG
-			printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile,mag(sub(p.where, hit.where)));
-			#endif
-
-			// if we hit a tile with a player id and the distance from that tile is smaller
-			// than shoot_distace, we mark the player as dead
-			if (hit.tile > 9 && mag(sub(p.where, hit.where)) < shoot_distace) 
-			{
-				uint8_t id = tile_to_player(hit.tile);
-				players_[id].state = DEAD;
-				sdlutils().soundEffects().at("pain").play();
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
+// se muestra el mensaje: The game will restart in (timeLeft) seconds
 void LittleWolf::render_waiting()
 {
+	// convierte el tiempo que queda a string en formato de segundos estandar
+	std::string timeLeft = std::to_string((waitingCounter) / 1000);
 
+	// guarda el string del mensaje
+	std::string msg = "The game will restart in " + timeLeft + " seconds";
+
+	// crea la textura del aviso
+	Texture Waiting(sdlutils().renderer(), msg, sdlutils().fonts().at("ARIAL48"), build_sdlcolor(color_rgba(6)));
+
+	// crea el rectangulo destino
+	SDL_Rect dest = build_sdlrect((sdlutils().width() - Waiting.width()) / 2, (sdlutils().height() - Waiting.height()) / 2, Waiting.width(), Waiting.height());
+
+	// renderiza
+	Waiting.render(dest);
 }
 
-void LittleWolf::switchToNextPlayer() {
+// AUX
+LittleWolf::Hit LittleWolf::cast(const Point where, Point direction, uint8_t **walling, bool ignore_players, bool ignore_deads) {
 
-	// search the next player in the palyer's array
-	int j = (player_id_ + 1) % max_player;
+	// Determine whether to step horizontally or vertically on the grid
+	Point hor = sh(where, direction);
+	Point ver = sv(where, direction);
+	Point ray = mag(sub(hor, where)) < mag(sub(ver, where)) ? hor : ver;
 
-	while (j != player_id_ && players_[j].state == NOT_USED)
+	// Due to floating point error, the step may not make it to the next grid square.
+	// Three directions (dy, dx, dc) of a tiny step will be added to the ray
+	// depending on if the ray hit a horizontal wall, a vertical wall, or the corner
+	// of two walls, respectively.
+	Point dc = mul(direction, 0.01f);
+	Point dx = { dc.x, 0.0f };
+	Point dy = { 0.0f, dc.y };
+	Point test = add(ray,
+					mag(sub(hor, ver)) < 1e-3f ? dc : 	// Tiny step for corner of two grid squares
+					  dec(ray.x) == 0.0f ? dx :					// Tiny step for vertical grid square
+					  dy);										// Tiny step for a horizontal grid square
+
+	const Hit hit = { tile(test, walling), ray };
+
+	// If a wall was not hit, then continue advancing the ray.
+	if (hit.tile > 0 && hit.tile < 10) 
 	{
-		j = (j + 1) % max_player; 
+		return hit;
 	}
-
-	// move to the next player view
-	player_id_ = j;
-}
-
-void LittleWolf::bringAllToLife() {
-
-	// bring all dead players to life -- all stay in the same position
-	for (auto i = 0u; i < max_player; i++) 
+	else if (hit.tile > 9 && !ignore_players && (!ignore_deads || players_[hit.tile - 10].state != DEAD)) 
 	{
-		if (players_[i].state == DEAD) 
-		{
-			players_[i].state = ALIVE;
-		}
+		return hit;
+	}
+	else 
+	{
+		return cast(ray, direction, walling, ignore_players, ignore_deads);
 	}
 }
+LittleWolf::Wall LittleWolf::project(const int xres, const int yres, const float focal, const Point corrected) {
 
-void LittleWolf::removePlayer(Uint8 id)
-{
-	Player& p = players_[id];
-	p.state = LittleWolf::NOT_USED;
-}
+	// Normal distance of corrected ray is clamped to some small value else wall size will shoot to infinity
+	const float normal = corrected.x < 1e-2f ? 1e-2f : 0.05 * corrected.x;
+	const float size = 0.5f * focal * xres / normal;
+	const int top = (yres + size) / 2.0f;
+	const int bot = (yres - size) / 2.0f;
 
-void LittleWolf::killPlayer()
-{
-	Player& p = players_[player_id_];
-	p.state = LittleWolf::DEAD;
+	// Top and bottom values are clamped to screen size else renderer will waste cycles
+	// (or segfault) when rasterizing pixels off screen.
+	const Wall wall = { top > yres ? yres : top, bot < 0 ? 0 : bot, size };
+	return wall;
 }
+#pragma endregion
