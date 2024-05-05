@@ -181,6 +181,7 @@ public:
 	void send_new_start();
 	void send_waiting();
 	void send_syncronize();
+	void send_sound();
 
 	// ---- process ----
 	// hace la logica de cada cliente
@@ -189,6 +190,9 @@ public:
 	void process_player_die(Uint8 playerID);
 	void process_waiting();
 	void process_new_start(); // despues de waiting inicia partida nueva
+	void process_sound();
+	void playSoundWithDistance(float x, float y, std::string sound);
+	float getVolume(float x);
 	#pragma endregion
 
 private:
@@ -410,8 +414,6 @@ private:
 	// Some fields defining all elements of the world, etc
 	#pragma region WORLD ELEMENTS
 
-	void playSoundWithDistance(float x, float y, std::string sound);
-	float getVolume(float x);
 
 	// maximum number of player
 	static constexpr uint8_t max_player = 10;
@@ -443,5 +445,8 @@ private:
 
 	// the GPU structure with all the needed elements to draw the world
 	Gpu gpu_;
+
+	float sound_x;
+	float sound_y;
 	#pragma endregion
 };

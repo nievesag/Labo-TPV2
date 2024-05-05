@@ -132,8 +132,6 @@ void LittleWolf::update_player_info(int id, float posX, float posY, float velX, 
 
 			map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(id);
 		}
-
-
 	}
 }
 
@@ -483,6 +481,29 @@ void LittleWolf::process_new_start()
 	std::cout << " NEW START " << std::endl;
 }
 
+void LittleWolf::process_sound()
+{
+	Player& p = players_[player_id_];
+
+	if (p.state == ALIVE)
+	{
+		// distancia x del oyente al ruido
+		float x_distance = sound_x - p.where.x;
+
+		// distancia y del oyente al ruido
+		float y_distance = sound_y - p.where.y;
+
+		// pitagoras para hayar la distancia entre oyente y ruido
+		float distance = sqrt(pow(x_distance, 2) + pow(y_distance, 2));
+
+		// introducir volumen en una ecuacion en la que a mas distancia menos volumen y viceversa
+		float volume = getVolume(distance / 4.64);
+
+		sdlutils().soundEffects().at("gunshot").setVolume(volume);
+		sdlutils().soundEffects().at("gunshot").play();
+	}
+}
+
 void LittleWolf::process_waiting()
 {
 	// empiezas a esperar
@@ -529,6 +550,7 @@ void LittleWolf::send_waiting()
 {
 	Game::instance()->get_networking()->send_waiting();
 }
+
 void LittleWolf::send_syncronize()
 {
 	for (auto& player : players_) {
@@ -536,7 +558,15 @@ void LittleWolf::send_syncronize()
 			Game::instance()->get_networking()->send_synconize(player.id, Vector2D(player.where.x, player.where.y));
 		}
 	}
-		
+}
+
+void LittleWolf::send_sound()
+{
+	for (auto& player : players_) {
+		if (player.state != NOT_USED) {
+			Game::instance()->get_networking()->send_synconize(player.id, Vector2D(player.where.x, player.where.y));
+		}
+	}
 }
 #pragma endregion
 
@@ -645,7 +675,12 @@ bool LittleWolf::shoot(Player& p)
 	// ya no hace falta comprobar el input, se comprueba en el update
 
 	// play gun shot sound
-	playSoundWithDistance(p.where.x, p.where.y, "gunshot");
+	sound_x = p.where.x;
+	sound_y = p.where.y;
+
+	Game::instance()->get_networking()->send_sound();
+
+	//playSoundWithDistance(p.where.x, p.where.y, "gunshot");
 
 	std::cout << "------------- SHOOT! ------------" << std::endl;
 
