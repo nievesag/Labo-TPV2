@@ -15,7 +15,7 @@ Networking::Networking() :
 	socketSet_(), //
 	p_(), //
 	srvadd_(), //
-	clientId_(), //
+	clientId_(0), //
 	masterId_() {
 }
 
@@ -184,8 +184,10 @@ void Networking::send_state(const Vector2D& pos, float w, float h, float rot) {
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 
-void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float speed, float acceleration, float theta, Uint8 state) {
+void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float speed, float acceleration, float theta, Uint8 state) 
+{
 
+	// ---------------------
 	// mensaje
 	PlayerInfoMsg m;
 
@@ -203,6 +205,11 @@ void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float sp
 	m.speed = speed;
 	m.theta = theta;
 	m.state = state;
+
+	std::cout << p_ << std::endl;
+	std::cout << sock_ << std::endl;
+	std::cout << srvadd_.host << std::endl;
+
 
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);

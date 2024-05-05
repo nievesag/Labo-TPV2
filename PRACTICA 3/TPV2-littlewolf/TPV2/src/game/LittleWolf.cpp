@@ -20,6 +20,8 @@ LittleWolf::LittleWolf(uint16_t xres, uint16_t yres, SDL_Window *window, SDL_Ren
 		players_(), //
 		player_id_(0) { // we start with player 0
 
+	std::cout << "entra" << std::endl;
+
 	// for some reason it is created with a rotation of 90 degrees -- must be easier to
 	// manipulate coordinates
 	SDL_Texture *const texture = SDL_CreateTexture(sdlutils().renderer(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, yres, xres);
@@ -65,11 +67,17 @@ void LittleWolf::update_player_info(int playerID, float posX, float posY, float 
 
 void LittleWolf::send_my_info()
 {
+	std::cout << (int)player_id_ << std::endl;
+
 	Player& p = players_[player_id_];
+
+	std::cout << "sending info..." << std::endl;
 
 	Game::instance()->get_networking()->send_my_info(
 		Vector2D(p.where.x, p.where.y), Vector2D(p.velocity.x, p.velocity.y),
 		p.speed, p.acceleration, p.theta, p.state);
+
+	std::cout << "info sent" << std::endl;
 }
 
 void LittleWolf::load(std::string filename) {
@@ -191,6 +199,10 @@ void LittleWolf::load(std::string filename) {
 
 bool LittleWolf::addPlayer(std::uint8_t id)
 {
+
+
+	std::cout << (int)id << std::endl;
+
 	assert(id < max_player);
 
 	if (players_[id].state != NOT_USED)
@@ -242,6 +254,9 @@ bool LittleWolf::addPlayer(std::uint8_t id)
 	players_[id] = p;
 
 	player_id_ = id;
+
+
+	std::cout << (int)player_id_ << std::endl;
 
 	return true;
 }

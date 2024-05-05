@@ -16,7 +16,7 @@ void server(Uint16 port)
 
 void client(const char* host, Uint16 port)
 {
-	Game g;
+	Game& g = *Game::instance();
 
 	if (g.init(host, port))
 	{
