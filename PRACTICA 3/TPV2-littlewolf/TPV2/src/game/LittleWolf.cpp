@@ -481,9 +481,9 @@ void LittleWolf::process_new_start()
 	std::cout << " NEW START " << std::endl;
 }
 
-void LittleWolf::process_sound()
+void LittleWolf::process_sound(Uint8 playerID)
 {
-	Player& p = players_[player_id_];
+	Player& p = players_[playerID];
 
 	if (p.state == ALIVE)
 	{
@@ -560,13 +560,9 @@ void LittleWolf::send_syncronize()
 	}
 }
 
-void LittleWolf::send_sound()
+void LittleWolf::send_sound(Uint8 playerID)
 {
-	for (auto& player : players_) {
-		if (player.state != NOT_USED) {
-			Game::instance()->get_networking()->send_synconize(player.id, Vector2D(player.where.x, player.where.y));
-		}
-	}
+	Game::instance()->get_networking()->send_sound(playerID);
 }
 #pragma endregion
 

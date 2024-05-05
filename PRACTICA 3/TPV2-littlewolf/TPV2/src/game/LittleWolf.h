@@ -181,7 +181,7 @@ public:
 	void send_new_start();
 	void send_waiting();
 	void send_syncronize();
-	void send_sound();
+	void send_sound(Uint8 playerID);
 
 	// ---- process ----
 	// hace la logica de cada cliente
@@ -190,7 +190,7 @@ public:
 	void process_player_die(Uint8 playerID);
 	void process_waiting();
 	void process_new_start(); // despues de waiting inicia partida nueva
-	void process_sound();
+	void process_sound(Uint8 playerID);
 	void playSoundWithDistance(float x, float y, std::string sound);
 	float getVolume(float x);
 	#pragma endregion

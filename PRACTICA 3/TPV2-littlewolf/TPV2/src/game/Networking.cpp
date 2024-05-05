@@ -318,13 +318,16 @@ void Networking::send_synconize(Uint8 id, const Vector2D& pos)
 
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
-void Networking::send_sound()
+void Networking::send_sound(Uint8 id)
 {
 	// mensaje
-	Msg m;
+	MsgWithId m;
 
-	// mensaje de restart
+	// mensaje de muerte
 	m._type = _SOUND;
+
+	// id del jugador que muere
+	m._client_id = id;
 
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
@@ -391,9 +394,9 @@ void Networking::handle_syncronize(PlayerInfoMsg& m)
 	Game::instance()->get_wolves()->player_syncronize(m._client_id, Vector2D(m.posX, m.posY));
 }
 
-void Networking::handle_sound()
+void Networking::handle_sound(const MsgWithId& m)
 {
-	Game::instance()->get_wolves()->process_sound();
+	Game::instance()->get_wolves()->process_sound(m._client_id);
 }
 
 void Networking::handle_player_info(const PlayerInfoMsg &m)
