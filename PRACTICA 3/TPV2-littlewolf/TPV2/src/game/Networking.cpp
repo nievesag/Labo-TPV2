@@ -156,14 +156,19 @@ void Networking::update() {
 
 		case _SHOOT_REQUEST:
 			// para pedir al master disparar
-			m_id.deserialize(p_->data);
-			handle_shoot_request(m_id);
+			m_shoot.deserialize(p_->data);
+			handle_shoot_request(m_shoot);
 			break;
 
 		case _MOVE_REQUEST:
 			// para pedir al master moverse
 			m_id.deserialize(p_->data);
 			handle_move_request(m_id);
+			break;
+		case _SYNCRONIZE:
+			// informas al master de jugador desconectado
+			m_info.deserialize(p_->data);
+			handle_syncronize(m_info);
 			break;
 
 		default:
@@ -210,6 +215,7 @@ void Networking::send_shoot_request()
 
 	// mensaje de muerte
 	m._type = _SHOOT_REQUEST;
+	m._client_id = clientId_;
 
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
@@ -299,6 +305,16 @@ void Networking::send_restart() {
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
+void Networking::send_synconize(Uint8 id, const Vector2D& pos)
+{
+	PlayerInfoMsg m;
+	m._client_id = id;
+	m.posX = pos.getX();
+	m.posY = pos.getY();
+	m._type = _SYNCRONIZE;
+
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
 #pragma endregion
 
 #pragma region HANDLE COSAS
@@ -332,11 +348,12 @@ void Networking::handle_waiting()
 	Game::instance()->get_wolves()->process_waiting();
 }
 
-void Networking::handle_shoot_request(const MsgWithId& m)
+void Networking::handle_shoot_request(const ShootMsg& m)
 {
 	// SOLO EL MASTER PUEDE PROCESAR REQUESTS !!!!!!!!!!
 	if (is_master()) 
 	{
+		std::cout << "BANG" << "\n";
 		Game::instance()->get_wolves()->process_shoot_request(m._client_id);
 	}
 }
@@ -354,6 +371,12 @@ void Networking::handle_new_start()
 {
 
 	Game::instance()->get_wolves()->process_new_start();
+}
+
+void Networking::handle_syncronize(PlayerInfoMsg& m)
+{
+	Game::instance()->get_wolves()->player_syncronize(m._client_id, Vector2D(m.posX, m.posY));
+
 }
 
 void Networking::handle_player_info(const PlayerInfoMsg &m)

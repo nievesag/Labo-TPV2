@@ -37,6 +37,7 @@ public:
 	void send_waiting();
 	void send_new_start();
 	void send_restart();
+	void send_synconize(Uint8 id, const Vector2D& pos);
 
 private:
 	// desde aqui se llaman a los metodos de cada cliente
@@ -45,9 +46,10 @@ private:
 	void handle_player_info(const PlayerInfoMsg &m);
 	void handle_dead(const MsgWithId &m);
 	void handle_waiting();
-	void handle_shoot_request(const MsgWithId& m);
+	void handle_shoot_request(const ShootMsg& m);
 	void handle_move_request(const MsgWithId& m);
 	void handle_new_start();
+	void handle_syncronize(PlayerInfoMsg& m);
 
 	UDPsocket sock_;
 	SDLNet_SocketSet socketSet_;

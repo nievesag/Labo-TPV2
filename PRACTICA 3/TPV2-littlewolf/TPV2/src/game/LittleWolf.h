@@ -14,6 +14,7 @@
 #include <fstream>
 
 #include "../sdlutils/InputHandler.h"
+#include "../utils/Vector2D.h"
 
 class LittleWolf {
 public:
@@ -170,6 +171,9 @@ public:
 	// updates player info
 	void update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state);
 
+
+	void player_syncronize(Uint8 id, const Vector2D& pos);
+
 	// FLUJO:
 	// send (cliente) -> send (server) -> [al procesar el mensaje en el server] handle (server) -> process (cliente)
 
@@ -181,12 +185,13 @@ public:
 	void send_dead(int playerID);
 	void send_new_start();
 	void send_waiting();
+	void send_syncronize();
 
 	// ---- process ----
 	// hace la logica de cada cliente
-	void process_shoot_request(int playerID);
-	void process_move_request(int playerID);
-	void process_player_die(int playerID);
+	void process_shoot_request(Uint8 playerID);
+	void process_move_request(Uint8 playerID);
+	void process_player_die(Uint8 playerID);
 	void process_waiting();
 	void process_new_start(); // despues de waiting inicia partida nueva
 	#pragma endregion

@@ -87,24 +87,81 @@ void LittleWolf::update()
 
 void LittleWolf::update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state)
 {
-	Player& p = players_[playerID];
+	if (players_[playerID].state == NOT_USED) {
+		
+		Player player = { playerID,
+					viewport(0.8f),
+					{ posX + 0.5f, posY + 0.5f },
+					{ velX,velY },
+					speed,
+					acc,
+					theta,
+					ALIVE };
 
-	p.id = playerID;
+		map_.walling[(int)player.where.y][(int)player.where.x] = player_to_tile(playerID);
+		players_[playerID] = player;
 
-	p.where.x = posX;
-	p.where.y = posY;
+	
+	}
+	else {
+		Player& p = players_[playerID];
 
-	p.velocity.x = velX;
-	p.velocity.y = velY;
 
-	p.speed = speed;
-	p.acceleration = acc;
-	p.theta = theta;
-	p.state = state;
+		bool collision = false;
+		// if master
+		if (Game::instance()->get_networking()->is_master()) {
+			Point lastPos = p.where;
 
+			// if collision
+			if (tile(p.where, map_.walling) != player_to_tile(playerID)
+				&& tile(p.where, map_.walling) != 0) {
+
+				p.where = lastPos;
+				p.velocity = { 0, 0 };
+
+				collision = true;
+			}
+		}
+
+		if (collision) {
+			send_syncronize();
+		}
+		else {
+			map_.walling[(int)p.where.y][(int)p.where.x] = 0;
+
+			// move
+
+			p.where.x = posX;
+			p.where.y = posY;
+
+			p.velocity.x = velX;
+			p.velocity.y = velY;
+
+			p.speed = speed;
+			p.acceleration = acc;
+			p.theta = theta;
+			p.state = state;
+
+			map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(playerID);
+		}
+
+
+	}
 	//if (p.state == NOT_USED) {
 	//	std::cout << "NOT USED FINALLY aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
 	//}
+}
+
+void LittleWolf::player_syncronize(Uint8 id, const Vector2D& pos)
+{
+	Player& p = players_[player_id_];
+
+	map_.walling[(int)p.where.y][(int)p.where.x] = 0;
+
+	p.where.x = pos.getX();
+	p.where.y = pos.getY();
+
+	map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(p.id);
 }
 
 void LittleWolf::load(std::string filename) {
@@ -350,19 +407,20 @@ void LittleWolf::removePlayer(int playerID)
 #pragma endregion
 
 #pragma region PROCESS
-void LittleWolf::process_shoot_request(int playerID)
+void LittleWolf::process_shoot_request(Uint8 playerID)
 {
+	std::cout << "player id " << (int) playerID << std::endl;
 	// en vez de hacer el shoot en cada update lo hacemos aqui al ser procesado
 	shoot(players_[playerID]);
 }
 
-void LittleWolf::process_move_request(int playerID)
+void LittleWolf::process_move_request(Uint8 playerID)
 {
 	// en vez de hacer el shoot en cada update lo hacemos aqui al ser procesado
 	move(players_[playerID]);
 }
 
-void LittleWolf::process_player_die(int playerID)
+void LittleWolf::process_player_die(Uint8 playerID)
 {
 	players_[playerID].state = DEAD;
 
@@ -481,6 +539,15 @@ void LittleWolf::send_waiting()
 {
 	Game::instance()->get_networking()->send_waiting();
 }
+void LittleWolf::send_syncronize()
+{
+	for (auto& player : players_) {
+		if (player.state != NOT_USED) {
+			Game::instance()->get_networking()->send_synconize(player.id, Vector2D(player.where.x, player.where.y));
+		}
+	}
+		
+}
 #pragma endregion
 
 // move / spin / shoot
@@ -589,24 +656,43 @@ bool LittleWolf::shoot(Player& p)
 	// play gun shot sound
 	sdlutils().soundEffects().at("gunshot").play();
 
+	std::cout << "------------- SHOOT! ------------" << std::endl;
+
+
 	// we shoot in several directions, because with projection what you see is not exact
 	for (float d = -0.05; d <= 0.05; d += 0.005)
 	{
+		std::cout << "checkpoint " << d << std::endl;
+
+		//std::cout << "theta " << direction.x << " " << direction.y << std::endl;
+
+
 		// search which tile was hit
 		const Line camera = rotate(p.fov, p.theta + d);
 		Point direction = lerp(camera, 0.5f);
 		direction.x = direction.x / mag(direction);
 		direction.y = direction.y / mag(direction);
+
+		std::cout << "where" << p.where.x << " " << p.where.y << std::endl;
+		std::cout << "direction " << direction.x << " " << direction.y << std::endl;
+
 		const Hit hit = cast(p.where, direction, map_.walling, false, true);
 
+		std::cout << "checkpoint 4" << std::endl;
+
 		#if _DEBUG
-		printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile, mag(sub(p.where, hit.where)));
+		//printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile, mag(sub(p.where, hit.where)));
 		#endif
+
+
 
 		// if we hit a tile with a player id and the distance from that tile is smaller
 		// than shoot_distace, we mark the player as dead
 		if (hit.tile > 9 && mag(sub(p.where, hit.where)) < shoot_distace)
 		{
+
+			std::cout << " hit something "<< std::endl;
+
 			uint8_t id = tile_to_player(hit.tile);
 			sdlutils().soundEffects().at("pain").play();
 			send_dead(id);
@@ -839,6 +925,7 @@ void LittleWolf::render_waiting()
 // AUX
 LittleWolf::Hit LittleWolf::cast(const Point where, Point direction, uint8_t **walling, bool ignore_players, bool ignore_deads) {
 
+
 	// Determine whether to step horizontally or vertically on the grid
 	Point hor = sh(where, direction);
 	Point ver = sv(where, direction);
@@ -858,14 +945,18 @@ LittleWolf::Hit LittleWolf::cast(const Point where, Point direction, uint8_t **w
 
 	const Hit hit = { tile(test, walling), ray };
 
+
+
 	// If a wall was not hit, then continue advancing the ray.
 	if (hit.tile > 0 && hit.tile < 10) 
 	{
 		return hit;
+
 	}
 	else if (hit.tile > 9 && !ignore_players && (!ignore_deads || players_[hit.tile - 10].state != DEAD)) 
 	{
 		return hit;
+
 	}
 	else 
 	{

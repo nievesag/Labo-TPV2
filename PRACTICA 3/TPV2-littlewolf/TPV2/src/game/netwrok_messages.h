@@ -21,7 +21,8 @@ enum MsgType : Uint8 {
 	_NEW_START,
 	_SHOOT_REQUEST,
 	_MOVE_REQUEST,
-	_IS_DEAD
+	_IS_DEAD,
+	_SYNCRONIZE
 };
 
 struct Msg {
