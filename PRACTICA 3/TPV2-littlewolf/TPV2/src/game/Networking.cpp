@@ -157,6 +157,10 @@ void Networking::update() {
 			break;
 	
 
+		case _WAITING_SCREEN:
+			handle_waiting();
+			break;
+
 		default:
 			break;
 		}
@@ -164,32 +168,8 @@ void Networking::update() {
 }
 
 #pragma region SEND COSAS
-void Networking::send_state(const Vector2D& pos, float w, float h, float rot) {
-
-	// mensaje
-	PlayerStateMsg m;
-
-	// tipo de mensaje: estado de jugador
-	m._type = _PLAYER_STATE;
-
-	// id del cliente
-	m._client_id = clientId_;
-
-	// info de estado
-	m.x = pos.getX();
-	m.y = pos.getY();
-	m.w = w;
-	m.h = h;
-	m.rot = rot;
-
-	// lo envia de manera serializada
-	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
-}
-
 void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float speed, float acceleration, float theta, Uint8 state) 
 {
-
-	// ---------------------
 	// mensaje
 	PlayerInfoMsg m;
 
@@ -214,13 +194,36 @@ void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float sp
 	std::cout << sock_ << std::endl;
 	std::cout << srvadd_.host << std::endl;*/
 
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+
+void Networking::send_shoot_request()
+{
+	// mensaje
+	MsgWithId m;
+
+	// mensaje de muerte
+	m._type = _SHOOT_REQUEST;
 
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 
-void Networking::send_shoot(Vector2D p, Vector2D v, int width, int height, float r) {
+void Networking::send_move_request()
+{
+	// mensaje
+	MsgWithId m;
 
+	// mensaje de muerte
+	m._type = _MOVE_REQUEST;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+
+void Networking::send_shoot(Vector2D p, Vector2D v, int width, int height, float r)
+{
 	// mensaje
 	ShootMsg m;
 
@@ -253,6 +256,28 @@ void Networking::send_dead(Uint8 id) {
 
 	// id del jugador que muere
 	m._client_id = id;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+
+void Networking::send_waiting()
+{
+	Msg m;
+
+	// mensaje de muerte
+	m._type = _WAITING_SCREEN;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+
+void Networking::send_new_start()
+{
+	Msg m;
+
+	// mensaje de muerte
+	m._type = _NEW_START;
 
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
@@ -294,6 +319,28 @@ void Networking::handle_dead(const MsgWithId &m) {
 
 	// llama al metodo de little wolf que mata jugador
 	Game::instance()->get_wolves()->killPlayer();
+}
+
+void Networking::handle_waiting()
+{
+	// llama al metodo de little wolf que mata jugador
+	Game::instance()->get_wolves()->process_waiting();
+}
+
+void Networking::handle_shoot_request()
+{
+	// llama al metodo de little wolf que mata jugador
+	//Game::instance()->get_wolves()->process_shoot_request();
+}
+
+void Networking::handle_move_request()
+{
+	//Game::instance()->get_wolves()->process_move_request();
+}
+
+void Networking::handle_new_start()
+{
+	Game::instance()->get_wolves()->process_new_start();
 }
 
 void Networking::handle_player_info(const PlayerInfoMsg &m) {

@@ -129,13 +129,9 @@ public:
 	#pragma region METODOS MULTIPLAYER
 
 private:
-	void render_waiting();
-
-	float lastFrame;
-
-	float waitingTime = 0;
-
-	bool waiting = false;
+	int waitingCounter = 0; // contador de segundos restantes de pantalla de espera
+	float lastFrame; // guarda el ultimo frame para poder actualizar el contador 
+	bool isWaiting = false; // true si estamos mostrando pantalla de espera
 
 public:
 	// ---- quitar y meter players ----
@@ -160,34 +156,26 @@ public:
 	// updates player info
 	void update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state);
 
-	// sends player info
-	void send_my_info();
-
-	// request -> process -> send
-	// cada ordenador requestea hacer algo,
-	// si se confirma se manda mensaje a cada jugador para procesar,
-	// una vez hecho se manda mensaje al host de que se ha completado
-
-	// ---- requests ----
-	// como cada jugador tiene su propia instancia del juego
-	// para actuar no se hace directamente, se solicita al
-	// master actuar
-	void send_shoot_request();
-	void proccess_shoot_request(int playerID);
-
-	// ---- process ----
-	// una vez verificado se procesa desde aqui
-	void proccess_player_hit(int playerID, int idPoints, int currentLifes, int currentPoints);
-	void proccess_player_die(int playerID);
-	void proccess_new_start();
-	void process_wainting_msg();     
+	// FLUJO:
+	// send (cliente) -> send (server) -> [al procesar el mensaje en el server] handle (server) -> process (cliente)
 
 	// ---- send ----
-	// tras procesar
-	void send_player_hit(int playerID, int idPoints, int currentLifes, int currentPoints);
-	void send_player_die(int playerID);
+	// llama a los metodos de networking para actuar desde ahi
+	void send_my_info(); // sends player info
+	void send_shoot_request();
+	void send_move_request();
+	void send_dead(int playerID);
 	void send_new_start();
-	void send_waiting_msg();
+	void send_waiting();
+
+	// ---- process ----
+	// hace la logica de cada cliente
+	void process_shoot_request(int playerID);
+	void process_move_request(int playerID);
+	void process_player_die(int playerID);
+	void process_waiting();
+	void process_new_start(); // despues de waiting inicia partida nueva
+
 	#pragma endregion
 
 private:
@@ -219,9 +207,13 @@ private:
 
 	// Render a list of current player
 	void render_players_info();
+
+	// Render mensaje de espera a siguiente ronda
+	void render_waiting();
 	#pragma endregion
 
-	// These are auxiliary function for vectors, colors, etc. All are from original littlewolf.
+	// These are auxiliary function for vectors, colors, etc.
+	// All are from original littlewolf
 	#pragma region AUX
 	// Changes the field of view. A focal value of 1.0 is 90 degrees.
 	inline Line viewport(float focal) {
