@@ -129,7 +129,7 @@ void Networking::update() {
 			// informas al master de jugador desconectado
 			m1.deserialize(p_->data); 
 			masterId_ = m1._master_id; // guardas el nuevo master si hay que cambiarlo
-			handle_disconnet(); // se administra la desconexion
+			handle_disconnect(); // se administra la desconexion
 			break;
 
 		case _PLAYER_INFO:
