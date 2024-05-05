@@ -4,10 +4,6 @@
 
 #include <SDL_stdinc.h>
 #include "../sdlutils/SDLNetUtils.h"
-#include "LittleWolf.h"
-
-
-class LittleWolf;
 
 enum MsgType : Uint8 {
 	_NONE = 0, //
@@ -24,20 +20,36 @@ enum MsgType : Uint8 {
 };
 
 struct Msg {
-	Uint8 _type;
+	//Msg() {};
+	//Msg(Uint8 _type) : _type(_type) {};
+	//Uint8 _type;
+	//_IMPL_SERIALIAZION_(_type)
 
+	Uint8 _type;
 	_IMPL_SERIALIAZION_(_type)
 };
 
 struct MsgWithId: Msg {
-	Uint8 _client_id;
 
+	//MsgWithId() {};
+	//MsgWithId(Uint8 _type, Uint8 _client_id)
+	//	:Msg(_type), _client_id(_client_id) {};
+	//Uint8 _client_id;
+	//_IMPL_SERIALIAZION_WITH_BASE_(Msg, _client_id)
+
+	Uint8 _client_id;
 	_IMPL_SERIALIAZION_WITH_BASE_(Msg, _client_id)
 };
 
 struct MsgWithMasterId: MsgWithId {
-	Uint8 _master_id;
 
+	//MsgWithMasterId() {};
+	//MsgWithMasterId(Uint8 _type, Uint8 _client_id, Uint8 _master_id)
+	//	:MsgWithId(_type, _client_id), _master_id(_master_id) {};
+	//Uint8 _master_id;
+	//_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, _master_id)
+
+	Uint8 _master_id;
 	_IMPL_SERIALIAZION_WITH_BASE_(MsgWithId, _master_id)
 };
 

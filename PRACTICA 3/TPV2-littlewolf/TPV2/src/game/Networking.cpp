@@ -129,7 +129,7 @@ void Networking::update() {
 			// informas al master de jugador desconectado
 			m1.deserialize(p_->data); 
 			masterId_ = m1._master_id; // guardas el nuevo master si hay que cambiarlo
-			handle_disconnet(); // se administra la desconexion
+			handle_disconnect(); // se administra la desconexion
 			break;
 
 		case _PLAYER_INFO:
@@ -191,11 +191,11 @@ void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float sp
 	// mensaje
 	PlayerInfoMsg m;
 
-	// mensaje de info de jugador
-	m._type = _PLAYER_INFO;
-
 	// id del jugador
 	m._client_id = clientId_;
+
+	// mensaje de info de jugador
+	m._type = _PLAYER_INFO;
 
 	// info del jugador
 	m.posX = pos.getX();
@@ -273,12 +273,12 @@ void Networking::handle_new_client(Uint8 id) {
 	// si se mete alguien que no estaba
 	if (id != clientId_) 
 	{
-		// llama al metodo de little wolf de que envia info de jugador
+		// llama al metodo de little wolf que envia info de jugador
 		Game::instance()->get_wolves()->send_my_info();
 	}
 }
 
-void Networking::handle_disconnet() {
+void Networking::handle_disconnect() {
 
 	// llama al metodo de little wolf que elimina jugador
 	Game::instance()->get_wolves()->removePlayer();

@@ -14,7 +14,8 @@ Game::Game() :
 {
 }
 
-Game::~Game() {
+Game::~Game()
+{
 	delete little_wolf_;
 	delete networking_;
 }
