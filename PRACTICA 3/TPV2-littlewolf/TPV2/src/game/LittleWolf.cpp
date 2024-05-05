@@ -130,7 +130,7 @@ void LittleWolf::update_player_info(int id, float posX, float posY, float velX, 
 			p.theta = theta;
 			p.state = state;
 
-			map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(playerID);
+			map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(id);
 		}
 
 
