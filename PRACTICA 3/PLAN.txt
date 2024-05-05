@@ -35,10 +35,12 @@ PROCESA LA LÓGICA DE VALIDACIÓN DE LA ACCIÓN
 
 -----------------------
 
-ABRIR EL SERVER:
-
+ONLINE TUTORIAL:
+0) Meter el resources en la carpeta bin
 1) entrar en la carpeta bin 
 2) hacer click derecho y ejecutar en consola
 3) escribir:  .\TPV2Debug.exe server 2000
-4) escribir:  .\TPV2Debug.exe client localhost 2000
-5) Meter el resources en la carpeta bing
+4) ya tienes servidor up and kicking!
+5) volver a la carpeta bin y hacer click derecho y ejecutar en consola
+6) escribir:  .\TPV2Debug.exe client localhost 2000
+7) ya tienes un cliente conectado
