@@ -146,6 +146,9 @@ public:
 	// mark all (used) player alive
 	void bringAllToLife();
 
+	// 
+	void reset_random_positions();
+
 	// ---- vista ----
 	// switch to the view of the next player
 	void switchToNextPlayer();
