@@ -22,6 +22,8 @@ LittleWolf::LittleWolf(uint16_t xres, uint16_t yres, SDL_Window *window, SDL_Ren
 
 	std::cout << "entra" << std::endl;
 
+	upper_view_ = false;
+
 	// for some reason it is created with a rotation of 90 degrees -- must be easier to
 	// manipulate coordinates
 	SDL_Texture *const texture = SDL_CreateTexture(sdlutils().renderer(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, yres, xres);
@@ -296,6 +298,37 @@ void LittleWolf::switchToNextPlayer() {
 	player_id_ = j;
 }
 
+void LittleWolf::switchToUpperView()
+{
+	upper_view_ = true;
+}
+
+void LittleWolf::switchToNormalView()
+{
+	upper_view_ = false;
+}
+
+void LittleWolf::waitUpperViewTime()
+{
+	if (cont < 200) {
+
+		cont++;
+	}
+	else {
+
+		switchToNormalView();
+
+		cont = false;
+
+	}
+
+}
+
+bool LittleWolf::isUpperView()
+{
+	return upper_view_;
+}
+
 void LittleWolf::bringAllToLife() {
 
 	// bring all dead players to life -- all stay in the same position
@@ -532,7 +565,7 @@ bool LittleWolf::shoot(Player& p) {
 void LittleWolf::render() {
 
 	// if the player is dead we only render upper view, otherwise the normal view
-	if (players_[player_id_].state == DEAD)
+	if ( upper_view_ || players_[player_id_].state == DEAD)
 	{
 		render_upper_view();
 	}

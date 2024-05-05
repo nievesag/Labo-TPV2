@@ -76,10 +76,10 @@ void Game::start() {
 				continue;
 			}
 
-			// N switches to the next player view
+			// N switches to aerial view
 			if (ihdlr.isKeyDown(SDL_SCANCODE_N)) 
 			{
-				little_wolf_->switchToNextPlayer();
+				little_wolf_->switchToUpperView();
 			}
 
 			// R brings deads to life
@@ -94,6 +94,10 @@ void Game::start() {
 		little_wolf_->send_my_info();
 		networking_->update();
 
+
+		if (little_wolf_->isUpperView()) {
+			little_wolf_->waitUpperViewTime();
+		}
 
 		
 		// the clear is not necessary since we copy the whole texture -- I guess ...
