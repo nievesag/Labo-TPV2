@@ -637,14 +637,10 @@ bool LittleWolf::shoot(Player& p)
 
 	std::cout << "------------- SHOOT! ------------" << std::endl;
 
-
 	// we shoot in several directions, because with projection what you see is not exact
 	for (float d = -0.05; d <= 0.05; d += 0.005)
 	{
 		std::cout << "checkpoint " << d << std::endl;
-
-		//std::cout << "theta " << direction.x << " " << direction.y << std::endl;
-
 
 		// search which tile was hit
 		const Line camera = rotate(p.fov, p.theta + d);
@@ -660,18 +656,14 @@ bool LittleWolf::shoot(Player& p)
 		std::cout << "checkpoint 4" << std::endl;
 
 		#if _DEBUG
-		//printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile, mag(sub(p.where, hit.where)));
+		printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile, mag(sub(p.where, hit.where)));
 		#endif
-
-
 
 		// if we hit a tile with a player id and the distance from that tile is smaller
 		// than shoot_distace, we mark the player as dead
 		if (hit.tile > 9 && mag(sub(p.where, hit.where)) < shoot_distace)
 		{
-
 			std::cout << " hit something "<< std::endl;
-
 			uint8_t id = tile_to_player(hit.tile);
 			playSoundWithDistance(p.where.x, p.where.y, "pain");
 			send_dead(id);
@@ -713,13 +705,6 @@ void LittleWolf::render_map(Player &p) {
 	// Ray cast for all columns of the window.
 	for (int x = 0; x < gpu_.xres; x++) 
 	{
-		/*
-		for (int y = 0; y < gpu_.yres; y++)
-	    {
-			put(display, x, y, 0x00000000);
-		}
-		*/
-
 		// draw walls
 		const Point direction = lerp(camera, x / (float) gpu_.xres);
 		const Hit hit = cast(p.where, direction, map_.walling, true, false);
