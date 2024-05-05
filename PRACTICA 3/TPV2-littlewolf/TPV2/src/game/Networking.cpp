@@ -188,7 +188,7 @@ void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float sp
 	m.theta = theta;
 	m.state = state;
 
-	std::cout << "current state of player " << clientId_ << " is " << (int)state << std::endl;
+	//std::cout << "current state of player " << clientId_ << " is " << (int)state << std::endl;
 
 	/*std::cout << p_ << std::endl;
 	std::cout << sock_ << std::endl;

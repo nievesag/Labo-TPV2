@@ -97,19 +97,9 @@ void LittleWolf::update_player_info(int playerID, float posX, float posY, float 
 	p.theta = theta;
 	p.state = state;
 
-	if (p.state == NOT_USED) {
-		std::cout << "NOT USED FINALLY aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
-	}
-}
-
-void LittleWolf::send_my_info()
-{
-	Player& p = players_[player_id_];
-
-	Game::instance()->get_networking()->send_my_info(
-		Vector2D(p.where.x, p.where.y), Vector2D(p.velocity.x, p.velocity.y),
-		p.speed, p.acceleration, p.theta, p.state);
-
+	//if (p.state == NOT_USED) {
+	//	std::cout << "NOT USED FINALLY aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
+	//}
 }
 
 void LittleWolf::load(std::string filename) {
@@ -321,7 +311,12 @@ void LittleWolf::bringAllToLife() {
 void LittleWolf::removePlayer(Uint8 id)
 {
 	Player& p = players_[id];
+
+	//map_.walling[(int)p.where.y][(int)p.where.x] = 0;
+
 	p.state = LittleWolf::NOT_USED;
+
+	std::cout << "-------------------------------------- REMOVE PLAYER --------------------------------------------" << std::endl;
 }
 
 void LittleWolf::killPlayer()
@@ -363,8 +358,6 @@ void LittleWolf::process_waiting()
 #pragma region SEND
 void LittleWolf::send_my_info()
 {
-	std::cout << (int)player_id_ << std::endl;
-
 	Player& p = players_[player_id_];
 
 	Game::instance()->get_networking()->send_my_info(
@@ -702,14 +695,14 @@ void LittleWolf::render_players_info() {
 	for (auto i = 0u; i < max_player; i++) {
 		PlayerState s = players_[i].state;
 
-		//std::cout << "Player " << i << std::endl;
+		std::cout << "Player " << i << std::endl;
 		// render player info if it is used
 		if (s != NOT_USED) {
 
 
-			//if(s == NOT_USED) std::cout << " is NOT USED" << std::endl;
-			//else if(s == ALIVE)std::cout << " is ALIVE" << std::endl;
-			//else if(s == DEAD)std::cout << " is DEAD" << std::endl;
+			if(s == NOT_USED) std::cout << " is NOT USED" << std::endl;
+			else if(s == ALIVE)std::cout << " is ALIVE" << std::endl;
+			else if(s == DEAD)std::cout << " is DEAD" << std::endl;
 
 			std::string msg = (i == player_id_ ? "*P" : " P") + std::to_string(i) + (s == DEAD ? " (dead)" : "");
 
@@ -725,7 +718,7 @@ void LittleWolf::render_players_info() {
 
 	}
 
-	//std::cout << std::endl << std::endl << std::endl;
+	std::cout << std::endl << std::endl << std::endl;
 
 }
 
@@ -798,14 +791,4 @@ LittleWolf::Wall LittleWolf::project(const int xres, const int yres, const float
 	return wall;
 }
 
-void LittleWolf::removePlayer(Uint8 id)
-{
-	Player& p = players_[id];
-
-	//map_.walling[(int)p.where.y][(int)p.where.x] = 0;
-
-	p.state = LittleWolf::NOT_USED;
-
-	std::cout << "-------------------------------------- REMOVE PLAYER --------------------------------------------" << std::endl;
-}
 #pragma endregion
