@@ -60,24 +60,22 @@ void LittleWolf::update()
 	{
 		return;
 	}
-	
 
 	spin(p);  // handle spinning
-	move(p);  // handle moving
+	//move(p);  // handle moving
 
-	// Accelerates with key held down
+	// Movement - Accelerates with key held down
 	if (ih().isKeyDown(SDL_SCANCODE_W) || ih().isKeyDown(SDL_SCANCODE_S) || ih().isKeyDown(SDL_SCANCODE_D) || ih().isKeyDown(SDL_SCANCODE_A))
 	{
-		// send_move_request();
+		// al hacerse la lectura del input en el update habria q tocar la lectura de dentro del metodo move
+		send_move_request();
 	}
 
 	// Space shoot -- we use keyDownEvent to force a complete press/release for each bullet
-	if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_SPACE))
+	else if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_SPACE))
 	{
 		send_shoot_request();
 	}
-	//shoot(p); // handle shooting
-
 }
 
 void LittleWolf::update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state)
@@ -329,12 +327,14 @@ void LittleWolf::killPlayer()
 #pragma region PROCESS
 void LittleWolf::process_shoot_request(int playerID)
 {
-
+	// en vez de hacer el shoot en cada update lo hacemos aqui al ser procesado
+	shoot(players_[playerID]);
 }
 
 void LittleWolf::process_move_request(int playerID)
 {
-
+	// en vez de hacer el shoot en cada update lo hacemos aqui al ser procesado
+	move(players_[playerID]);
 }
 
 void LittleWolf::process_player_die(int playerID)
@@ -344,13 +344,29 @@ void LittleWolf::process_player_die(int playerID)
 
 void LittleWolf::process_new_start()
 {
+	// dejas de esperar
+	isWaiting = false;
 
+	// ESTO AHORA ESTA IGUAL QUE EL RESTART, HAY QUE CAMBIARLO !!!!!!!!!!
+	// bring all dead players to life -- all stay in the same position
+	for (auto& p : players_)
+	{
+		if (p.state != NOT_USED)
+		{
+			p.state = ALIVE;
+		}
+	}
 }
 
 void LittleWolf::process_waiting()
 {
+	// empiezas a esperar
 	isWaiting = true;
+
+	// inicializas a 5 seg
 	waitingCounter = 5000;
+
+	// guardas el last frame para la primera vuelta en el update
 	lastFrame = sdlutils().virtualTimer().currTime();
 }
 #pragma endregion
@@ -490,38 +506,35 @@ void LittleWolf::spin(Player& p) {
 	}
 }
 
-bool LittleWolf::shoot(Player& p) {
-	auto& ihdrl = ih();
+bool LittleWolf::shoot(Player& p)
+{
+	// ya no hace falta comprobar el input, se comprueba en el update
 
-	// Space shoot -- we use keyDownEvent to force a complete press/release for each bullet
-	if (ihdrl.keyDownEvent() && ihdrl.isKeyDown(SDL_SCANCODE_SPACE)) {
+	// play gun shot sound
+	sdlutils().soundEffects().at("gunshot").play();
 
-		// play gun shot sound
-		sdlutils().soundEffects().at("gunshot").play();
+	// we shoot in several directions, because with projection what you see is not exact
+	for (float d = -0.05; d <= 0.05; d += 0.005)
+	{
+		// search which tile was hit
+		const Line camera = rotate(p.fov, p.theta + d);
+		Point direction = lerp(camera, 0.5f);
+		direction.x = direction.x / mag(direction);
+		direction.y = direction.y / mag(direction);
+		const Hit hit = cast(p.where, direction, map_.walling, false, true);
 
-		// we shoot in several directions, because with projection what you see is not exact
-		for (float d = -0.05; d <= 0.05; d += 0.005)
+		#if _DEBUG
+		printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile, mag(sub(p.where, hit.where)));
+		#endif
+
+		// if we hit a tile with a player id and the distance from that tile is smaller
+		// than shoot_distace, we mark the player as dead
+		if (hit.tile > 9 && mag(sub(p.where, hit.where)) < shoot_distace)
 		{
-			// search which tile was hit
-			const Line camera = rotate(p.fov, p.theta + d);
-			Point direction = lerp(camera, 0.5f);
-			direction.x = direction.x / mag(direction);
-			direction.y = direction.y / mag(direction);
-			const Hit hit = cast(p.where, direction, map_.walling, false, true);
-
-			#if _DEBUG
-			printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile, mag(sub(p.where, hit.where)));
-			#endif
-
-			// if we hit a tile with a player id and the distance from that tile is smaller
-			// than shoot_distace, we mark the player as dead
-			if (hit.tile > 9 && mag(sub(p.where, hit.where)) < shoot_distace)
-			{
-				uint8_t id = tile_to_player(hit.tile);
-				players_[id].state = DEAD;
-				sdlutils().soundEffects().at("pain").play();
-				return true;
-			}
+			uint8_t id = tile_to_player(hit.tile);
+			players_[id].state = DEAD;
+			sdlutils().soundEffects().at("pain").play();
+			return true;
 		}
 	}
 	return false;

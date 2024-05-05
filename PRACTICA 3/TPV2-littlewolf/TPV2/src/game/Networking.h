@@ -46,8 +46,8 @@ private:
 	void handle_shoot(const ShootMsg &m);
 	void handle_dead(const MsgWithId &m);
 	void handle_waiting();
-	void handle_shoot_request();
-	void handle_move_request();
+	void handle_shoot_request(const MsgWithId& m);
+	void handle_move_request(const MsgWithId& m);
 	void handle_new_start();
 	void handle_restart();
 	void handle_player_state();

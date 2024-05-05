@@ -107,12 +107,11 @@ bool Networking::disconnect() {
 // AQUI SE ADMINISTRAN TODOS LOS MENSAJES
 void Networking::update() {
 
-	Msg m0; // mensajes de flujo
-	MsgWithMasterId m1; // para mandarle info al master
-	PlayerStateMsg m2; // para informar al master de estados de jugadores
-	ShootMsg m3; // mensaje de disparo
-	MsgWithId m4; // para muertes
-	PlayerInfoMsg m5; // para informar al master de informacion de jugadores
+	Msg m0; // mensaje normal
+	MsgWithMasterId m_master; // mensaje con id del master
+	ShootMsg m_shoot; // mensaje de disparo
+	MsgWithId m_id; // mensaje con id del jugador
+	PlayerInfoMsg m_info; // mensaje con informacion de jugadores
 
 	while (SDLNetUtils::deserializedReceive(m0, p_, sock_) > 0) {
 
@@ -120,35 +119,34 @@ void Networking::update() {
 		switch (m0._type) {
 		case _NEW_CLIENT_CONNECTED:
 			// informas al master de nuevo jugador conectado
-			m1.deserialize(p_->data); // al enviar un mensaje hay que deserializarlo para poder usarlo
-			masterId_ = m1._master_id; // guardas el nuevo master si hay que cambiarlo
-			handle_new_client(m1._client_id); // se administra nuevo jugador
+			m_master.deserialize(p_->data); // al enviar un mensaje hay que deserializarlo para poder usarlo
+			masterId_ = m_master._master_id; // guardas el nuevo master si hay que cambiarlo
+			handle_new_client(m_master._client_id); // se administra nuevo jugador
 			break;
 
 		case _DISCONNECTED:
 			// informas al master de jugador desconectado
-			m1.deserialize(p_->data); 
-			masterId_ = m1._master_id; // guardas el nuevo master si hay que cambiarlo
-			handle_disconnect(m1._client_id); // se administra la desconexion
+			m_master.deserialize(p_->data); 
+			masterId_ = m_master._master_id; // guardas el nuevo master si hay que cambiarlo
+			handle_disconnect(m_master ._client_id); // se administra la desconexion
 			break;
-
 
 		case _PLAYER_INFO:
 			// para informar al master de info de los jugadores
-			m5.deserialize(p_->data);
-			handle_player_info(m5);
+			m_info.deserialize(p_->data);
+			handle_player_info(m_info);
 			break;
 
 		case _SHOOT:
 			// para informar al master de disparos
-			m3.deserialize(p_->data);
-			handle_shoot(m3);
+			m_shoot.deserialize(p_->data);
+			handle_shoot(m_shoot);
 			break;
 
 		case _DEAD:
 			// para informar al master de muertes
-			m4.deserialize(p_->data);
-			handle_dead(m4);
+			m_id.deserialize(p_->data);
+			handle_dead(m_id);
 			break;
 
 		case _RESTART:
@@ -159,6 +157,18 @@ void Networking::update() {
 
 		case _WAITING_SCREEN:
 			handle_waiting();
+			break;
+
+		case _SHOOT_REQUEST:
+			// para pedir al master disparar
+			m_id.deserialize(p_->data);
+			handle_shoot_request(m_id);
+			break;
+
+		case _MOVE_REQUEST:
+			// para pedir al master moverse
+			m_id.deserialize(p_->data);
+			handle_move_request(m_id);
 			break;
 
 		default:
@@ -246,8 +256,8 @@ void Networking::send_shoot(Vector2D p, Vector2D v, int width, int height, float
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 
-void Networking::send_dead(Uint8 id) {
-
+void Networking::send_dead(Uint8 id)
+{
 	// mensaje
 	MsgWithId m;
 
@@ -327,15 +337,22 @@ void Networking::handle_waiting()
 	Game::instance()->get_wolves()->process_waiting();
 }
 
-void Networking::handle_shoot_request()
+void Networking::handle_shoot_request(const MsgWithId& m)
 {
-	// llama al metodo de little wolf que mata jugador
-	//Game::instance()->get_wolves()->process_shoot_request();
+	// SOLO EL MASTER PUEDE PROCESAR REQUESTS !!!!!!!!!!
+	if (is_master()) 
+	{
+		Game::instance()->get_wolves()->process_shoot_request(m._client_id);
+	}
 }
 
-void Networking::handle_move_request()
+void Networking::handle_move_request(const MsgWithId& m)
 {
-	//Game::instance()->get_wolves()->process_move_request();
+	// SOLO EL MASTER PUEDE PROCESAR REQUESTS !!!!!!!!!!
+	if (is_master())
+	{
+		Game::instance()->get_wolves()->process_shoot_request(m._client_id);
+	}
 }
 
 void Networking::handle_new_start()
@@ -353,10 +370,11 @@ void Networking::handle_player_info(const PlayerInfoMsg &m) {
 
 void Networking::handle_shoot(const ShootMsg& m)
 {
-	//Game::instance()->get_wolves().get_bullets().shoot(Vector2D(m.x, m.y), Vector2D(m.vx, m.vy), m.w, m.h, m.rot);
+	
 }
 
-void Networking::handle_restart() {
+void Networking::handle_restart()
+{
 	Game::instance()->get_wolves()->bringAllToLife();
 }
 void Networking::handle_player_state()
