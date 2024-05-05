@@ -8,12 +8,10 @@
 #include "Networking.h"
 
 
-Game::Game() :
-		little_wolf_(nullptr) //
-{
-}
+Game::Game() : little_wolf_(nullptr) {}
 
-Game::~Game() {
+Game::~Game()
+{
 	delete little_wolf_;
 	delete networking_;
 }
@@ -27,8 +25,6 @@ bool Game::init(const char* host, Uint16 port)
 		SDLNetUtils::print_SDLNet_error();
 	}
 
-	std::cout << "Little Wolf de este cliente inicializando..." << std::endl;
-
 	// initialize the SDLUtils singleton
 	SDLUtils::init("Demo", 900, 480, "resources/config/littlewolf.resources.json");
 
@@ -39,13 +35,16 @@ bool Game::init(const char* host, Uint16 port)
 	little_wolf_->load("resources/maps/little_wolf/map_0.txt");
 
 	// add some players
-	little_wolf_->addPlayer(0);
-	little_wolf_->addPlayer(1);
-	little_wolf_->addPlayer(2);
-	little_wolf_->addPlayer(3);
+	little_wolf_->addPlayer(networking_->client_id());
+	//little_wolf_->addPlayer(0);
+	//little_wolf_->addPlayer(1);
+	//little_wolf_->addPlayer(2);
+	//little_wolf_->addPlayer(3);
 
 	// cada jugador envia su info
 	little_wolf_->send_my_info();
+
+	std::cout << "Little Wolf de este cliente inicializando..." << std::endl;
 
 	return true;
 }
