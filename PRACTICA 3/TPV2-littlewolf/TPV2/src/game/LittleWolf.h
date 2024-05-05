@@ -163,6 +163,7 @@ public:
 	// llama a los metodos de networking para actuar desde ahi
 	void send_my_info(); // sends player info
 	void send_shoot_request();
+	void send_move_request();
 	void send_dead(int playerID);
 	void send_new_start();
 	void send_waiting();
@@ -170,6 +171,7 @@ public:
 	// ---- process ----
 	// hace la logica de cada cliente
 	void process_shoot_request(int playerID);
+	void process_move_request(int playerID);
 	void process_player_die(int playerID);
 	void process_waiting();
 	void process_new_start(); // despues de waiting inicia partida nueva

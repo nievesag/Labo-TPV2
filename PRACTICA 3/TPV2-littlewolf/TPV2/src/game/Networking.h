@@ -30,6 +30,7 @@ public:
 	void send_my_info(const Vector2D& pos, const Vector2D& vel, float speed, float acceleration, float theta, Uint8 state);
 
 	void send_shoot_request();
+	void send_move_request();
 	void send_shoot(Vector2D p, Vector2D v, int width, int height, float r);
 	void send_dead(Uint8 id);
 
@@ -46,6 +47,7 @@ private:
 	void handle_dead(const MsgWithId &m);
 	void handle_waiting();
 	void handle_shoot_request();
+	void handle_move_request();
 	void handle_new_start();
 	void handle_restart();
 

@@ -322,6 +322,11 @@ void LittleWolf::process_shoot_request(int playerID)
 
 }
 
+void LittleWolf::process_move_request(int playerID)
+{
+
+}
+
 void LittleWolf::process_player_die(int playerID)
 {
 
@@ -354,6 +359,11 @@ void LittleWolf::send_my_info()
 void LittleWolf::send_shoot_request()
 {
 	Game::instance()->get_networking()->send_shoot_request();
+}
+
+void LittleWolf::send_move_request()
+{
+	Game::instance()->get_networking()->send_move_request();
 }
 
 void LittleWolf::send_dead(int playerID)

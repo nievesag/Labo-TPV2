@@ -190,14 +190,32 @@ void Networking::send_my_info(const Vector2D& pos, const Vector2D& vel, float sp
 	std::cout << sock_ << std::endl;
 	std::cout << srvadd_.host << std::endl;
 
-
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 
 void Networking::send_shoot_request()
 {
+	// mensaje
+	MsgWithId m;
 
+	// mensaje de muerte
+	m._type = _SHOOT_REQUEST;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+
+void Networking::send_move_request()
+{
+	// mensaje
+	MsgWithId m;
+
+	// mensaje de muerte
+	m._type = _MOVE_REQUEST;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
 
 void Networking::send_shoot(Vector2D p, Vector2D v, int width, int height, float r)
@@ -299,17 +317,24 @@ void Networking::handle_dead(const MsgWithId &m) {
 
 void Networking::handle_waiting()
 {
-
+	// llama al metodo de little wolf que mata jugador
+	Game::instance()->get_wolves()->process_waiting();
 }
 
 void Networking::handle_shoot_request()
 {
+	// llama al metodo de little wolf que mata jugador
+	//Game::instance()->get_wolves()->process_shoot_request();
+}
 
+void Networking::handle_move_request()
+{
+	//Game::instance()->get_wolves()->process_move_request();
 }
 
 void Networking::handle_new_start()
 {
-
+	Game::instance()->get_wolves()->process_new_start();
 }
 
 void Networking::handle_player_info(const PlayerInfoMsg &m) {
