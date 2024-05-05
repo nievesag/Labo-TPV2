@@ -643,19 +643,16 @@ void LittleWolf::spin(Player& p) {
 bool LittleWolf::shoot(Player& p)
 {
 	// ya no hace falta comprobar el input, se comprueba en el update
+
 	// play gun shot sound
-	sdlutils().soundEffects().at("gunshot").play();
+	playSoundWithDistance(p.where.x, p.where.y, "gunshot");
 
 	std::cout << "------------- SHOOT! ------------" << std::endl;
-
 
 	// we shoot in several directions, because with projection what you see is not exact
 	for (float d = -0.05; d <= 0.05; d += 0.005)
 	{
 		std::cout << "checkpoint " << d << std::endl;
-
-		//std::cout << "theta " << direction.x << " " << direction.y << std::endl;
-
 
 		// search which tile was hit
 		const Line camera = rotate(p.fov, p.theta + d);
@@ -671,20 +668,16 @@ bool LittleWolf::shoot(Player& p)
 		std::cout << "checkpoint 4" << std::endl;
 
 		#if _DEBUG
-		//printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile, mag(sub(p.where, hit.where)));
+		printf("Shoot by player %d hit a tile with value %d! at distance %f\n", p.id, hit.tile, mag(sub(p.where, hit.where)));
 		#endif
-
-
 
 		// if we hit a tile with a player id and the distance from that tile is smaller
 		// than shoot_distace, we mark the player as dead
 		if (hit.tile > 9 && mag(sub(p.where, hit.where)) < shoot_distace)
 		{
-
 			std::cout << " hit something "<< std::endl;
-
 			uint8_t id = tile_to_player(hit.tile);
-			sdlutils().soundEffects().at("pain").play();
+			playSoundWithDistance(p.where.x, p.where.y, "pain");
 			send_dead(id);
 
 			return true;
@@ -724,13 +717,6 @@ void LittleWolf::render_map(Player &p) {
 	// Ray cast for all columns of the window.
 	for (int x = 0; x < gpu_.xres; x++) 
 	{
-		/*
-		for (int y = 0; y < gpu_.yres; y++)
-	    {
-			put(display, x, y, 0x00000000);
-		}
-		*/
-
 		// draw walls
 		const Point direction = lerp(camera, x / (float) gpu_.xres);
 		const Hit hit = cast(p.where, direction, map_.walling, true, false);
@@ -861,17 +847,13 @@ void LittleWolf::render_players_info() {
 
 	uint_fast16_t y = 0;
 
-	for (auto i = 0u; i < max_player; i++) {
+	for (auto i = 0u; i < max_player; i++) 
+	{
 		PlayerState s = players_[i].state;
 
-		//std::cout << "Player " << i << std::endl;
 		// render player info if it is used
-		if (s != NOT_USED) {
-
-			//if(s == NOT_USED) std::cout << " is NOT USED" << std::endl;
-			//else if(s == ALIVE)std::cout << " is ALIVE" << std::endl;
-			//else if(s == DEAD)std::cout << " is DEAD" << std::endl;
-
+		if (s != NOT_USED) 
+		{
 			std::string msg = (i == player_id_ ? "*P" : " P") + std::to_string(i) + (s == DEAD ? " (dead)" : "");
 
 			Texture info(sdlutils().renderer(), msg,
@@ -883,11 +865,7 @@ void LittleWolf::render_players_info() {
 			info.render(dest);
 			y += info.height() + 5;
 		}
-
 	}
-
-	//std::cout << std::endl << std::endl << std::endl;
-
 }
 
 // se muestra el mensaje: The game will restart in (timeLeft) seconds
@@ -910,6 +888,40 @@ void LittleWolf::render_waiting()
 
 	// renderiza
 	Waiting.render(dest);
+}
+#pragma endregion
+
+void LittleWolf::playSoundWithDistance(float x, float y, std::string sound)
+{
+	// x / y -> coordenadas de del disparo
+
+	// para reproducir un sonido para todos los jugadores
+	for (auto& p : players_)
+	{
+		// si esta vivo para escuchar
+		if (p.state == ALIVE) 
+		{
+			// distancia x del oyente al ruido
+			float x_distance = x - p.where.x;
+
+			// distancia y del oyente al ruido
+			float y_distance = y - p.where.y;
+
+			// pitagoras para hayar la distancia entre oyente y ruido
+			float distance = sqrt(pow(x_distance, 2) + pow(y_distance, 2));
+
+			// introducir volumen en una ecuacion en la que a mas distancia menos volumen y viceversa
+			float volume = getVolume(distance);
+
+			sdlutils().soundEffects().at(sound).setVolume(volume);
+			sdlutils().soundEffects().at(sound).play();
+		}
+	}
+}
+
+float LittleWolf::getVolume(float x)
+{
+	return (1 / x);
 }
 
 // AUX
