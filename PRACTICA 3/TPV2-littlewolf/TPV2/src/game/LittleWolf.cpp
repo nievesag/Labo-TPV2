@@ -695,14 +695,13 @@ void LittleWolf::render_players_info() {
 	for (auto i = 0u; i < max_player; i++) {
 		PlayerState s = players_[i].state;
 
-		std::cout << "Player " << i << std::endl;
+		//std::cout << "Player " << i << std::endl;
 		// render player info if it is used
 		if (s != NOT_USED) {
 
-
-			if(s == NOT_USED) std::cout << " is NOT USED" << std::endl;
-			else if(s == ALIVE)std::cout << " is ALIVE" << std::endl;
-			else if(s == DEAD)std::cout << " is DEAD" << std::endl;
+			//if(s == NOT_USED) std::cout << " is NOT USED" << std::endl;
+			//else if(s == ALIVE)std::cout << " is ALIVE" << std::endl;
+			//else if(s == DEAD)std::cout << " is DEAD" << std::endl;
 
 			std::string msg = (i == player_id_ ? "*P" : " P") + std::to_string(i) + (s == DEAD ? " (dead)" : "");
 
@@ -718,7 +717,7 @@ void LittleWolf::render_players_info() {
 
 	}
 
-	std::cout << std::endl << std::endl << std::endl;
+	//std::cout << std::endl << std::endl << std::endl;
 
 }
 
