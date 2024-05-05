@@ -152,6 +152,18 @@ public:
 	// switch to the view of the next player
 	void switchToNextPlayer();
 
+	// switch to upper view
+	void switchToUpperView();
+
+	// switch to normal view
+	void switchToNormalView();
+
+	//
+	void waitUpperViewTime();
+
+	//
+	bool isUpperView();
+
 	// ---- info ----
 	// updates player info
 	void update_player_info(int playerID, float posX, float posY, float velX, float velY, float speed, float acc, float theta, PlayerState state);
@@ -408,6 +420,12 @@ private:
 
 	// a distance after which shoot has no effect
 	float shoot_distace;
+
+	// upper view
+	bool upper_view_ = false;
+
+	//
+	int cont = 0;
 
 	// the map that includes the walling, etc
 	Map map_;
