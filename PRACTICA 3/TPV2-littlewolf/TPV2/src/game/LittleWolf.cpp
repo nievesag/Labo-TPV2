@@ -64,17 +64,17 @@ void LittleWolf::update()
 	}
 
 	spin(p);  // handle spinning
-	//move(p);  // handle moving
+	move(p);  // handle moving
 
 	// Movement - Accelerates with key held down
-	if (ih().isKeyDown(SDL_SCANCODE_W) || ih().isKeyDown(SDL_SCANCODE_S) || ih().isKeyDown(SDL_SCANCODE_D) || ih().isKeyDown(SDL_SCANCODE_A))
-	{
-		// al hacerse la lectura del input en el update habria q tocar la lectura de dentro del metodo move
-		send_move_request();
-	}
+	//if (ih().isKeyDown(SDL_SCANCODE_W) || ih().isKeyDown(SDL_SCANCODE_S) || ih().isKeyDown(SDL_SCANCODE_D) || ih().isKeyDown(SDL_SCANCODE_A))
+	//{
+	//	// al hacerse la lectura del input en el update habria q tocar la lectura de dentro del metodo move
+	//	send_move_request();
+	//}
 
 	// Space shoot -- we use keyDownEvent to force a complete press/release for each bullet
-	else if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_SPACE))
+	if (ih().keyDownEvent() && ih().isKeyDown(SDL_SCANCODE_SPACE))
 	{
 		send_shoot_request();
 	}
