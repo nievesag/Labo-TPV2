@@ -147,9 +147,6 @@ void Networking::update() {
 			handle_waiting();
 			break;
 
-		case _RESTART:
-			handle_new_start();
-			break;
 		case _NEW_START:
 			handle_new_start();
 			break;
@@ -287,18 +284,6 @@ void Networking::send_new_start()
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
-
-void Networking::send_restart() {
-
-	// mensaje
-	Msg m;
-
-	// mensaje de restart
-	m._type = _RESTART;
-
-	// lo envia de manera serializada
-	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
-}
 #pragma endregion
 
 #pragma region HANDLE COSAS
@@ -352,7 +337,6 @@ void Networking::handle_move_request(const MsgWithId& m)
 
 void Networking::handle_new_start()
 {
-
 	Game::instance()->get_wolves()->process_new_start();
 }
 

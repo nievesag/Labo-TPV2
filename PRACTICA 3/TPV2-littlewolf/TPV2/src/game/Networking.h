@@ -36,7 +36,6 @@ public:
 
 	void send_waiting();
 	void send_new_start();
-	void send_restart();
 
 private:
 	// desde aqui se llaman a los metodos de cada cliente
