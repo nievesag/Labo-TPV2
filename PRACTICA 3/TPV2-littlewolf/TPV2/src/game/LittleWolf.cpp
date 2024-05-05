@@ -371,6 +371,11 @@ bool LittleWolf::isUpperView()
 
 void LittleWolf::bringAllToLife() {
 
+	if (Game::instance()->get_networking()->is_master())
+	{
+		reset_random_positions();
+	}
+
 	// bring all dead players to life -- all stay in the same position
 	for (auto i = 0u; i < max_player; i++) 
 	{
@@ -379,6 +384,64 @@ void LittleWolf::bringAllToLife() {
 			players_[i].state = ALIVE;
 		}
 	}
+}
+
+void LittleWolf::reset_random_positions()
+{
+	for (auto& p : players_)
+	{
+		if (p.state != NOT_USED)
+		{
+			auto& rand = sdlutils().rand();
+
+			// The search for an empty cell start at a random position (orow,ocol)
+			uint16_t orow = rand.nextInt(0, map_.walling_height);
+			uint16_t ocol = rand.nextInt(0, map_.walling_width);
+
+
+
+			// search for an empty cell
+			uint16_t row = orow;
+			uint16_t col = (ocol + 1) % map_.walling_width;
+			while (!((orow == row) && (ocol == col)) && map_.walling[row][col] != 0)
+			{
+				col = (col + 1) % map_.user_walling_width;
+				if (col == 0)
+				{
+					row = (row + 1) % map_.walling_height;
+				}
+			}
+
+			// handle the case where the search is failed, which in principle should never
+			// happen unless we start with map with few empty cells
+			if (row >= map_.walling_height)
+			{
+				return;
+			}
+
+
+
+			map_.walling[(int)p.where.y][(int)p.where.x] = 0;
+
+			p.where.x = col + 0.5f;
+			p.where.y = row + 0.5f;
+			p.velocity.x = 0;
+			p.velocity.y = 0;
+			p.speed = 2.0;
+			p.acceleration = 0.9;
+			p.theta = 0;
+			p.state = ALIVE;
+
+			std::cout << (int)p.id << "row " << p.where.x << std::endl;
+			std::cout << (int)p.id << "col " << p.where.y << std::endl;
+
+
+			map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(p.id);
+
+			Game::instance()->get_networking()->send_synconize(p.id, Vector2D(p.where.x, p.where.y));
+		}
+	}
+
 }
 
 void LittleWolf::removePlayer(int playerID)
@@ -431,52 +494,7 @@ void LittleWolf::process_new_start()
 	// dejas de esperar
 	isWaiting = false;
 
-	auto& rand = sdlutils().rand();
-
-	for (auto& p : players_)
-	{
-		if (p.state != NOT_USED)
-		{
-			// The search for an empty cell start at a random position (orow,ocol)
-			uint16_t orow = rand.nextInt(0, map_.walling_height);
-			uint16_t ocol = rand.nextInt(0, map_.walling_width);
-
-			// search for an empty cell
-			uint16_t row = orow;
-			uint16_t col = (ocol + 1) % map_.walling_width;
-			while (!((orow == row) && (ocol == col)) && map_.walling[row][col] != 0)
-			{
-				col = (col + 1) % map_.user_walling_width;
-				if (col == 0)
-				{
-					row = (row + 1) % map_.walling_height;
-				}
-			}
-
-			// handle the case where the search is failed, which in principle should never
-			// happen unless we start with map with few empty cells
-			if (row >= map_.walling_height)
-			{
-				return;
-			}
-
-			map_.walling[(int)p.where.y][(int)p.where.x] = 0;
-
-			p.where.x = col + 0.5f;
-			p.where.y = row + 0.5f;
-
-			p.velocity.x = 0;
-			p.velocity.y = 0;
-			p.speed = 2.0;
-			p.acceleration = 0.9;
-			p.theta = 0;
-			p.state = ALIVE;
-
-			map_.walling[(int)p.where.y][(int)p.where.x] = player_to_tile(p.id);
-
-			Game::instance()->get_networking()->send_synconize(p.id, Vector2D(p.where.x, p.where.y));
-		}
-	}
+	bringAllToLife();
 
 	std::cout << " NEW START " << std::endl;
 }

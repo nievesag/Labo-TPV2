@@ -386,7 +386,7 @@ void Networking::handle_move_request(const MsgWithId& m)
 
 void Networking::handle_new_start()
 {
-	Game::instance()->get_wolves()->process_new_start();
+		Game::instance()->get_wolves()->process_new_start();
 }
 
 void Networking::handle_syncronize(PlayerInfoMsg& m)
