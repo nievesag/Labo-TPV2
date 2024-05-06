@@ -48,6 +48,8 @@ void LittleWolf::update()
 		// guarda el ultimo frame para el siguiente update
 		lastFrame = sdlutils().virtualTimer().currTime();
 
+		
+
 		// si ya ha pasado el tiempo en el ordenador master -> iniciar nueva partida
 		if (Game::instance()->get_networking()->is_master() && waitingCounter <= 0) 
 		{
@@ -362,6 +364,8 @@ void LittleWolf::switchToNormalView()
 
 void LittleWolf::waitUpperViewTime()
 {
+
+	//std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
 	if (cont < 200) {
 
 		cont++;
@@ -370,6 +374,8 @@ void LittleWolf::waitUpperViewTime()
 
 		switchToNormalView();
 		cont = false;
+
+		//std::cout << "-------------------------------------------------------------------------------------------" << std::endl;
 	}
 }
 
@@ -403,8 +409,6 @@ void LittleWolf::reset_random_positions()
 			// The search for an empty cell start at a random position (orow,ocol)
 			uint16_t orow = rand.nextInt(0, map_.walling_height);
 			uint16_t ocol = rand.nextInt(0, map_.walling_width);
-
-
 
 			// search for an empty cell
 			uint16_t row = orow;
