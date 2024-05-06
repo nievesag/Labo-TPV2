@@ -39,6 +39,7 @@ public:
 	void send_restart();
 	void send_synconize(Uint8 id, const Vector2D& pos);
 	void send_sound();
+	void send_pain();
 
 private:
 	// desde aqui se llaman a los metodos de cada cliente
@@ -52,6 +53,7 @@ private:
 	void handle_new_start();
 	void handle_syncronize(PlayerInfoMsg& m);
 	void handle_sound();
+	void handle_pain();
 
 	UDPsocket sock_;
 	SDLNet_SocketSet socketSet_;

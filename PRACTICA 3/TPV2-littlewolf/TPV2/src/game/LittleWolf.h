@@ -185,6 +185,7 @@ public:
 	void send_waiting();
 	void send_syncronize();
 	void send_sound();
+	void send_pain();
 
 	// ---- process ----
 	// hace la logica de cada cliente
@@ -194,7 +195,7 @@ public:
 	void process_waiting();
 	void process_new_start(); // despues de waiting inicia partida nueva
 	void process_sound();
-	void playSoundWithDistance(float x, float y, std::string sound);
+	void process_pain();
 	float getVolume(float x);
 	#pragma endregion
 

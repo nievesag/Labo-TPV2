@@ -23,7 +23,8 @@ enum MsgType : Uint8 {
 	_MOVE_REQUEST,
 	_IS_DEAD,
 	_SYNCRONIZE,
-	_SOUND
+	_SOUND,
+	_PAIN
 };
 
 struct Msg {

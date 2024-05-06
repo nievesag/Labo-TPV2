@@ -425,8 +425,6 @@ void LittleWolf::reset_random_positions()
 				return;
 			}
 
-
-
 			map_.walling[(int)p.where.y][(int)p.where.x] = 0;
 
 			p.where.x = col + 0.5f;
@@ -528,6 +526,29 @@ void LittleWolf::process_sound()
 	}
 }
 
+void LittleWolf::process_pain()
+{
+	Player& p = players_[player_id_];
+
+	if (p.state == ALIVE)
+	{
+		// distancia x del oyente al ruido
+		float x_distance = sound_x - p.where.x;
+
+		// distancia y del oyente al ruido
+		float y_distance = sound_y - p.where.y;
+
+		// pitagoras para hayar la distancia entre oyente y ruido
+		float distance = sqrt(pow(x_distance, 2) + pow(y_distance, 2));
+
+		// introducir volumen en una ecuacion en la que a mas distancia menos volumen y viceversa
+		float volume = getVolume(distance / 4.64);
+
+		sdlutils().soundEffects().at("pain").setVolume(volume);
+		sdlutils().soundEffects().at("pain").play();
+	}
+}
+
 void LittleWolf::process_waiting()
 {
 	// empiezas a esperar
@@ -588,7 +609,16 @@ void LittleWolf::send_sound()
 {
 	for (auto& player : players_) {
 		if (player.state != NOT_USED) {
-			Game::instance()->get_networking()->send_synconize(player.id, Vector2D(player.where.x, player.where.y));
+			Game::instance()->get_networking()->send_sound();
+		}
+	}
+}
+
+void LittleWolf::send_pain()
+{
+	for (auto& player : players_) {
+		if (player.state != NOT_USED) {
+			Game::instance()->get_networking()->send_pain();
 		}
 	}
 }
@@ -702,7 +732,7 @@ bool LittleWolf::shoot(Player& p)
 	sound_x = p.where.x;
 	sound_y = p.where.y;
 
-	Game::instance()->get_networking()->send_sound();
+	send_sound();
 
 	//playSoundWithDistance(p.where.x, p.where.y, "gunshot");
 
@@ -736,9 +766,8 @@ bool LittleWolf::shoot(Player& p)
 		{
 			std::cout << " hit something "<< std::endl;
 			uint8_t id = tile_to_player(hit.tile);
-			playSoundWithDistance(p.where.x, p.where.y, "pain");
+			send_pain();
 			send_dead(id);
-
 			return true;
 		}
 	}
@@ -949,34 +978,6 @@ void LittleWolf::render_waiting()
 	Waiting.render(dest);
 }
 #pragma endregion
-
-void LittleWolf::playSoundWithDistance(float x, float y, std::string sound)
-{
-	// x / y -> coordenadas de del disparo
-
-	// para reproducir un sonido para todos los jugadores
-	for (auto& p : players_)
-	{
-		// si esta vivo para escuchar
-		if (p.state == ALIVE) 
-		{
-			// distancia x del oyente al ruido
-			float x_distance = x - p.where.x;
-
-			// distancia y del oyente al ruido
-			float y_distance = y - p.where.y;
-
-			// pitagoras para hayar la distancia entre oyente y ruido
-			float distance = sqrt(pow(x_distance, 2) + pow(y_distance, 2));
-
-			// introducir volumen en una ecuacion en la que a mas distancia menos volumen y viceversa
-			float volume = getVolume(distance / 4.64);
-
-			sdlutils().soundEffects().at(sound).setVolume(volume);
-			sdlutils().soundEffects().at(sound).play();
-		}
-	}
-}
 
 float LittleWolf::getVolume(float x)
 {

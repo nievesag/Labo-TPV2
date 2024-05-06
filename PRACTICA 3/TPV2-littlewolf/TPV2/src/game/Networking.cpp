@@ -174,6 +174,12 @@ void Networking::update() {
 			handle_sound();
 			break;
 
+		case _PAIN:
+			// informas al master de jugador desconectado
+			m_info.deserialize(p_->data);
+			handle_pain();
+			break;
+
 		default:
 			break;
 		}
@@ -318,6 +324,7 @@ void Networking::send_synconize(Uint8 id, const Vector2D& pos)
 
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
 }
+
 void Networking::send_sound()
 {
 	// mensaje
@@ -325,6 +332,18 @@ void Networking::send_sound()
 
 	// mensaje de restart
 	m._type = _SOUND;
+
+	// lo envia de manera serializada
+	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
+}
+
+void Networking::send_pain()
+{
+	// mensaje
+	Msg m;
+
+	// mensaje de restart
+	m._type = _PAIN;
 
 	// lo envia de manera serializada
 	SDLNetUtils::serializedSend(m, p_, sock_, srvadd_);
@@ -398,6 +417,11 @@ void Networking::handle_syncronize(PlayerInfoMsg& m)
 void Networking::handle_sound()
 {
 	Game::instance()->get_wolves()->process_sound();
+}
+
+void Networking::handle_pain()
+{
+	Game::instance()->get_wolves()->process_pain();
 }
 
 void Networking::handle_player_info(const PlayerInfoMsg &m)
