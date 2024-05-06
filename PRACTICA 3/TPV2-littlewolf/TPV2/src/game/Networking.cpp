@@ -386,12 +386,12 @@ void Networking::handle_new_start()
 	if (is_master())
 	{
 		Game::instance()->get_wolves()->process_new_start();
-
 	}
 }
 
 void Networking::handle_syncronize(PlayerInfoMsg& m)
 {
+	//std::cout << "PLAYER ID: " << (int)m._client_id << "      POSITION: " << m.posX << "," << m.posY << std::endl;
 	Game::instance()->get_wolves()->player_syncronize(m._client_id, Vector2D(m.posX, m.posY));
 }
 

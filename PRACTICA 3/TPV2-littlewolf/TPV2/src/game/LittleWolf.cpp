@@ -63,6 +63,9 @@ void LittleWolf::update()
 		return;
 	}
 
+	std::cout << "                PLAYER ID: " << (int)p.id<< "      POSITION: " << p.where.x << "," << p.where.y << std::endl;
+
+
 	spin(p);  // handle spinning
 	move(p);  // handle moving
 
@@ -142,6 +145,8 @@ void LittleWolf::player_syncronize(Uint8 id, const Vector2D& pos)
 	Player& p = players_[player_id_];
 
 	map_.walling[(int)p.where.y][(int)p.where.x] = 0;
+
+	std::cout << "PLAYER ID: " << (int)id << "      POSITION: " << pos.getX() << "," << pos.getY() << std::endl;
 
 	p.where.x = pos.getX();
 	p.where.y = pos.getY();
