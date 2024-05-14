@@ -31,16 +31,6 @@ struct Message {
 	// types, otherwise you will need to define constructors almost everywhere
 	union {
 
-		// _m_STAR_EATEN
-		struct {
-			ecs::entity_t e;
-		} star_eaten_data;
-
-		// _m_CREATE_STARS
-		struct {
-			unsigned int n;
-		} create_stars_data;
-
 		// _m_KILL_PACMAN
 		struct {
 			ecs::entity_t e;

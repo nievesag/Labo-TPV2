@@ -15,17 +15,16 @@ public:
 	virtual ~PacManSystem();
 	void initSystem() override;
 	void update() override;
+
 	void recieve(const Message& m) override;
 
 	void resetRound();
 	void resetGame();
-	void reset();
 	void die();
 	void playSound();
 	void stopSound();
 
 private:
 	Transform *pmTR_;
-	int lives;
 	bool playing = false;
 };

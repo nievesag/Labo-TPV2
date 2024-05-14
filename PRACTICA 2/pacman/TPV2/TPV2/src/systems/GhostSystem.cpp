@@ -37,34 +37,36 @@ void GhostSystem::generateGhost()
 {
 	auto& rand = sdlutils().rand();
 
-	// si toca generar fantasma && aun no se ha llegado al limite de fantasmas && pacman no esta en estado inmune
+	// si toca generar fantasma &&
+	// aun no se ha llegado al limite de fantasmas &&
+	// pacman no esta en estado inmune
 	if (ghostCD + lastSpawn < sdlutils().virtualTimer().currTime() &&
 		currentGhosts_ < ghostLimit_ && 
-		!(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune)) {
-
+		!(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune)) 
+	{
 		// guarda momento del ultimo fantasma spawneado
 		lastSpawn = sdlutils().virtualTimer().currTime();
 
-		// add and entity to the manager
+		// aniada entidad al manager, grupo fantasmas
 		auto e = mngr_->addEntity(ecs::grp::GHOSTS);
 
-		// add a Transform component, and initialise it with random size and position
-		auto tr = mngr_->addComponent<Transform>(e);
+		// aniade transform
+		auto tr = mngr_->addComponent<Transform>(e); 
 
+		// lo inicializa
 		int width = 40;
 		int height = 40;
-
 		tr->width_ = width;
 		tr->height_ = height;
 
-		// add an Image Component
+		// aniade componente ImageWithFrames
 		auto img = mngr_->addComponent<ImageWithFrames>(e, &sdlutils().images().at("pacman_spritesheet"), 8, 8); 
 
 		// coloca fantasma en una esquina random
 		int pos = sdlutils().rand().nextInt(0, 4);
 
-		switch (pos)
-		{
+		switch (pos) {
+
 		// esquina superior izq 
 		case 0:
 			tr->pos_.setX(0);
@@ -123,8 +125,9 @@ void GhostSystem::moveGhosts()
 		// probabilidad random de que se actualice el vector
 		int prob = sdlutils().rand().nextInt(1, 100);
 
-		if (prob == followChance) {
-
+		// si el random coincide
+		if (prob == followChance) 
+		{
 			// coge el transform del pacman
 			auto PM = mngr_->getHandler(ecs::hdlr::PACMAN);
 			auto posPM = mngr_->getComponent<Transform>(PM);
@@ -138,21 +141,25 @@ void GhostSystem::moveGhosts()
 
 		// -- para que no se salga de los bordes --
 		// check left/right borders
-		if (gt->pos_.getX() < 0) {
+		if (gt->pos_.getX() < 0) 
+		{
 			gt->pos_.setX(0.0f);
 			gt->vel_.set(0.0f, 0.0f);
 		}
-		else if (gt->pos_.getX() + gt->width_ > sdlutils().width()) {
+		else if (gt->pos_.getX() + gt->width_ > sdlutils().width()) 
+		{
 			gt->pos_.setX(sdlutils().width() - gt->width_);
 			gt->vel_.set(0.0f, 0.0f);
 		}
 
 		// check upper/lower borders
-		if (gt->pos_.getY() < 0) {
+		if (gt->pos_.getY() < 0) 
+		{
 			gt->pos_.setY(0.0f);
 			gt->vel_.set(0.0f, 0.0f);
 		}
-		else if (gt->pos_.getY() + gt->height_ > sdlutils().height()) {
+		else if (gt->pos_.getY() + gt->height_ > sdlutils().height()) 
+		{
 			gt->pos_.setY(sdlutils().height() - gt->height_);
 			gt->vel_.set(0.0f, 0.0f);
 		}
@@ -171,7 +178,8 @@ void GhostSystem::resetGhosts()
 void GhostSystem::destroyGhosts()
 {
 	// mata todas las entidades del grupo GHOSTS
-	for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) {
+	for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) 
+	{
 		mngr_->setAlive(g, false);
 	}
 }
@@ -179,27 +187,28 @@ void GhostSystem::destroyGhosts()
 void GhostSystem::changeGhosts()
 {
 	// si pacman es inmune en ese momento cambia la image de los fantasmas
-	if(mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune)
+	if (mngr_->getComponent<IsInmuneComponent>(mngr_->getHandler(ecs::hdlr::PACMAN))->isInmune)
 	{
-		for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) {
-
+		// recorre todos los fantasmas
+		for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) 
+		{
+			// cambia imagen
 			auto img = mngr_->getComponent<ImageWithFrames>(g);
-
 			img->setXoffset(6);
 			img->setRow(3);
 			img->setColFrames(2);
-
 		}
 	}
+
 	// vuelven a la normalidad
 	else
 	{
-		for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) {
-
+		// recorre todos los fantasmas
+		for (auto& g : mngr_->getEntities(ecs::grp::GHOSTS)) 
+		{
+			// cambia imagen
 			auto img = mngr_->getComponent<ImageWithFrames>(g);
-
 			int color = sdlutils().rand().nextInt(4, 7);
-
 			img->setRow(color);
 			img->reset();
 			img->setColFrames(8);

@@ -26,6 +26,7 @@ public:
 	bool noFruits();
 	void resetFruits();
 	void miraculousFruitManager();
+	void foodCollision(ecs::entity_t fruit);
 
 private:
 	int totalFruits;

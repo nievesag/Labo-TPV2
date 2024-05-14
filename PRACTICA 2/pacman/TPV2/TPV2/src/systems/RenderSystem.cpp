@@ -36,9 +36,9 @@ void RenderSystem::drawPacMan()
 
 void RenderSystem::drawGhosts()
 {
-	// draw ghosts
-	for (auto e : mngr_->getEntities(ecs::grp::GHOSTS)) {
-
+	// pinta fantasmas
+	for (auto e : mngr_->getEntities(ecs::grp::GHOSTS)) 
+	{
 		mngr_->getComponent<ImageWithFrames>(e)->render();
 	}
 }
@@ -52,16 +52,19 @@ void RenderSystem::drawLives()
 
 void RenderSystem::drawFruits()
 {
-	// draw fruits
-	for (auto e : mngr_->getEntities(ecs::grp::FRUITS)) {
-
+	// dibuja las frutas
+	for (auto e : mngr_->getEntities(ecs::grp::FRUITS)) 
+	{
 		mngr_->getComponent<ImageWithFrames>(e)->render();
 	}
 }
 
+/*
+// no se usa
 void RenderSystem::draw(Transform *tr, Texture *tex)
 {
 	SDL_Rect dest = build_sdlrect(tr->pos_, tr->width_, tr->height_);
 	assert(tex != nullptr);
 	tex->render(dest, tr->rot_);
 }
+*/

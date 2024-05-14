@@ -6,7 +6,7 @@
 class Texture;
 struct Transform;
 
-class RenderSystem: public ecs::System
+class RenderSystem : public ecs::System
 {
 public:
 	__SYSID_DECL__(ecs::sys::RENDER)
@@ -21,5 +21,4 @@ private:
 	void drawGhosts();
 	void drawLives();
 	void drawFruits();
-	void draw(Transform *tr, Texture *tex);
 };

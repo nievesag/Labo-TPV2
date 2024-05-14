@@ -37,6 +37,10 @@ void FoodSystem::recieve(const Message& m)
 		resetFruits(); // vuelve a colocar las frutas al inicio de partida
 		break;
 
+	case _m_PACMAN_FOOD_COLLISION:
+		foodCollision(m.eat_fruit_data.e);
+		break;
+
 	default:
 		break;
 	}
@@ -159,6 +163,27 @@ void FoodSystem::miraculousFruitManager()
 					img->setXoffset(7);
 				}
 			}
+		}
+	}
+}
+
+void FoodSystem::foodCollision(ecs::entity_t fruit)
+{
+	// manda mensaje de fruta comida
+	Message f;
+	f.id = _m_EAT_FRUIT;
+	f.eat_fruit_data.e = fruit;
+	mngr_->send(f);
+
+	// PARA ADMINISTRAR INMUNIDAD
+	if (mngr_->getComponent<IsMiraculousComponent>(fruit) != nullptr && mngr_->isAlive(fruit))
+	{
+		// si la fruta con la que colisiones es miracoulosa empieza la inmunidad de pacman
+		if (mngr_->getComponent<IsMiraculousComponent>(fruit)->isMiraculous)
+		{
+			Message m;
+			m.id = _m_IMMUNITY_START;
+			mngr_->send(m);
 		}
 	}
 }

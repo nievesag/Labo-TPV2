@@ -12,16 +12,14 @@ void InmunitySystem::initSystem() {
 
 	// coge la primera entidad del vector de entidades de tipo PACMAN
 	auto pacmanvec = mngr_->getEntities(ecs::hdlr::PACMAN);
-	pacman = *pacmanvec.begin();
+	pacman = *pacmanvec.begin(); // es la primera entidad del vector
 }
 
 void InmunitySystem::update()
 {
-	// si actualmente se encuentra en un estado de inmunidad y han pasado 10 segundos desde su inicio:
+	// si actualmente se encuentra en un estado de inmunidad y
+	// han pasado 10 segundos desde su inicio:
 	// lo apaga enviando un mensaje correspondiente
-
-	// mngr_->getComponent<Transform>(pacman);
-
 	if(mngr_->getComponent<IsInmuneComponent>(pacman)->isInmune &&
 		timeOfActivation + maxInmunityDuration < sdlutils().virtualTimer().currTime())
 	{
@@ -34,6 +32,8 @@ void InmunitySystem::update()
 void InmunitySystem::recieve(const Message& m)
 {
 	switch (m.id) {
+
+	// si se recibe el mensaje de inicio de inmunidad
 	case _m_IMMUNITY_START:
 		timeOfActivation = sdlutils().virtualTimer().currTime(); // guarda inicio de inmunidad
 		break;

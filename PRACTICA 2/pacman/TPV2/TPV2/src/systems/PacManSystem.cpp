@@ -15,9 +15,9 @@ PacManSystem::PacManSystem() : pmTR_(nullptr) {}
 
 PacManSystem::~PacManSystem() {}
 
-void PacManSystem::initSystem() {
-
-	// create the PacMan entity 
+void PacManSystem::initSystem()
+{
+	// crea entidad pacman
 	auto pacman = mngr_->addEntity();
 
 	// lo hace handler (lo que controla el jugador)
@@ -124,13 +124,7 @@ void PacManSystem::update()
 	playSound();
 }
 
-void PacManSystem::resetGame()
-{
-	// reset vidas
-	auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(mngr_->getHandler(ecs::hdlr::PACMAN));
-	livesLeftComponent->resetLives();
-}
-
+// ---- RECIBIR ----
 void PacManSystem::recieve(const Message& m)
 {
 	switch (m.id) {
@@ -171,6 +165,7 @@ void PacManSystem::recieve(const Message& m)
 	}
 }
 
+#pragma region METODOS AL RECIBIR
 void PacManSystem::die()
 {
 	// resta una vida
@@ -219,3 +214,11 @@ void PacManSystem::resetRound()
 
 	pmTR_->init(Vector2D(x, y), Vector2D(), s, s, 0.0f);
 }
+
+void PacManSystem::resetGame()
+{
+	// reset vidas
+	auto livesLeftComponent = mngr_->getComponent<LivesLeftComponent>(mngr_->getHandler(ecs::hdlr::PACMAN));
+	livesLeftComponent->resetLives();
+}
+#pragma endregion
