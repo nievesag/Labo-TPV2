@@ -199,7 +199,6 @@ void GhostSystem::changeGhosts()
 			// cambia imagen
 			auto img = mngr_->getComponent<ImageWithFrames>(g);
 			img->setXoffset(6);			// ajusta el offset en X, es decir, la columna del sprite inicial
-			//img->setCol(6);
 			img->setRow(3);				// settea la fila inicial (empezando a contar desde el 0)
 			img->setColFrames(2);		// sette el numero de frames que tiene en horizontal
 		}
