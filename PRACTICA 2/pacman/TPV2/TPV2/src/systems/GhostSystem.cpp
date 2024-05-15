@@ -55,8 +55,8 @@ void GhostSystem::generateGhost()
 		auto tr = mngr_->addComponent<Transform>(e);
 
 		// aniade puntos
-		auto points = mngr_->addComponent<Points>(e);
-		points->points_ = 10;
+		//auto points = mngr_->addComponent<Points>(e);
+		//points->points_ = 10;
 
 		// lo inicializa
 		int width = 40;
@@ -77,8 +77,8 @@ void GhostSystem::generateGhost()
 			tr->pos_.setX(0);
 			tr->pos_.setY(0);
 
-			img->setRow(4);
-			img->setColFrames(8);
+			img->setRow(4);			// fila inicial del sprite
+			img->setColFrames(8);	// columna inicial del sprite
 			break;
 
 		// esquina superior derecha
@@ -86,8 +86,8 @@ void GhostSystem::generateGhost()
 			tr->pos_.setX(0);
 			tr->pos_.setY(sdlutils().height() - height);
 
-			img->setRow(5);
-			img->setColFrames(8);
+			img->setRow(5);			// fila inicial del sprite
+			img->setColFrames(8);	// columna inicial del sprite
 			break;
 
 		// esquina inferior izquierda
@@ -95,8 +95,8 @@ void GhostSystem::generateGhost()
 			tr->pos_.setX(sdlutils().width() - width);
 			tr->pos_.setY(0);
 
-			img->setRow(6);
-			img->setColFrames(8);
+			img->setRow(6);			// fila inicial del sprite
+			img->setColFrames(8);	// columna inicial del sprite
 			break;
 
 		// esquina inferior derecha
@@ -104,8 +104,8 @@ void GhostSystem::generateGhost()
 			tr->pos_.setX(sdlutils().width() - width);
 			tr->pos_.setY(sdlutils().height() - height);
 
-			img->setRow(7);
-			img->setColFrames(8);
+			img->setRow(7);			// fila inicial del sprite
+			img->setColFrames(8);	// columna inicial del sprite
 			break;
 
 		default:
@@ -199,9 +199,10 @@ void GhostSystem::changeGhosts()
 		{
 			// cambia imagen
 			auto img = mngr_->getComponent<ImageWithFrames>(g);
-			img->setXoffset(6);
-			img->setRow(3);
-			img->setColFrames(2);
+			img->setXoffset(6);			// ajusta el offset en X, es decir, la columna del sprite inicial
+			//img->setCol(6);
+			img->setRow(3);				// settea la fila inicial (empezando a contar desde el 0)
+			img->setColFrames(2);		// sette el numero de frames que tiene en horizontal
 		}
 	}
 

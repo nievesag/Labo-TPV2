@@ -26,7 +26,7 @@ ImageWithFrames::ImageWithFrames(Texture *tex, int rows, int cols) :
 	ncol_ = cols;
 	nrow_ = rows;
 
-
+	// para saltar de imagen en imagen mas facil
 	xoffset = 0;
 	yoffset = 0;
 }

@@ -169,11 +169,7 @@ void FoodSystem::miraculousFruitManager()
 
 void FoodSystem::foodCollision(ecs::entity_t fruit)
 {
-	// manda mensaje de fruta comida
-	Message f;
-	f.id = _m_EAT_FRUIT;
-	f.eat_fruit_data.e = fruit;
-	mngr_->send(f);
+	// primero mira la inmunidad y luego que se coma, si es al reves solo come y no se hace inmune
 
 	// PARA ADMINISTRAR INMUNIDAD
 	if (mngr_->getComponent<IsMiraculousComponent>(fruit) != nullptr && mngr_->isAlive(fruit))
@@ -186,4 +182,10 @@ void FoodSystem::foodCollision(ecs::entity_t fruit)
 			mngr_->send(m);
 		}
 	}
+
+	// manda mensaje de fruta comida
+	Message f;
+	f.id = _m_EAT_FRUIT;
+	f.eat_fruit_data.e = fruit;
+	mngr_->send(f);
 }

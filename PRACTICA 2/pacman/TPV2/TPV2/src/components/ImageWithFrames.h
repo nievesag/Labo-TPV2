@@ -22,11 +22,12 @@ public:
 	void setRow(int row) { currFrameR_ = row; }
 	void setCol(int col) { currFrameC_ = col; }
 
-	// para poner el offset DE LOS FRAMES (ir saltando de frame en frame)
-	void setXoffset(int x) { xoffset = x; }
-	void setYoffset(int y) { yoffset = y; }
+	// para poner el offset DE LOS FRAMES 
+	void setXoffset(int x) { xoffset = x; }		// ajusta el offset en X, es decir, la columna del sprite inicial
+	void setYoffset(int y) { yoffset = y; }		// ajusta el offset en Y, es decir, la fila del sprite inicial	
+												// son como el col y el row basicamente
 
-	void setColFrames(int col);
+	void setColFrames(int col);					// settea el numero de frames que tiene la animacion
 
 	void reset();
 
