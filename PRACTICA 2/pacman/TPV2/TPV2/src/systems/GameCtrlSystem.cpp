@@ -22,6 +22,7 @@ void GameCtrlSystem::recieve(const Message &m)
 	switch (m.id) {
 	case _m_GAME_OVER:
 		Game::instance()->setState(Game::GAMEOVER);
+		setScore(0);
 		break;
 
 	case _m_ROUND_OVER:
@@ -30,6 +31,7 @@ void GameCtrlSystem::recieve(const Message &m)
 
 	case _m_WIN_GAME:
 		Game::instance()->setState(Game::GAMEOVER);
+		setScore(0);
 		break;
 
 	case _m_EAT_FRUIT:

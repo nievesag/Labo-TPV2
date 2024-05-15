@@ -31,5 +31,5 @@ public:
 	void recieve(const Message &m) override;
 
 private:
-    unsigned int score;
+    unsigned int score = 0;
 };
