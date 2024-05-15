@@ -24,6 +24,7 @@
     <ClInclude Include="src\components\IsInmuneComponent.h" />
     <ClInclude Include="src\components\IsMiraculousComponent.h" />
     <ClInclude Include="src\components\LivesLeftComponent.h" />
+    <ClInclude Include="src\components\Points.h" />
     <ClInclude Include="src\components\Transform.h" />
     <ClInclude Include="src\ecs\Component.h" />
     <ClInclude Include="src\ecs\ecs.h" />

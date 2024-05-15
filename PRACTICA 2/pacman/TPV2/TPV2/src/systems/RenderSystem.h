@@ -21,4 +21,5 @@ private:
 	void drawGhosts();
 	void drawLives();
 	void drawFruits();
+	void drawMsgs();
 };

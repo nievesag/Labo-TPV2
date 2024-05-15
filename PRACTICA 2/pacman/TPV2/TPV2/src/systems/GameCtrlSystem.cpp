@@ -31,6 +31,10 @@ void GameCtrlSystem::recieve(const Message &m)
 		Game::instance()->setState(Game::GAMEOVER);
 		break;
 
+	case _m_EAT_FRUIT:
+		incrScore();
+		break;
+
 	default:
 		break;
 	}

@@ -11,7 +11,25 @@ public:
 	GameCtrlSystem();
 	virtual ~GameCtrlSystem();
 
+    inline auto getScore()
+	{
+        return score;
+    }
+
+    inline void setScore(unsigned int score)
+	{
+        score = score;
+    }
+
+    inline void incrScore(unsigned int n)
+	{
+        score += n;
+    }
+
 	void initSystem() override;
 	void update() override;
 	void recieve(const Message &m) override;
+
+private:
+    unsigned int score;
 };

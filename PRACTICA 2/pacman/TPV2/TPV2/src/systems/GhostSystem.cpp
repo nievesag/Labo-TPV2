@@ -9,6 +9,7 @@
 #include "../sdlutils/InputHandler.h"
 #include "GameCtrlSystem.h"
 #include "../components/IsInmuneComponent.h"
+#include "../components/Points.h"
 
 GhostSystem::GhostSystem() {}
 
@@ -51,7 +52,10 @@ void GhostSystem::generateGhost()
 		auto e = mngr_->addEntity(ecs::grp::GHOSTS);
 
 		// aniade transform
-		auto tr = mngr_->addComponent<Transform>(e); 
+		auto tr = mngr_->addComponent<Transform>(e);
+
+		// aniade puntos
+		mngr_->addComponent<Points>(e)->points_ = 10;
 
 		// lo inicializa
 		int width = 40;
