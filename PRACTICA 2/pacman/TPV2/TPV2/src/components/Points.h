@@ -2,7 +2,7 @@
 
 #include "../ecs/Component.h"
 
-struct Points // <- SON STRUCTS
+struct Points : public ecs::Component // <- SON STRUCTS
 {
 	__CMPID_DECL__(ecs::cmp::POINTS)
 
