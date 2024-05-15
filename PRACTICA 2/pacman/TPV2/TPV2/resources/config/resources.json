@@ -70,6 +70,12 @@
       "color": "0x00ff00ff"
     },
     {
+      "id": "score",
+      "text": " ",
+      "font": "ARIAL24",
+      "color": "0x00ff00ff"
+    },
+    {
       "id": "start",
       "text": "Press space to start",
       "font": "ARIAL24",
