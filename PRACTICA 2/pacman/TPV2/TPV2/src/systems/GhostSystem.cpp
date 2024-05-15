@@ -55,7 +55,8 @@ void GhostSystem::generateGhost()
 		auto tr = mngr_->addComponent<Transform>(e);
 
 		// aniade puntos
-		mngr_->addComponent<Points>(e)->points_ = 10;
+		auto points = mngr_->addComponent<Points>(e);
+		points->points_ = 10;
 
 		// lo inicializa
 		int width = 40;

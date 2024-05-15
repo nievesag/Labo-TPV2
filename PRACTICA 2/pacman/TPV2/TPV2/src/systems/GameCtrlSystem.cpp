@@ -32,7 +32,7 @@ void GameCtrlSystem::recieve(const Message &m)
 		break;
 
 	case _m_EAT_FRUIT:
-		incrScore();
+		incrScore(1);
 		break;
 
 	default:
