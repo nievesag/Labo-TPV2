@@ -3,12 +3,12 @@
 
 IsMiraculousComponent::IsMiraculousComponent()
 {
-	minNFrecuency = 10000; // 10 segundos
-	maxNFrecuency = 20000; // 20 segundos
+	minNFrecuency = 2000; // 10 segundos
+	maxNFrecuency = 5000; // 20 segundos
 
 	// duracion M -> queda en estado milagroso durante M segundo
-	minMDuration = 1000; // 1 segundo
-	maxMDuration = 5000; // 5 segundos
+	minMDuration = 5000; // 5 segundos
+	maxMDuration = 10000; // 10 segundos
 
 	// inicializa la N frecuency
 	NFrecuency = sdlutils().rand().nextInt(minNFrecuency, maxNFrecuency);

@@ -21,8 +21,8 @@ struct IsMiraculousComponent : public ecs::Component
 	uint32_t NFrecuency; 
 
 	// duracion M -> queda en estado milagroso durante M segundo
-	uint32_t minMDuration = 1000; // 1 segundo
-	uint32_t maxMDuration = 5000; // 5 segundos
+	uint32_t minMDuration = 5000; // 5 segundo
+	uint32_t maxMDuration = 10000; // 10 segundos
 	uint32_t MDuration;
 
 	// cuando se activo el miraculous

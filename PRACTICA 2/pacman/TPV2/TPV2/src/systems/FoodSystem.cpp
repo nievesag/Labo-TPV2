@@ -70,7 +70,7 @@ void FoodSystem::setFruits()
 		// ---
 		// A UNA DE CADA 10 FRUTAS LE ASIGNAS EL COMPONENTE MIRACULOUS
 		// add component miraculous
-		int rnd = sdlutils().rand().nextInt(0, 1000);
+		int rnd = sdlutils().rand().nextInt(0, 20);
 
 		if (rnd < isMiraculousChance) 
 		{
