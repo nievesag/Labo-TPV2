@@ -3,8 +3,9 @@
 #include "GameCtrlSystem.h"
 
 #include "../ecs/Manager.h"
-#include "../sdlutils/InputHandler.h"
 #include "../game/Game.h"
+#include "../sdlutils/InputHandler.h"
+#include "../components/Points.h"
 #include "../sdlutils/SDLUtils.h"
 
 GameCtrlSystem::GameCtrlSystem() {}
@@ -32,7 +33,11 @@ void GameCtrlSystem::recieve(const Message &m)
 		break;
 
 	case _m_EAT_FRUIT:
-		//incrScore();
+		incrScore(mngr_->getComponent<Points>(m.eat_fruit_data.e)->points_);
+		break;
+
+	case _m_EAT_GHOST:
+		incrScore(mngr_->getComponent<Points>(m.eat_fruit_data.e)->points_);
 		break;
 
 	default:
