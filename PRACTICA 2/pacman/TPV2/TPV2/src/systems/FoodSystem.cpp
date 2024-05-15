@@ -4,6 +4,7 @@
 #include "../game/Game.h"
 #include "../components/IsMiraculousComponent.h"
 #include "../components/ImageWithFrames.h"
+#include "../components/Points.h"
 
 FoodSystem::FoodSystem() {}
 
@@ -56,6 +57,9 @@ void FoodSystem::setFruits()
 
 		// aniade transform
 		auto tr = mngr_->addComponent<Transform>(e);
+
+		// aniade puntos
+		mngr_->addComponent<Points>(e)->points_ = 5;
 
 		tr->width_ = 25;
 		tr->height_ = 25;
@@ -146,6 +150,8 @@ void FoodSystem::miraculousFruitManager()
 
 					// poner imagen normal
 					img->setXoffset(6);
+
+					mngr_->getComponent<Points>(e)->points_ -= 20;
 				}
 			}
 
@@ -161,6 +167,8 @@ void FoodSystem::miraculousFruitManager()
 
 					// poner imagen de pera
 					img->setXoffset(7);
+
+					mngr_->getComponent<Points>(e)->points_ += 20;
 				}
 			}
 		}

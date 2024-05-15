@@ -15,8 +15,11 @@ public:
 	virtual ~RenderSystem();
 	void initSystem() override;
 	void update() override;
+	void recieve(const Message& m) override;
 
 private:
+	bool renderGame = false;
+
 	void drawPacMan();
 	void drawGhosts();
 	void drawLives();

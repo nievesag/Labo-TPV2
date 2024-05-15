@@ -20,12 +20,40 @@ void RenderSystem::initSystem() {}
 
 void RenderSystem::update()
 {
-	// en cada frame dibuja lo que debe
-	drawPacMan();
-	drawGhosts();
-	drawLives();
-	drawFruits();
-	drawMsgs();
+	if(renderGame)
+	{
+		// en cada frame dibuja lo que debe
+		drawPacMan();
+		drawGhosts();
+		drawFruits();
+		drawLives();
+		drawMsgs();
+	}
+}
+
+void RenderSystem::recieve(const Message& m)
+{
+	switch(m.id)
+	{
+	case _m_ROUND_START:
+		renderGame = true;
+		break;
+
+	case _m_GAME_OVER:
+		renderGame = false;
+		break;
+
+	case _m_WIN_GAME:
+		renderGame = false;
+		break;
+
+	case _m_ROUND_OVER:
+		renderGame = false;
+		break;
+
+	default:
+		break;
+	}
 }
 
 void RenderSystem::drawPacMan()
