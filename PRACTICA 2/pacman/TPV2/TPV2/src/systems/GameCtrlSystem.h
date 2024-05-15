@@ -16,9 +16,9 @@ public:
         return score;
     }
 
-    inline void setScore(unsigned int score)
+    inline void setScore(unsigned int score_)
 	{
-        score = score;
+        score = score_;
     }
 
     inline void incrScore(unsigned int n)

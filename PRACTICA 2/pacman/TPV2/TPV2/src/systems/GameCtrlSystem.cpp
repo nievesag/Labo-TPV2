@@ -20,16 +20,22 @@ void GameCtrlSystem::recieve(const Message &m)
 {
 	// controla mensajes de paso de estados
 	switch (m.id) {
-	case _m_GAME_OVER:
+	case _m_GAME_OVER:{
 		Game::instance()->setState(Game::GAMEOVER);
+		setScore(0);
+	}
 		break;
 
-	case _m_ROUND_OVER:
+	case _m_ROUND_OVER: {
 		Game::instance()->setState(Game::NEWROUND);
+		setScore(0);
+	}
 		break;
 
-	case _m_WIN_GAME:
+	case _m_WIN_GAME: {
 		Game::instance()->setState(Game::GAMEOVER);
+		setScore(0);
+	}
 		break;
 
 	case _m_NEW_GAME:
