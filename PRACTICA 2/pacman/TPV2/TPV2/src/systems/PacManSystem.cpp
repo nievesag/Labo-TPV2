@@ -187,12 +187,15 @@ void PacManSystem::die()
 
 	stopSound();
 	sdlutils().soundEffects().at("death").play();
+	sdlutils().soundEffects().at("death").setChannelVolume(20);
 }
 
 void PacManSystem::playSound()
 {
 	if (!playing) {
 		sdlutils().soundEffects().at("chomp").play(-1);
+		sdlutils().soundEffects().at("chomp").setChannelVolume(20);
+
 		playing = true;
 	}
 }

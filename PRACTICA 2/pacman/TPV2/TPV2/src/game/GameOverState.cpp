@@ -23,6 +23,8 @@ void GameOverState::enter()
 		msg_ = &sdlutils().msgs().at("game_over_win");
 
 		sdlutils().soundEffects().at("won").play();
+		sdlutils().soundEffects().at("won").setChannelVolume(20);
+
 	}
 	else
 	{
@@ -53,6 +55,9 @@ void GameOverState::update()
 
 void GameOverState::leave()
 {
+	sdlutils().soundEffects().at("won").pauseChannel();
+
+
 	// reanuda el tiempo al salir del estado
 	sdlutils().virtualTimer().resume();
 }
