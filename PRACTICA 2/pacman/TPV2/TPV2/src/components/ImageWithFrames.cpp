@@ -17,11 +17,15 @@ ImageWithFrames::ImageWithFrames(Texture *tex, int rows, int cols) :
 		currFrameC_(0), 
 		lastFrameChange_(0)
 {
+
+	// dimensiones de los frames
 	frameWidth_ = tex_->width() / cols;
 	frameHeight_ = tex->height() / rows;
 
+	// numero de columnas y filas del spritesheet
 	ncol_ = cols;
 	nrow_ = rows;
+
 
 	xoffset = 0;
 	yoffset = 0;
@@ -36,17 +40,27 @@ void ImageWithFrames::initComponent() {
 
 void ImageWithFrames::render() {
 
+	// cada 50 cambia al siguiente frame
 	if (sdlutils().virtualTimer().currTime() > lastFrameChange_ + 50) {
+		// iguala el tiempo actual a lastFrameChange
 		lastFrameChange_ = sdlutils().virtualTimer().currTime();
+		// filas circulares <3
 		currFrameC_ = (currFrameC_ + 1) % ncol_;
 	}
 
+
+	// current frame +  offset
 	int c = (currFrameC_ % ncol_) + xoffset;
-	//								 lados				altura
+
+	// rect source			       lados				altura
 	auto src = build_sdlrect(c * frameWidth_, (currFrameR_ + yoffset) * frameHeight_, frameWidth_, frameHeight_);
+		// c*frameWidth_ saca la posicion x del sprite que queremos
+		// lo mismo para  (currFrameR_ + yoffset) * frameHeight_ pero con y
 
+	// rect destino
 	auto dest = build_sdlrect(tr_->getPos(), tr_->getWidth(), tr_->getHeight());
-
+	
+	// render
 	tex_->render(src, dest, tr_->getRot());
 }
 
