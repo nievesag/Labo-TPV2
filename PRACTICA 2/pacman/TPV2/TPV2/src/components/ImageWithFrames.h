@@ -42,7 +42,6 @@ public:
 
 	void reset();
 
-private:
 	Texture *tex_;
 	Transform *tr_;
 	int currFrameR_;
